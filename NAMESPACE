@@ -2,6 +2,7 @@
 
 export(nwaa_build_query)
 export(nwaa_code_help)
+export(nwaa_data)
 export(nwaa_get_data)
 export(nwaa_intersection_types)
 export(nwaa_location)
