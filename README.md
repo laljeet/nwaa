@@ -1,4 +1,4 @@
-# nwaa
+# nwaa R Package
 
 **nwaa** downloads **USGS National Water Availability Assessment (NWAA) Data Companion** outputs using the NWAA web service.
 
@@ -55,7 +55,25 @@ Common patterns:
 
 - huc12: 12-digit HUC code, for example 180300010602
 
-## Data sources
+USGS HUC resources:
+https://water.usgs.gov/themes/hydrologic-units/#national-water-availability-assessment-snapshot
+
+# Intersection behavior
+
+For polygon selectors like counties and states:
+
+- intersection = "overlap" includes HUC12s that overlap the polygon.
+
+- intersection = "envelop" includes HUC12s that are at least 98% within the polygon.
+
+
+# Time resolution and date ranges
+
+- time_res = "monthly" expects start and end like 2018-01.
+
+- time_res = "annualwy" and time_res = "annualcy" expect start and end like 2018.
+
+# Data sources
 
 Use the USGS NWAA Data Companion.
 
