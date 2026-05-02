@@ -2,3 +2,9 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^\.DS_Store$
+^README\.Rmd$
+^data-raw$
+^data-raw/
+^tests/manual$
+^tests/manual/
+^\.github$

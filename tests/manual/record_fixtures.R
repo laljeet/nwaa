@@ -4,8 +4,8 @@
 #
 #   source("tests/manual/record_fixtures.R")
 #
-# Re-run only if the API changes its response shape. To re-record,
-# delete the corresponding fixture directory and run again.
+# Re-run only if the API changes its response shape. To re-record a
+# specific fixture, delete its directory and run again.
 #
 # After recording, commit tests/testthat/fixtures/ to the repository.
 
@@ -15,16 +15,26 @@ if (!requireNamespace("httptest2", quietly = TRUE)) {
 if (!requireNamespace("devtools", quietly = TRUE)) {
   stop("Install devtools first: install.packages('devtools')")
 }
+if (!requireNamespace("rprojroot", quietly = TRUE)) {
+  stop("Install rprojroot first: install.packages('rprojroot')")
+}
+
+# Resolve the package root regardless of where this script is sourced from.
+pkg_root <- rprojroot::find_root(rprojroot::is_r_package)
+old_wd <- setwd(pkg_root)
+on.exit(setwd(old_wd), add = TRUE)
+message("Package root: ", pkg_root)
 
 devtools::load_all()
 
-# httptest2::with_mock_dir(dir, expr) acts as both recorder and replayer:
-#   - if `dir` does not exist, it captures requests into `dir`
-#   - if `dir` exists, it replays from `dir`
-# So to record, ensure the directory does not exist first. To re-record,
-# delete it before running.
+# httptest2 prepends its current .mockPaths() to any relative path passed to
+# with_mock_dir(). The default .mockPaths() is "tests/testthat" if it exists.
+# Passing dir = "tests/testthat/fixtures/foo" therefore writes to
+# tests/testthat/tests/testthat/fixtures/foo (path doubling).
+#
+# To avoid this, use ABSOLUTE paths for the fixture directories.
 
-fixtures_root <- file.path("tests", "testthat", "fixtures")
+fixtures_root <- file.path(pkg_root, "tests", "testthat", "fixtures")
 dir.create(fixtures_root, showWarnings = FALSE, recursive = TRUE)
 
 record_one <- function(name, recipe) {
@@ -33,9 +43,8 @@ record_one <- function(name, recipe) {
     message("Fixture '", name, "' already exists. Delete to re-record. Skipping.")
     return(invisible(NULL))
   }
-  message("Recording ", name, " ...")
+  message("Recording ", name, " -> ", target)
   httptest2::with_mock_dir(target, recipe())
-  message("  -> ", target)
 }
 
 record_one("wu_irrigation", function() {
@@ -81,4 +90,9 @@ record_one("iwa_multi", function() {
   )
 })
 
-message("\nDone. Run testthat::test_local() to verify the fixtures replay.")
+message(
+  "\nDone. Verify fixtures landed in the right place:\n",
+  "  list.files('tests/testthat/fixtures')\n",
+  "  # expect: 'atmos_precip' 'iwa_multi' 'wu_irrigation'\n",
+  "Then run: testthat::test_local()"
+)
