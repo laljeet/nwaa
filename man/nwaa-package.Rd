@@ -11,6 +11,7 @@ Download and parse model outputs from the USGS National Water Availability Asses
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://laljeet.github.io/nwaa/}
   \item \url{https://github.com/laljeet/nwaa}
   \item Report bugs at \url{https://github.com/laljeet/nwaa/issues}
 }

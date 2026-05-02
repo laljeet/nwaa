@@ -120,7 +120,7 @@ All families accept three temporal resolutions:
 ## Data sources
 
 - [NWAA Data Companion](https://water.usgs.gov/nwaa-data/)
-- [Subset and Download Tool](https://water.usgs.gov/nwaa-data/subset/)
+- [Subset and Download Tool](https://water.usgs.gov/nwaa-data/subset-download/)
 - [Web services documentation](https://water.usgs.gov/nwaa-data/web-services/)
 
 ## Citation
