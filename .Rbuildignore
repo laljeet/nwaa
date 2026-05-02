@@ -8,3 +8,5 @@
 ^tests/manual$
 ^tests/manual/
 ^\.github$
+^vignettes/.*\.Rmd\.orig$
+^vignettes/precompile\.R$
