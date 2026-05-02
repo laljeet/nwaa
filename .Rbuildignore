@@ -10,3 +10,8 @@
 ^\.github$
 ^vignettes/.*\.Rmd\.orig$
 ^vignettes/precompile\.R$
+^_pkgdown\.yml$
+^docs$
+^docs/
+^pkgdown$
+^pkgdown/

@@ -1,0 +1,61 @@
+url: https://laljeet.github.io/nwaa/
+
+template:
+  bootstrap: 5
+
+home:
+  title: An R interface to the USGS NWAA Data Companion
+  description: >
+    Download and parse model outputs from the USGS National Water Availability
+    Assessment Data Companion web service.
+
+navbar:
+  structure:
+    left:  [intro, reference, articles, news]
+    right: [search, github]
+
+reference:
+  - title: Catalog and helpers
+    desc: Inspect available models, variables, and supported codes.
+    contents:
+      - nwaa_catalog
+      - nwaa_wu_catalog
+      - nwaa_wu_models
+      - nwaa_wu_variables
+      - nwaa_state_codes
+      - nwaa_statecd
+      - nwaa_code_help
+      - nwaa_intersection_types
+      - nwaa_location_types
+
+  - title: Water Use
+    desc: Sectoral water use models (irrigation, public supply, thermoelectric, domestic, industrial).
+    contents:
+      - nwaa_water_use
+
+  - title: Water Quantity
+    desc: Atmospheric forcing and hydrologic ensemble models.
+    contents:
+      - nwaa_atmos
+      - nwaa_hydro
+
+  - title: Integrated Water Availability
+    desc: Water budget and surface supply and use index.
+    contents:
+      - nwaa_iwa
+
+  - title: Lower-level interface
+    desc: Inspect or build queries directly without going through a family wrapper.
+    contents:
+      - nwaa_data
+      - nwaa_build_query
+      - nwaa_get_data
+      - nwaa_location
+      - nwaa_resolve_range
+
+articles:
+  - title: Vignettes
+    navbar: ~
+    contents:
+      - nwaa
+      - water-use
