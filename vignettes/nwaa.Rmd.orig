@@ -1,0 +1,122 @@
+---
+title: "Getting Started with nwaa"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with nwaa}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Overview
+
+The `nwaa` package provides an R interface to the USGS National Water Availability Assessment (NWAA) Data Companion web service (<https://water.usgs.gov/nwaa-data/>). The service publishes model outputs at HUC12 spatial resolution across three families:
+
+| Family | Models | What it covers |
+|---|---|---|
+| Water Use (`wu-*`) | 5 | irrigation, public supply, thermoelectric |
+| Water Quantity (`wqn-*`) | 2 | atmospheric forcing, hydrologic ensemble |
+| Integrated Water Availability (`iwa-*`) | 1 | water budget, surface supply and use index |
+
+```{r setup}
+library(nwaa)
+```
+
+## The catalog
+
+Every supported model and its variables live in a single tibble:
+
+```{r catalog}
+nwaa_catalog()
+```
+
+To list only the variables for one model:
+
+```{r catalog-vars}
+catalog <- nwaa_catalog()
+catalog$variables[catalog$model_id == "wu-irrigation-conus-nwaa-v1"][[1]]
+```
+
+## A note on locations
+
+NWAA data are published at HUC12 resolution, but the service accepts queries by HUC of any length, by state, or by county FIPS. The package resolves these for you:
+
+```{r location}
+nwaa_location_types()
+```
+
+State and county codes are searchable:
+
+```{r state-codes}
+head(nwaa_state_codes())
+```
+
+## One example per family
+
+The three family wrappers below all share the same argument structure: pick a location, pick variables, pick a date range, optionally pick `time_res` (`"monthly"`, `"annualwy"`, or `"annualcy"`). Each returns a tibble.
+
+### Water Use
+
+```{r wu-example, eval = FALSE}
+wu <- nwaa_water_use(
+  model_id     = "wu-irrigation-conus-nwaa-v1",
+  variable_ids = "tot_irr",
+  location_id  = "18030012",
+  range        = "custom",
+  start        = "2020-01",
+  end          = "2020-12",
+  time_res     = "monthly"
+)
+head(wu)
+```
+
+### Water Quantity (atmospheric forcing)
+
+```{r atmos-example, eval = FALSE}
+atmos <- nwaa_atmos(
+  variable_ids = "precip",
+  location_id  = "18030012",
+  range        = "custom",
+  start        = "2020-01",
+  end          = "2020-12",
+  time_res     = "monthly"
+)
+head(atmos)
+```
+
+### Integrated Water Availability
+
+```{r iwa-example, eval = FALSE}
+iwa <- nwaa_iwa(
+  variable_ids = c("availab", "consum", "sui"),
+  location_id  = "18030012",
+  range        = "custom",
+  start        = "2020-01",
+  end          = "2020-12",
+  time_res     = "monthly"
+)
+head(iwa)
+```
+
+## Validation
+
+Every wrapper validates the request before it touches the network. Invalid model IDs, variables that don't belong to the model, and unsupported `time_res` values fail fast with a readable message:
+
+```{r validate-bad, error = TRUE}
+nwaa_water_use(
+  model_id     = "wu-irrigation-conus-nwaa-v1",
+  variable_ids = "precip",
+  location_id  = "18030012",
+  range        = "default"
+)
+```
+
+## Where to next
+
+The Water Use family has the most models and the most-developed examples. See `vignette("water-use", package = "nwaa")` for a full walkthrough.
