@@ -1,0 +1,225 @@
+# Water Use Models
+
+``` r
+
+library(nwaa)
+library(dplyr)
+#> Warning: package 'dplyr' was built under R version 4.4.3
+#> 
+#> Attaching package: 'dplyr'
+#> The following object is masked from 'package:testthat':
+#> 
+#>     matches
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+```
+
+The Water Use family covers five sectoral models, all returned at HUC12
+resolution in millions of gallons per day (`mgd`).
+
+## The five models
+
+``` r
+
+nwaa_wu_models()
+#> # A tibble: 5 × 4
+#>   model_id            model_label                                 start_ym end_ym 
+#>   <chr>               <chr>                                       <chr>    <chr>  
+#> 1 wu-irrigation-cu    Crop Irrigation Consumptive Water-Use Model 2000-01  2020-12
+#> 2 wu-irrigation-wd    Crop Irrigation Withdrawals Water-Use Model 2000-01  2020-12
+#> 3 wu-public-supply-cu Public Supply Consumptive Water-Use Model   2009-01  2020-12
+#> 4 wu-public-supply-wd Public Supply Withdrawals Water-Use Model   2000-01  2020-12
+#> 5 wu-thermoelectric   Thermoelectric Power Water-Use Model        2008-01  2020-12
+```
+
+Each model carries its own variable set. The variables tibble lists them
+with units and the period of record:
+
+``` r
+
+nwaa_wu_variables()
+#> Error in nwaa_wu_variables(): argument "model_id" is missing, with no default
+```
+
+A filtered catalog view limited to Water Use is available as
+[`nwaa_wu_catalog()`](https://laljeet.github.io/nwaa/reference/nwaa_wu_catalog.md):
+
+``` r
+
+nwaa_wu_catalog()
+#> # A tibble: 5 × 7
+#>   model_id            model_label                                 start_ym end_ym  variables units  variable_name
+#>   <chr>               <chr>                                       <chr>    <chr>   <list>    <list> <list>       
+#> 1 wu-irrigation-cu    Crop Irrigation Consumptive Water-Use Model 2000-01  2020-12 <chr [1]> <chr>  <chr [1]>    
+#> 2 wu-irrigation-wd    Crop Irrigation Withdrawals Water-Use Model 2000-01  2020-12 <chr [3]> <chr>  <chr [3]>    
+#> 3 wu-public-supply-cu Public Supply Consumptive Water-Use Model   2009-01  2020-12 <chr [1]> <chr>  <chr [1]>    
+#> 4 wu-public-supply-wd Public Supply Withdrawals Water-Use Model   2000-01  2020-12 <chr [3]> <chr>  <chr [3]>    
+#> 5 wu-thermoelectric   Thermoelectric Power Water-Use Model        2008-01  2020-12 <chr [7]> <chr>  <chr [7]>
+```
+
+## Common arguments
+
+All five Water Use queries share the same structure:
+
+| Argument        | Purpose                                                 |
+|-----------------|---------------------------------------------------------|
+| `model_id`      | one of the five Water Use model IDs                     |
+| `variable_ids`  | character vector of variables for that model            |
+| `location_id`   | HUC, state code, or county FIPS                         |
+| `location_type` | optional explicit type (`"huc"`, `"state"`, `"county"`) |
+| `range`         | `"default"`, `"first10"`, `"last10"`, or `"custom"`     |
+| `start`, `end`  | YYYY-MM strings, only used with `range = "custom"`      |
+| `time_res`      | `"monthly"`, `"annualwy"`, or `"annualcy"`              |
+| `format`        | `"csv"`, `"json"`, or `"geojson"`                       |
+
+Convenience ranges resolve against the model’s catalog entry, so
+`range = "last10"` for irrigation and `range = "last10"` for
+thermoelectric pull different windows automatically.
+
+## 1. Irrigation
+
+The irrigation model reports total irrigation withdrawals plus a
+crop-specific breakdown.
+
+``` r
+
+irrig <- nwaa_water_use(
+  model_id     = "wu-irrigation-conus-nwaa-v1",
+  variable_ids = c("tot_irr", "irr_alfalfa", "irr_corn"),
+  location_id  = "18030012",
+  range        = "custom",
+  start        = "2018-01",
+  end          = "2020-12",
+  time_res     = "monthly"
+)
+head(irrig)
+```
+
+## 2. Public Supply
+
+``` r
+
+ps <- nwaa_water_use(
+  model_id     = "wu-public-supply-conus-nwaa-v1",
+  variable_ids = "tot_ps",
+  location_id  = "18030012",
+  range        = "last10",
+  time_res     = "annualcy"
+)
+head(ps)
+```
+
+## 3. Thermoelectric
+
+``` r
+
+thermo <- nwaa_water_use(
+  model_id     = "wu-thermoelectric-conus-nwaa-v1",
+  variable_ids = "tot_te",
+  location_id  = "18030012",
+  range        = "default",
+  time_res     = "annualcy"
+)
+head(thermo)
+```
+
+## 4. Domestic Self-Supply
+
+``` r
+
+dom <- nwaa_water_use(
+  model_id     = "wu-domestic-self-supply-conus-nwaa-v1",
+  variable_ids = "tot_dom",
+  location_id  = "18030012",
+  range        = "default",
+  time_res     = "annualcy"
+)
+head(dom)
+```
+
+## 5. Industrial Self-Supply
+
+``` r
+
+ind <- nwaa_water_use(
+  model_id     = "wu-industrial-self-supply-conus-nwaa-v1",
+  variable_ids = "tot_ind",
+  location_id  = "18030012",
+  range        = "default",
+  time_res     = "annualcy"
+)
+head(ind)
+```
+
+## Switching geographic scope
+
+The same call works at state or county scope. NWAA aggregates HUC12
+outputs to whichever administrative boundary is requested:
+
+``` r
+
+state_irrig <- nwaa_water_use(
+  model_id      = "wu-irrigation-conus-nwaa-v1",
+  variable_ids  = "tot_irr",
+  location_id   = "06",
+  location_type = "state",
+  range         = "last10",
+  time_res      = "annualcy"
+)
+head(state_irrig)
+```
+
+## Looping across counties
+
+A common workflow is pulling the same query across several counties and
+combining results. The pattern is straightforward with
+[`purrr::map_dfr()`](https://purrr.tidyverse.org/reference/map_dfr.html)
+or base [`lapply()`](https://rdrr.io/r/base/lapply.html) plus
+[`dplyr::bind_rows()`](https://dplyr.tidyverse.org/reference/bind_rows.html):
+
+``` r
+
+county_fips <- c("06029", "06031", "06107", "06019")  # Kern, Kings, Tulare, Fresno
+
+irrig_sjv <- lapply(county_fips, function(fips) {
+  nwaa_water_use(
+    model_id      = "wu-irrigation-conus-nwaa-v1",
+    variable_ids  = "tot_irr",
+    location_id   = fips,
+    location_type = "county",
+    range         = "last10",
+    time_res      = "annualcy"
+  )
+}) |> dplyr::bind_rows()
+
+head(irrig_sjv)
+```
+
+A first-class multi-location interface is on the roadmap. Until then
+this idiom works.
+
+## Inspecting a query before sending
+
+For debugging,
+[`nwaa_build_query()`](https://laljeet.github.io/nwaa/reference/nwaa_build_query.md)
+returns the URL and parameter list without making the request:
+
+``` r
+
+nwaa_build_query(
+  model_id     = "wu-irrigation-conus-nwaa-v1",
+  variable_ids = "tot_irr",
+  location_id  = "18030012",
+  range        = "custom",
+  start        = "2020-01",
+  end          = "2020-12",
+  time_res     = "monthly"
+)
+#> Error in nwaa_build_query(model_id = "wu-irrigation-conus-nwaa-v1", variable_ids = "tot_irr", : argument "model" is missing, with no default
+```
+
+This is also useful when scripting batch downloads outside R.

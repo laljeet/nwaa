@@ -1,0 +1,218 @@
+# nwaa
+
+**nwaa** downloads outputs from the **USGS National Water Availability
+Assessment (NWAA) Data Companion** web services. It covers all three
+NWAA model families:
+
+- **Water Use** (`wu`): irrigation, public supply, thermoelectric,
+  withdrawals and consumptive use
+- **Water Quantity** (`wqn`): atmospheric forcing (WRF CONUS404-BA
+  precipitation), hydrologic ensemble (NHM-PRMS and WRF-Hydro) outputs
+- **Integrated Water Availability** (`iwa`): national water-budget
+  assessment outputs and the surface water supply and use index (SUI)
+
+All model outputs are returned at HUC12 resolution.
+
+## Installation
+
+``` r
+
+# install.packages("remotes")
+remotes::install_github("laljeet/nwaa")
+```
+
+## Quick start
+
+``` r
+
+library(nwaa)
+
+# Discover all 8 models across all 3 families
+nwaa_catalog()
+
+# Or scope to one family
+nwaa_wu_models()
+nwaa_wu_variables("wu-irrigation-wd")
+```
+
+## Examples
+
+### Water use: irrigation withdrawals for a county
+
+``` r
+
+df <- nwaa_water_use(
+  model_id = "wu-irrigation-wd",
+  variable_ids = c("irrwdgw", "irrwdsw", "irrwdtot"),
+  location_type = "countycd",
+  location_id = "06029",
+  time_res = "annualwy",
+  range = "custom",
+  start = "2001",
+  end = "2020",
+  intersection = "overlap",
+  format = "csv"
+)
+```
+
+### Atmospheric: monthly precipitation for a HUC12
+
+``` r
+
+df <- nwaa_atmos(
+  variable_ids = "precip",
+  location_type = "huc12",
+  location_id = "180300010602",
+  time_res = "monthly",
+  range = "custom",
+  start = "2020-01",
+  end = "2020-12"
+)
+```
+
+### Hydrologic: evapotranspiration and snow water equivalent
+
+``` r
+
+df <- nwaa_hydro(
+  variable_ids = c("actet", "swe"),
+  location_type = "huc12",
+  location_id = "180300010602",
+  time_res = "monthly",
+  range = "historical"
+)
+```
+
+### Integrated water availability: SUI and water budget
+
+``` r
+
+df <- nwaa_iwa(
+  variable_ids = c("sui", "availab", "strflow", "consum"),
+  location_type = "huc12",
+  location_id = "180300010602",
+  time_res = "monthly",
+  range = "custom",
+  start = "2018-01",
+  end = "2020-09"
+)
+```
+
+## Location inputs
+
+Use `location_type` plus a matching `location_id`:
+
+| `location_type` | `location_id` example | Notes |
+|----|----|----|
+| `countycd` | `"06029"` | 5-digit county FIPS |
+| `statecd` | `"ca"` | 2-letter state abbreviation, lowercase |
+| `huc2`–`huc12` | `"180300010602"` | Hydrologic unit codes, 2 to 12 digits |
+
+For polygon selectors (state, county): `intersection = "overlap"`
+includes HUC12s that touch the polygon, `intersection = "envelop"`
+includes only HUC12s that are at least 98% inside.
+
+USGS HUC resources:
+<https://water.usgs.gov/themes/hydrologic-units/#national-water-availability-assessment-snapshot>
+
+## Time resolution and date ranges
+
+All families accept three temporal resolutions:
+
+- `time_res = "monthly"` — `start`/`end` formatted `"YYYY-MM"`
+- `time_res = "annualwy"` — water year (Oct-Sep), `start`/`end`
+  formatted `"YYYY"`
+- `time_res = "annualcy"` — calendar year (Jan-Dec), `start`/`end`
+  formatted `"YYYY"`
+
+`range` can be `"recent"` (most recent timepoint), `"historical"` (full
+available period), or `"custom"` (you supply `start` and `end`).
+
+## Data sources
+
+- [NWAA Data Companion](https://water.usgs.gov/nwaa-data/)
+- [Subset and Download
+  Tool](https://water.usgs.gov/nwaa-data/subset-download/)
+- [Web services
+  documentation](https://water.usgs.gov/nwaa-data/web-services/)
+
+## Citation
+
+If you use this package in published work, please cite both the package
+and the underlying USGS data. Run `citation("nwaa")` in R for the
+package citation. See the [NWAA Data
+Companion](https://water.usgs.gov/nwaa-data/) for the data citation.
+
+# Package index
+
+## Catalog and helpers
+
+Inspect available models, variables, and supported codes.
+
+- [`nwaa_catalog()`](https://laljeet.github.io/nwaa/reference/nwaa_catalog.md)
+  : NWAA model catalog
+- [`nwaa_wu_catalog()`](https://laljeet.github.io/nwaa/reference/nwaa_wu_catalog.md)
+  : Water Use catalog (models, variables, and time ranges)
+- [`nwaa_wu_models()`](https://laljeet.github.io/nwaa/reference/nwaa_wu_models.md)
+  : List Water Use models and their available date ranges
+- [`nwaa_wu_variables()`](https://laljeet.github.io/nwaa/reference/nwaa_wu_variables.md)
+  : List variables for a Water Use model
+- [`nwaa_state_codes()`](https://laljeet.github.io/nwaa/reference/nwaa_state_codes.md)
+  : US state codes
+- [`nwaa_statecd()`](https://laljeet.github.io/nwaa/reference/nwaa_statecd.md)
+  : State abbreviations for use with location_type = "statecd"
+- [`nwaa_code_help()`](https://laljeet.github.io/nwaa/reference/nwaa_code_help.md)
+  : Help for finding HUC, state, and county codes
+- [`nwaa_intersection_types()`](https://laljeet.github.io/nwaa/reference/nwaa_intersection_types.md)
+  : Intersection types for polygon selectors
+- [`nwaa_location_types()`](https://laljeet.github.io/nwaa/reference/nwaa_location_types.md)
+  : List valid location types used by the NWAA API
+
+## Water Use
+
+Sectoral water use models (irrigation, public supply, thermoelectric,
+domestic, industrial).
+
+- [`nwaa_water_use()`](https://laljeet.github.io/nwaa/reference/nwaa_water_use.md)
+  : Download Water Use model output from the NWAA Data Companion
+
+## Water Quantity
+
+Atmospheric forcing and hydrologic ensemble models.
+
+- [`nwaa_atmos()`](https://laljeet.github.io/nwaa/reference/nwaa_atmos.md)
+  : Download Atmospheric Forcing model output (WRF CONUS404-BA)
+- [`nwaa_hydro()`](https://laljeet.github.io/nwaa/reference/nwaa_hydro.md)
+  : Download Hydrologic Model Ensemble output (NHM-PRMS and WRF-Hydro)
+
+## Integrated Water Availability
+
+Water budget and surface supply and use index.
+
+- [`nwaa_iwa()`](https://laljeet.github.io/nwaa/reference/nwaa_iwa.md) :
+  Download Integrated Water Availability Assessment outputs
+
+## Lower-level interface
+
+Inspect or build queries directly without going through a family
+wrapper.
+
+- [`nwaa_data()`](https://laljeet.github.io/nwaa/reference/nwaa_data.md)
+  : Download NWAA model output (generic)
+- [`nwaa_build_query()`](https://laljeet.github.io/nwaa/reference/nwaa_build_query.md)
+  : Build query parameters for NWAA data endpoint
+- [`nwaa_get_data()`](https://laljeet.github.io/nwaa/reference/nwaa_get_data.md)
+  : Fetch NWAA data
+- [`nwaa_location()`](https://laljeet.github.io/nwaa/reference/nwaa_location.md)
+  : Build an NWAA location string
+- [`nwaa_resolve_range()`](https://laljeet.github.io/nwaa/reference/nwaa_resolve_range.md)
+  : Resolve date range for a model
+
+# Articles
+
+### Vignettes
+
+- [Getting Started with
+  nwaa](https://laljeet.github.io/nwaa/articles/nwaa.md):
+- [Water Use
+  Models](https://laljeet.github.io/nwaa/articles/water-use.md):
