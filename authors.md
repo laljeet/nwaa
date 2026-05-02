@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/laljeet/nwaa/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/laljeet/nwaa/blob/v0.1.0/DESCRIPTION)
 
 Sangha L (2026). *nwaa: USGS NWAA Data download*. R package version
 0.1.0, <https://laljeet.github.io/nwaa/>.
