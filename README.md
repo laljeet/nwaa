@@ -2,8 +2,10 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/laljeet/nwaa/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/laljeet/nwaa/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/laljeet/nwaa/graph/badge.svg)](https://app.codecov.io/gh/laljeet/nwaa)
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![test-coverage](https://github.com/laljeet/nwaa/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/laljeet/nwaa/actions/workflows/test-coverage.yaml)
+[![pkgdown](https://github.com/laljeet/nwaa/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/laljeet/nwaa/actions/workflows/pkgdown.yaml)
+[![Codecov test coverage](https://codecov.io/gh/laljeet/nwaa/branch/main/graph/badge.svg)](https://app.codecov.io/gh/laljeet/nwaa?branch=main)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
 
 **nwaa** downloads outputs from the **USGS National Water Availability Assessment (NWAA) Data Companion** web services. It covers all three NWAA model families:
