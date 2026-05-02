@@ -6,8 +6,12 @@
 \usage{
 nwaa_code_help()
 }
+\value{
+A tibble with columns \code{item}, \code{where}, and \code{link}.
+}
 \description{
-Help for finding HUC, state, and county codes
+Returns a small reference tibble pointing to USGS resources where
+identifiers used by the NWAA API can be looked up.
 }
 \examples{
 nwaa_code_help()

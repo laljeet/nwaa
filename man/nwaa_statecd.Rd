@@ -7,10 +7,13 @@
 nwaa_statecd()
 }
 \value{
-A tibble with \code{state_name} and \code{statecd}.
+A tibble with columns \code{state_name} and \code{statecd}.
 }
 \description{
-The NWAA API uses lowercase 2-letter state abbreviations (example: "ca", "al").
+The NWAA API uses lowercase 2-letter state abbreviations
+(example: \code{"ca"}, \code{"al"}). This helper returns a lookup
+between full state names and the lowercase abbreviation expected by
+the API.
 }
 \examples{
 nwaa_statecd()

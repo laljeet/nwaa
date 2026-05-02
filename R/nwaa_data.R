@@ -1,7 +1,7 @@
 #' Download NWAA model output (generic)
 #'
-#' @param model_id Model ID. See \code{\link{nwaa_models}}.
-#' @param variable_ids One or more variable IDs. See \code{\link{nwaa_variables}}.
+#' @param model_id Model ID. See \code{\link{nwaa_wu_models}}.
+#' @param variable_ids One or more variable IDs. See \code{\link{nwaa_wu_variables}}.
 #' @param location_type One of \code{\link{nwaa_location_types}}$type.
 #' @param location_id Identifier for the selected location type.
 #' @param time_res "monthly", "annualwy", "annualcy".
@@ -11,6 +11,7 @@
 #' @param skip Record offset for paging.
 #' @param format "csv", "json", or "geojson".
 #' @param quiet If FALSE, prints request URL and content type.
+#' @return Parsed data: tibble for csv, list for json, sf object for geojson.
 #' @export
 nwaa_data <- function(model_id,
                       variable_ids,

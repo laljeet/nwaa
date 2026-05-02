@@ -2,15 +2,17 @@
 % Please edit documentation in R/lookup_codes.R
 \name{nwaa_state_codes}
 \alias{nwaa_state_codes}
-\title{Get US state codes (simple built-in mapping)}
+\title{US state codes}
 \usage{
 nwaa_state_codes()
 }
 \value{
-A tibble with state name, abbreviation, and a best-effort FIPS-like code.
+A tibble with columns \code{state_name} and \code{state_abbr}.
 }
 \description{
-Get US state codes (simple built-in mapping)
+Convenience tibble of US state names and 2-letter abbreviations, sourced
+from the base R \code{datasets::state.name} and \code{datasets::state.abb}
+vectors.
 }
 \examples{
 nwaa_state_codes()

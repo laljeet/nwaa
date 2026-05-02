@@ -20,9 +20,9 @@ nwaa_data(
 )
 }
 \arguments{
-\item{model_id}{Model ID. See \code{\link{nwaa_models}}.}
+\item{model_id}{Model ID. See \code{\link{nwaa_wu_models}}.}
 
-\item{variable_ids}{One or more variable IDs. See \code{\link{nwaa_variables}}.}
+\item{variable_ids}{One or more variable IDs. See \code{\link{nwaa_wu_variables}}.}
 
 \item{location_type}{One of \code{\link{nwaa_location_types}}$type.}
 
@@ -41,6 +41,9 @@ nwaa_data(
 \item{format}{"csv", "json", or "geojson".}
 
 \item{quiet}{If FALSE, prints request URL and content type.}
+}
+\value{
+Parsed data: tibble for csv, list for json, sf object for geojson.
 }
 \description{
 Download NWAA model output (generic)

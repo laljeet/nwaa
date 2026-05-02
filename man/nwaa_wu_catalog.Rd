@@ -7,8 +7,15 @@
 nwaa_wu_catalog()
 }
 \value{
-A tibble describing Water Use models.
+A tibble with one row per Water Use model. Columns: \code{model_id},
+  \code{model_label}, \code{start_ym}, \code{end_ym}, \code{variables}
+  (list-column), \code{units} (list-column), \code{variable_name}
+  (list-column).
 }
 \description{
-Water Use catalog (models, variables, and time ranges)
+Returns rows from \code{\link{nwaa_catalog}} restricted to the Water Use
+(\code{wu}) family. Provided for backwards compatibility and convenience.
+}
+\examples{
+nwaa_wu_catalog()
 }

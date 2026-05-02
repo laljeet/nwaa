@@ -20,53 +20,28 @@ nwaa_water_use(
 )
 }
 \arguments{
-\item{model_id}{Water Use model ID.
-Use \code{\link{nwaa_wu_models}} to list available models and their valid date ranges.}
+\item{model_id}{Water Use model ID. See \code{\link{nwaa_wu_models}}.}
 
 \item{variable_ids}{One or more variable IDs from the selected model.
-Use \code{\link{nwaa_wu_variables}} to list valid variables for a given \code{model_id}.}
+See \code{\link{nwaa_wu_variables}}.}
 
 \item{location_type}{Location type used by the API.
-Use \code{\link{nwaa_location_types}} to see valid values.
-Examples include \code{"huc12"} and \code{"countycd"}.}
+See \code{\link{nwaa_location_types}}.}
 
-\item{location_id}{Identifier for the selected \code{location_type}.
-Common patterns:
-\itemize{
-  \item \code{huc2}, \code{huc4}, ..., \code{huc12}: the HUC code with that number of digits.
-  \item \code{statecd}: 2-letter state abbreviation (example: \code{"ca"} for California, \code{"al"} for Alabama).
-  \item \code{countycd}: a 5-digit county code like \code{"06029"}.
-}
-See \code{\link{nwaa_location_types}} for all supported types.
-For HUC codes, use the USGS Hydrologic Units resources:
-\href{https://water.usgs.gov/themes/hydrologic-units/#national-water-availability-assessment-snapshot}{USGS hydrologic units page}.}
+\item{location_id}{Identifier for the selected \code{location_type}
+(HUC code, lowercase 2-letter state abbreviation, or 5-digit county code).}
 
-\item{time_res}{Temporal resolution used by the API:
-\itemize{
-  \item \code{"monthly"} expects \code{start} and \code{end} like \code{"2020-12"}.
-  \item \code{"annualwy"} (water year) expects \code{start} and \code{end} like \code{"2020"}.
-  \item \code{"annualcy"} (calendar year) expects \code{start} and \code{end} like \code{"2020"}.
-}}
+\item{time_res}{Temporal resolution: \code{"monthly"}, \code{"annualwy"}
+(water year), or \code{"annualcy"} (calendar year).}
 
-\item{range}{Date-range mode:
-\itemize{
-  \item \code{"recent"} uses the model's most recent timepoint.
-  \item \code{"historical"} uses the model's full available period.
-  \item \code{"custom"} uses \code{start} and \code{end}.
-}}
+\item{range}{Date-range mode: \code{"recent"}, \code{"historical"},
+or \code{"custom"}.}
 
-\item{start}{For \code{range = "custom"}.
+\item{start, end}{For \code{range = "custom"} only.
 Monthly uses \code{"YYYY-MM"} and annual uses \code{"YYYY"}.}
 
-\item{end}{For \code{range = "custom"}.
-Monthly uses \code{"YYYY-MM"} and annual uses \code{"YYYY"}.}
-
-\item{intersection}{Optional. Controls how polygon selectors include HUC12s when
-\code{location_type} is \code{"statecd"} or \code{"countycd"}.
-\itemize{
-  \item \code{"overlap"}: include any HUC12 that overlaps the polygon (more inclusive).
-  \item \code{"envelop"}: include only HUC12s that are at least 98% within the polygon (more strict).
-}
+\item{intersection}{Optional. Controls how polygon selectors include HUC12s
+when \code{location_type} is \code{"statecd"} or \code{"countycd"}.
 See \code{\link{nwaa_intersection_types}}.}
 
 \item{skip}{Record offset for paging. Default \code{0}.}
@@ -79,23 +54,28 @@ See \code{\link{nwaa_intersection_types}}.}
 Parsed data. For \code{format = "csv"}, this returns a tibble.
 }
 \description{
-This function calls the NWAA Data Companion web service and returns model output.
-County and state extents act as selectors and return results at HUC12 resolution.
+Convenience wrapper for the Water Use (\code{wu}) family of NWAA models.
+Validates that \code{model_id}, \code{variable_ids}, and \code{time_res}
+are valid for this family before sending the request. County and state
+extents act as selectors and return results at HUC12 resolution.
 }
 \details{
 Learn options inside the package:
-- Models: \code{\link{nwaa_wu_models}}
-- Variables by model: \code{\link{nwaa_wu_variables}}
-- Location types: \code{\link{nwaa_location_types}}
+\itemize{
+  \item Models: \code{\link{nwaa_wu_models}}
+  \item Variables by model: \code{\link{nwaa_wu_variables}}
+  \item Location types: \code{\link{nwaa_location_types}}
+}
 
 Official tool that generates valid URLs:
-\href{https://water.usgs.gov/nwaa-data/subset/}{NWAA Subset \& Download Tool}
+\href{https://water.usgs.gov/nwaa-data/subset/}{NWAA Subset and Download Tool}
 }
 \examples{
-# Discover models and variables
+# Discover models and variables (offline)
 nwaa_wu_models()
 nwaa_wu_variables("wu-irrigation-wd")
 
+\dontrun{
 # County selector, annual water-year, custom range
 df <- nwaa_water_use(
   model_id = "wu-irrigation-wd",
@@ -111,7 +91,7 @@ df <- nwaa_water_use(
   quiet = FALSE
 )
 
-# HUC12 selector, annual water-year, most recent timepoint
+# HUC12 selector, most recent timepoint
 df_recent <- nwaa_water_use(
   model_id = "wu-irrigation-wd",
   variable_ids = "irrwdtot",
@@ -122,7 +102,7 @@ df_recent <- nwaa_water_use(
   format = "csv"
 )
 
-#' # Same query, stricter polygon selection
+# Stricter polygon selection
 df_envelop <- nwaa_water_use(
   model_id = "wu-irrigation-wd",
   variable_ids = c("irrwdgw", "irrwdsw", "irrwdtot"),
@@ -135,9 +115,10 @@ df_envelop <- nwaa_water_use(
   intersection = "envelop",
   format = "csv"
 )
+}
 
 }
 \seealso{
-\code{\link{nwaa_wu_models}} \code{\link{nwaa_wu_variables}}
-  \code{\link{nwaa_location_types}} \code{\link{nwaa_intersection_types}}
+\code{\link{nwaa_wu_models}}, \code{\link{nwaa_wu_variables}},
+  \code{\link{nwaa_atmos}}, \code{\link{nwaa_hydro}}, \code{\link{nwaa_iwa}}
 }

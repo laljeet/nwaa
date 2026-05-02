@@ -1,55 +1,27 @@
 #' Water Use catalog (models, variables, and time ranges)
 #'
-#' @return A tibble describing Water Use models.
+#' Returns rows from \code{\link{nwaa_catalog}} restricted to the Water Use
+#' (\code{wu}) family. Provided for backwards compatibility and convenience.
+#'
+#' @return A tibble with one row per Water Use model. Columns: \code{model_id},
+#'   \code{model_label}, \code{start_ym}, \code{end_ym}, \code{variables}
+#'   (list-column), \code{units} (list-column), \code{variable_name}
+#'   (list-column).
 #' @export
+#' @examples
+#' nwaa_wu_catalog()
 nwaa_wu_catalog <- function() {
+  cat <- nwaa_catalog()
+  wu <- cat[cat$family == "wu", , drop = FALSE]
+
+  # Preserve historical column shape (no family/temporal columns).
   tibble::tibble(
-    model_id = c(
-      "wu-irrigation-cu",
-      "wu-irrigation-wd",
-      "wu-public-supply-cu",
-      "wu-public-supply-wd",
-      "wu-thermoelectric"
-    ),
-    model_label = c(
-      "Crop Irrigation Consumptive Water-Use Model",
-      "Crop Irrigation Withdrawals Water-Use Model",
-      "Public Supply Consumptive Water-Use Model",
-      "Public Supply Withdrawals Water-Use Model",
-      "Thermoelectric Power Water-Use Model"
-    ),
-    start_ym = c("2000-01", "2000-01", "2009-01", "2000-01", "2008-01"),
-    end_ym   = c("2020-12", "2020-12", "2020-12", "2020-12", "2020-12"),
-    variables = list(
-      c("irrcutot"),
-      c("irrwdtot", "irrwdgw", "irrwdsw"),
-      c("pscutot"),
-      c("pswdtot", "pswdgw", "pswdsw"),
-      c("tecufgw", "tecufsw", "tecuftot", "tewdfgw", "tewdfsw", "tewdftot", "tewdssw")
-    ),
-    units = list(
-      c("mgd"),
-      c("mgd", "mgd", "mgd"),
-      c("mgd"),
-      c("mgd", "mgd", "mgd"),
-      c("mgd", "mgd", "mgd", "mgd", "mgd", "mgd", "mgd")
-    ),
-    variable_name = list(
-      c("Crop irrigation total consumptive use"),
-      c("Crop irrigation total withdrawals",
-        "Crop irrigation groundwater withdrawals",
-        "Crop irrigation surface-water withdrawals"),
-      c("Public supply total consumptive use"),
-      c("Public supply total withdrawals",
-        "Public supply groundwater withdrawals",
-        "Public supply surface-water withdrawals"),
-      c("Thermoelectric fresh groundwater consumptive use",
-        "Thermoelectric fresh surface-water consumptive use",
-        "Thermoelectric fresh water total consumptive use",
-        "Thermoelectric fresh groundwater withdrawals",
-        "Thermoelectric fresh surface-water withdrawals",
-        "Thermoelectric fresh water total withdrawals",
-        "Thermoelectric saline surface-water withdrawals")
-    )
+    model_id      = wu$model_id,
+    model_label   = wu$model_label,
+    start_ym      = wu$start_ym,
+    end_ym        = wu$end_ym,
+    variables     = wu$variables,
+    units         = wu$units,
+    variable_name = wu$variable_name
   )
 }

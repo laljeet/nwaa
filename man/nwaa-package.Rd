@@ -6,7 +6,15 @@
 \alias{nwaa-package}
 \title{nwaa: USGS NWAA Data download}
 \description{
-Download and parse model outputs from the USGS National Water Availability Assessment (NWAA) Data Companion web services
+Download and parse model outputs from the USGS National Water Availability Assessment (NWAA) Data Companion web services.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/laljeet/nwaa}
+  \item Report bugs at \url{https://github.com/laljeet/nwaa/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Laljeet Sangha \email{lsanghah2o@gmail.com}

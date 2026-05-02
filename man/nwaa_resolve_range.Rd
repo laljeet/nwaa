@@ -13,16 +13,39 @@ nwaa_resolve_range(
 )
 }
 \arguments{
-\item{model_id}{Water Use model id.}
+\item{model_id}{Water Use model id. See \code{\link{nwaa_wu_models}}.}
 
-\item{range}{"recent", "historical", or "custom".}
+\item{range}{One of \code{"recent"}, \code{"historical"}, or \code{"custom"}.
+\itemize{
+  \item \code{"recent"}: returns the model's most recent timepoint.
+  \item \code{"historical"}: returns the full available period.
+  \item \code{"custom"}: returns \code{start} and \code{end} as supplied.
+}}
 
-\item{temporal}{"monthly", "annualwy", or "annualcy".}
+\item{temporal}{Temporal resolution: \code{"monthly"}, \code{"annualwy"},
+or \code{"annualcy"}.}
 
-\item{start}{Optional custom start (monthly "YYYY-MM", annual "YYYY").}
+\item{start}{Optional custom start. Monthly \code{"YYYY-MM"},
+annual \code{"YYYY"}. Used only when \code{range = "custom"}.}
 
-\item{end}{Optional custom end (monthly "YYYY-MM", annual "YYYY").}
+\item{end}{Optional custom end. Same format as \code{start}. Used only when
+\code{range = "custom"}.}
+}
+\value{
+A named list with elements \code{startDate} and \code{endDate}.
 }
 \description{
-Resolve date range for a model
+Returns the start and end date strings to send to the NWAA API for a given
+model and date-range mode. Used internally by \code{\link{nwaa_water_use}}
+and \code{\link{nwaa_data}}; can also be called directly to inspect what
+dates a request would use.
+}
+\examples{
+nwaa_resolve_range("wu-irrigation-wd", range = "historical",
+                   temporal = "annualwy")
+nwaa_resolve_range("wu-irrigation-wd", range = "recent",
+                   temporal = "monthly")
+nwaa_resolve_range("wu-irrigation-wd", range = "custom",
+                   temporal = "annualwy",
+                   start = "2010", end = "2020")
 }
