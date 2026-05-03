@@ -7,15 +7,18 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/laljeet/nwaa/blob/v0.1.0/DESCRIPTION)
+[`inst/CITATION`](https://github.com/laljeet/nwaa/blob/main/inst/CITATION)
 
-Sangha L (2026). *nwaa: USGS NWAA Data download*. R package version
-0.1.0, <https://laljeet.github.io/nwaa/>.
+Sangha L (2026). *nwaa: An R interface to the USGS National Water
+Availability Assessment Data Companion*.
+[doi:10.5281/zenodo.19984100](https://doi.org/10.5281/zenodo.19984100).
+R package version 0.1.0, <https://doi.org/10.5281/zenodo.19984100>.
 
     @Manual{,
-      title = {nwaa: USGS NWAA Data download},
+      title = {nwaa: An R interface to the USGS National Water Availability Assessment Data Companion},
       author = {Laljeet Sangha},
       year = {2026},
       note = {R package version 0.1.0},
-      url = {https://laljeet.github.io/nwaa/},
+      doi = {10.5281/zenodo.19984100},
+      url = {https://doi.org/10.5281/zenodo.19984100},
     }

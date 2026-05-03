@@ -4,7 +4,7 @@
 
 The `nwaa` package provides an R interface to the USGS National Water
 Availability Assessment (NWAA) Data Companion web service
-(<https://water.usgs.gov/nwaa-data/>). The service publishes model
+(<https://water.usgs.gov/nwaa-data>). The service publishes model
 outputs at HUC12 spatial resolution across three families:
 
 | Family | Models | What it covers |
