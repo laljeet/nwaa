@@ -32,8 +32,8 @@ nwaa_code_help <- function() {
       "Use the NWAA Subset and Download Tool dropdowns to confirm codes used by the API."
     ),
     link = c(
-      "https://water.usgs.gov/themes/hydrologic-units/#national-water-availability-assessment-snapshot",
-      "https://water.usgs.gov/nwaa-data/subset/"
+      "https://water.usgs.gov/themes/hydrologic-units",
+      "https://water.usgs.gov/nwaa-data/subset-download"
     )
   )
 }

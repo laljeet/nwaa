@@ -68,7 +68,7 @@ Learn options inside the package:
 }
 
 Official tool that generates valid URLs:
-\href{https://water.usgs.gov/nwaa-data/subset/}{NWAA Subset and Download Tool}
+\href{https://water.usgs.gov/nwaa-data/subset-download}{NWAA Subset and Download Tool}
 }
 \examples{
 # Discover models and variables (offline)
