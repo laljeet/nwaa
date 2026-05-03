@@ -60,22 +60,17 @@
 </h1></div>
 <!-- badges: start -->
 
-<p><strong>nwaa</strong> downloads outputs from the <strong>USGS National Water Availability Assessment (NWAA) Data Companion</strong> web services. It covers all three NWAA model families:</p>
-<ul>
-<li>
-<strong>Water Use</strong> (<code>wu</code>): irrigation, public supply, thermoelectric, withdrawals and consumptive use</li>
-<li>
-<strong>Water Quantity</strong> (<code>wqn</code>): atmospheric forcing (WRF CONUS404-BA precipitation), hydrologic ensemble (NHM-PRMS and WRF-Hydro) outputs</li>
-<li>
-<strong>Integrated Water Availability</strong> (<code>iwa</code>): national water-budget assessment outputs and the surface water supply and use index (SUI)</li>
-</ul>
-<p>All model outputs are returned at HUC12 resolution.</p>
+<p><code>nwaa</code> is an R interface to the U.S. Geological Survey National Water Availability Assessment (NWAA) Data Companion web service. The package covers all eight currently published NWAA models across three families: Water Use (irrigation, public supply, thermoelectric — withdrawals and consumptive use), Water Quantity (atmospheric forcing, hydrologic ensemble), and Integrated Water Availability. Outputs are returned at HUC12 spatial resolution as tibbles, with optional aggregation to state or county boundaries handled server side.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"laljeet/nwaa"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># From GitHub</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"laljeet/nwaa"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># From CRAN (once accepted)</span></span>
+<span><span class="co"># install.packages("nwaa")</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
@@ -83,84 +78,151 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://laljeet.github.io/nwaa/">nwaa</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Discover all 8 models across all 3 families</span></span>
+<span><span class="co"># Inspect what's available</span></span>
 <span><span class="fu"><a href="reference/nwaa_catalog.html">nwaa_catalog</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Or scope to one family</span></span>
-<span><span class="fu"><a href="reference/nwaa_wu_models.html">nwaa_wu_models</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># Variables for a specific Water Use model</span></span>
 <span><span class="fu"><a href="reference/nwaa_wu_variables.html">nwaa_wu_variables</a></span><span class="op">(</span><span class="st">"wu-irrigation-wd"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+<h2 id="the-eight-models">The eight models<a class="anchor" aria-label="anchor" href="#the-eight-models"></a>
 </h2>
-<div class="section level3">
-<h3 id="water-use-irrigation-withdrawals-for-a-county">Water use: irrigation withdrawals for a county<a class="anchor" aria-label="anchor" href="#water-use-irrigation-withdrawals-for-a-county"></a>
-</h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nwaa_water_use.html">nwaa_water_use</a></span><span class="op">(</span></span>
-<span>  model_id <span class="op">=</span> <span class="st">"wu-irrigation-wd"</span>,</span>
-<span>  variable_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"irrwdgw"</span>, <span class="st">"irrwdsw"</span>, <span class="st">"irrwdtot"</span><span class="op">)</span>,</span>
-<span>  location_type <span class="op">=</span> <span class="st">"countycd"</span>,</span>
-<span>  location_id <span class="op">=</span> <span class="st">"06029"</span>,</span>
-<span>  time_res <span class="op">=</span> <span class="st">"annualwy"</span>,</span>
-<span>  range <span class="op">=</span> <span class="st">"custom"</span>,</span>
-<span>  start <span class="op">=</span> <span class="st">"2001"</span>,</span>
-<span>  end <span class="op">=</span> <span class="st">"2020"</span>,</span>
-<span>  intersection <span class="op">=</span> <span class="st">"overlap"</span>,</span>
-<span>  format <span class="op">=</span> <span class="st">"csv"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="atmospheric-monthly-precipitation-for-a-huc12">Atmospheric: monthly precipitation for a HUC12<a class="anchor" aria-label="anchor" href="#atmospheric-monthly-precipitation-for-a-huc12"></a>
-</h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nwaa_atmos.html">nwaa_atmos</a></span><span class="op">(</span></span>
-<span>  variable_ids <span class="op">=</span> <span class="st">"precip"</span>,</span>
-<span>  location_type <span class="op">=</span> <span class="st">"huc12"</span>,</span>
-<span>  location_id <span class="op">=</span> <span class="st">"180300010602"</span>,</span>
-<span>  time_res <span class="op">=</span> <span class="st">"monthly"</span>,</span>
-<span>  range <span class="op">=</span> <span class="st">"custom"</span>,</span>
-<span>  start <span class="op">=</span> <span class="st">"2020-01"</span>,</span>
-<span>  end <span class="op">=</span> <span class="st">"2020-12"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="hydrologic-evapotranspiration-and-snow-water-equivalent">Hydrologic: evapotranspiration and snow water equivalent<a class="anchor" aria-label="anchor" href="#hydrologic-evapotranspiration-and-snow-water-equivalent"></a>
-</h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nwaa_hydro.html">nwaa_hydro</a></span><span class="op">(</span></span>
-<span>  variable_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"actet"</span>, <span class="st">"swe"</span><span class="op">)</span>,</span>
-<span>  location_type <span class="op">=</span> <span class="st">"huc12"</span>,</span>
-<span>  location_id <span class="op">=</span> <span class="st">"180300010602"</span>,</span>
-<span>  time_res <span class="op">=</span> <span class="st">"monthly"</span>,</span>
-<span>  range <span class="op">=</span> <span class="st">"historical"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="integrated-water-availability-sui-and-water-budget">Integrated water availability: SUI and water budget<a class="anchor" aria-label="anchor" href="#integrated-water-availability-sui-and-water-budget"></a>
-</h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nwaa_iwa.html">nwaa_iwa</a></span><span class="op">(</span></span>
-<span>  variable_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sui"</span>, <span class="st">"availab"</span>, <span class="st">"strflow"</span>, <span class="st">"consum"</span><span class="op">)</span>,</span>
-<span>  location_type <span class="op">=</span> <span class="st">"huc12"</span>,</span>
-<span>  location_id <span class="op">=</span> <span class="st">"180300010602"</span>,</span>
-<span>  time_res <span class="op">=</span> <span class="st">"monthly"</span>,</span>
-<span>  range <span class="op">=</span> <span class="st">"custom"</span>,</span>
-<span>  start <span class="op">=</span> <span class="st">"2018-01"</span>,</span>
-<span>  end <span class="op">=</span> <span class="st">"2020-09"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="location-inputs">Location inputs<a class="anchor" aria-label="anchor" href="#location-inputs"></a>
-</h2>
-<p>Use <code>location_type</code> plus a matching <code>location_id</code>:</p>
 <table class="table">
 <colgroup>
 <col width="33%">
 <col width="33%">
 <col width="33%">
 </colgroup>
+<thead><tr>
+<th>Family</th>
+<th>Model ID</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Water Use</td>
+<td><code>wu-irrigation-wd</code></td>
+<td>Crop irrigation withdrawals</td>
+</tr>
+<tr>
+<td>Water Use</td>
+<td><code>wu-irrigation-cu</code></td>
+<td>Crop irrigation consumptive use</td>
+</tr>
+<tr>
+<td>Water Use</td>
+<td><code>wu-public-supply-wd</code></td>
+<td>Public supply withdrawals</td>
+</tr>
+<tr>
+<td>Water Use</td>
+<td><code>wu-public-supply-cu</code></td>
+<td>Public supply consumptive use</td>
+</tr>
+<tr>
+<td>Water Use</td>
+<td><code>wu-thermoelectric</code></td>
+<td>Thermoelectric power water use</td>
+</tr>
+<tr>
+<td>Water Quantity</td>
+<td><code>wqn-conus404-ba</code></td>
+<td>Atmospheric forcing (WRF CONUS404-BA)</td>
+</tr>
+<tr>
+<td>Water Quantity</td>
+<td><code>wqn-ensemble-conus-nwaa-v1</code></td>
+<td>Hydrologic ensemble (NHM-PRMS + WRF-Hydro)</td>
+</tr>
+<tr>
+<td>Integrated</td>
+<td><code>iwa-assessment-outputs-conus-2025</code></td>
+<td>Integrated water availability</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="examples-by-family">Examples by family<a class="anchor" aria-label="anchor" href="#examples-by-family"></a>
+</h2>
+<div class="section level3">
+<h3 id="water-use">Water Use<a class="anchor" aria-label="anchor" href="#water-use"></a>
+</h3>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://laljeet.github.io/nwaa/">nwaa</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Irrigation withdrawals across Kern County, annual water-year totals</span></span>
+<span><span class="va">irr</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nwaa_water_use.html">nwaa_water_use</a></span><span class="op">(</span></span>
+<span>  model_id      <span class="op">=</span> <span class="st">"wu-irrigation-wd"</span>,</span>
+<span>  variable_ids  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"irrwdgw"</span>, <span class="st">"irrwdsw"</span>, <span class="st">"irrwdtot"</span><span class="op">)</span>,</span>
+<span>  location_type <span class="op">=</span> <span class="st">"countycd"</span>,</span>
+<span>  location_id   <span class="op">=</span> <span class="st">"06029"</span>,</span>
+<span>  time_res      <span class="op">=</span> <span class="st">"annualwy"</span>,</span>
+<span>  range         <span class="op">=</span> <span class="st">"custom"</span>,</span>
+<span>  start         <span class="op">=</span> <span class="st">"2001"</span>,</span>
+<span>  end           <span class="op">=</span> <span class="st">"2020"</span>,</span>
+<span>  intersection  <span class="op">=</span> <span class="st">"overlap"</span>,</span>
+<span>  format        <span class="op">=</span> <span class="st">"csv"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">irr</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="atmospheric-forcing">Atmospheric forcing<a class="anchor" aria-label="anchor" href="#atmospheric-forcing"></a>
+</h3>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Monthly precipitation for a HUC8 over a single year</span></span>
+<span><span class="va">precip</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nwaa_atmos.html">nwaa_atmos</a></span><span class="op">(</span></span>
+<span>  variable_ids  <span class="op">=</span> <span class="st">"precip"</span>,</span>
+<span>  location_type <span class="op">=</span> <span class="st">"huc8"</span>,</span>
+<span>  location_id   <span class="op">=</span> <span class="st">"18030012"</span>,</span>
+<span>  time_res      <span class="op">=</span> <span class="st">"monthly"</span>,</span>
+<span>  range         <span class="op">=</span> <span class="st">"custom"</span>,</span>
+<span>  start         <span class="op">=</span> <span class="st">"2020-01"</span>,</span>
+<span>  end           <span class="op">=</span> <span class="st">"2020-12"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">precip</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="hydrologic-ensemble">Hydrologic ensemble<a class="anchor" aria-label="anchor" href="#hydrologic-ensemble"></a>
+</h3>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Baseflow, quickflow, and actual ET, full historical period</span></span>
+<span><span class="va">hydro</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nwaa_hydro.html">nwaa_hydro</a></span><span class="op">(</span></span>
+<span>  variable_ids  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"incbsflow"</span>, <span class="st">"incqkflow"</span>, <span class="st">"actet"</span><span class="op">)</span>,</span>
+<span>  location_type <span class="op">=</span> <span class="st">"huc8"</span>,</span>
+<span>  location_id   <span class="op">=</span> <span class="st">"18030012"</span>,</span>
+<span>  time_res      <span class="op">=</span> <span class="st">"annualwy"</span>,</span>
+<span>  range         <span class="op">=</span> <span class="st">"historical"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">hydro</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="integrated-water-availability">Integrated water availability<a class="anchor" aria-label="anchor" href="#integrated-water-availability"></a>
+</h3>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Surface use index, water availability, streamflow, and consumption</span></span>
+<span><span class="va">iwa</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nwaa_iwa.html">nwaa_iwa</a></span><span class="op">(</span></span>
+<span>  variable_ids  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sui"</span>, <span class="st">"availab"</span>, <span class="st">"strflow"</span>, <span class="st">"consum"</span><span class="op">)</span>,</span>
+<span>  location_type <span class="op">=</span> <span class="st">"huc8"</span>,</span>
+<span>  location_id   <span class="op">=</span> <span class="st">"18030012"</span>,</span>
+<span>  time_res      <span class="op">=</span> <span class="st">"monthly"</span>,</span>
+<span>  range         <span class="op">=</span> <span class="st">"custom"</span>,</span>
+<span>  start         <span class="op">=</span> <span class="st">"2020-01"</span>,</span>
+<span>  end           <span class="op">=</span> <span class="st">"2020-12"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">iwa</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="location-inputs">Location inputs<a class="anchor" aria-label="anchor" href="#location-inputs"></a>
+</h2>
+<p>Every query takes a <code>location_type</code> and a matching <code>location_id</code>. Supported types come from <code><a href="reference/nwaa_location_types.html">nwaa_location_types()</a></code>:</p>
+<table class="table">
 <thead><tr>
 <th><code>location_type</code></th>
 <th>
@@ -169,57 +231,159 @@
 </tr></thead>
 <tbody>
 <tr>
-<td><code>countycd</code></td>
-<td><code>"06029"</code></td>
-<td>5-digit county FIPS</td>
+<td><code>huc2</code></td>
+<td><code>18</code></td>
+<td>Returns HUC12 results within this HUC</td>
+</tr>
+<tr>
+<td><code>huc4</code></td>
+<td><code>1803</code></td>
+<td>Returns HUC12 results within this HUC</td>
+</tr>
+<tr>
+<td><code>huc6</code></td>
+<td><code>180300</code></td>
+<td>Returns HUC12 results within this HUC</td>
+</tr>
+<tr>
+<td><code>huc8</code></td>
+<td><code>18030012</code></td>
+<td>Returns HUC12 results within this HUC</td>
+</tr>
+<tr>
+<td><code>huc10</code></td>
+<td><code>1803001206</code></td>
+<td>Returns HUC12 results within this HUC</td>
+</tr>
+<tr>
+<td><code>huc12</code></td>
+<td><code>180300010602</code></td>
+<td>Returns results for this HUC12</td>
 </tr>
 <tr>
 <td><code>statecd</code></td>
-<td><code>"ca"</code></td>
-<td>2-letter state abbreviation, lowercase</td>
+<td><code>ca</code></td>
+<td>Two-letter state abbreviation, lowercase</td>
 </tr>
 <tr>
-<td>
-<code>huc2</code>–<code>huc12</code>
-</td>
-<td><code>"180300010602"</code></td>
-<td>Hydrologic unit codes, 2 to 12 digits</td>
+<td><code>countycd</code></td>
+<td><code>06029</code></td>
+<td>Five-digit county FIPS</td>
 </tr>
 </tbody>
 </table>
-<p>For polygon selectors (state, county): <code>intersection = "overlap"</code> includes HUC12s that touch the polygon, <code>intersection = "envelop"</code> includes only HUC12s that are at least 98% inside.</p>
-<p>USGS HUC resources: <a href="https://water.usgs.gov/themes/hydrologic-units" class="external-link uri">https://water.usgs.gov/themes/hydrologic-units</a></p>
+<p>Note that <code>statecd</code> is the postal abbreviation in lowercase, not the FIPS code. The package validates this for you, but it’s worth flagging since most R water-data packages use FIPS for both state and county.</p>
 </div>
 <div class="section level2">
 <h2 id="time-resolution-and-date-ranges">Time resolution and date ranges<a class="anchor" aria-label="anchor" href="#time-resolution-and-date-ranges"></a>
 </h2>
-<p>All families accept three temporal resolutions:</p>
-<ul>
-<li>
-<code>time_res = "monthly"</code> — <code>start</code>/<code>end</code> formatted <code>"YYYY-MM"</code>
-</li>
-<li>
-<code>time_res = "annualwy"</code> — water year (Oct-Sep), <code>start</code>/<code>end</code> formatted <code>"YYYY"</code>
-</li>
-<li>
-<code>time_res = "annualcy"</code> — calendar year (Jan-Dec), <code>start</code>/<code>end</code> formatted <code>"YYYY"</code>
-</li>
-</ul>
-<p><code>range</code> can be <code>"recent"</code> (most recent timepoint), <code>"historical"</code> (full available period), or <code>"custom"</code> (you supply <code>start</code> and <code>end</code>).</p>
+<p>Three temporal resolutions are supported through <code>time_res</code>:</p>
+<table class="table">
+<thead><tr>
+<th><code>time_res</code></th>
+<th>Format for <code>start</code> and <code>end</code>
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>monthly</code></td>
+<td><code>2018-01</code></td>
+</tr>
+<tr>
+<td><code>annualwy</code></td>
+<td>
+<code>2018</code> (water year ending in October)</td>
+</tr>
+<tr>
+<td><code>annualcy</code></td>
+<td>
+<code>2018</code> (calendar year)</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>range</code> argument accepts three modes:</p>
+<table class="table">
+<thead><tr>
+<th><code>range</code></th>
+<th>Behavior</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>recent</code></td>
+<td>Returns the model’s most recent timepoint</td>
+</tr>
+<tr>
+<td><code>historical</code></td>
+<td>Returns the full published period of record</td>
+</tr>
+<tr>
+<td><code>custom</code></td>
+<td>Use <code>start</code> and <code>end</code> as supplied</td>
+</tr>
+</tbody>
+</table>
+<p>Each model’s period of record is in <code><a href="reference/nwaa_catalog.html">nwaa_catalog()</a></code> and <code><a href="reference/nwaa_wu_models.html">nwaa_wu_models()</a></code>.</p>
+</div>
+<div class="section level2">
+<h2 id="intersection-behavior">Intersection behavior<a class="anchor" aria-label="anchor" href="#intersection-behavior"></a>
+</h2>
+<p>For polygon selectors (counties and states), the <code>intersection</code> argument controls which HUC12s are included:</p>
+<table class="table">
+<thead><tr>
+<th><code>intersection</code></th>
+<th>Includes</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>
+<code>overlap</code> (default)</td>
+<td>HUC12s that overlap the polygon at all</td>
+</tr>
+<tr>
+<td><code>envelop</code></td>
+<td>HUC12s at least 98% inside the polygon</td>
+</tr>
+</tbody>
+</table>
+<p><code>overlap</code> is more inclusive at the polygon edges; <code>envelop</code> is stricter and useful when you want to avoid double-counting at boundaries.</p>
+</div>
+<div class="section level2">
+<h2 id="validation">Validation<a class="anchor" aria-label="anchor" href="#validation"></a>
+</h2>
+<p>Requests are validated against the catalog before any network call. Invalid model IDs, variables incompatible with a model, and unsupported temporal resolutions all fail fast with readable messages:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Errors locally — no network call made</span></span>
+<span><span class="fu"><a href="reference/nwaa_water_use.html">nwaa_water_use</a></span><span class="op">(</span></span>
+<span>  model_id      <span class="op">=</span> <span class="st">"wu-irrigation-wd"</span>,</span>
+<span>  variable_ids  <span class="op">=</span> <span class="st">"precip"</span>,       <span class="co"># not a Water Use variable</span></span>
+<span>  location_type <span class="op">=</span> <span class="st">"huc8"</span>,</span>
+<span>  location_id   <span class="op">=</span> <span class="st">"18030012"</span>,</span>
+<span>  range         <span class="op">=</span> <span class="st">"historical"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="data-sources">Data sources<a class="anchor" aria-label="anchor" href="#data-sources"></a>
 </h2>
+<p>The package wraps the USGS NWAA Data Companion. Primary references:</p>
 <ul>
-<li><a href="https://water.usgs.gov/nwaa-data" class="external-link">NWAA Data Companion</a></li>
-<li><a href="https://water.usgs.gov/nwaa-data/subset-download" class="external-link">Subset and Download Tool</a></li>
-<li><a href="https://water.usgs.gov/nwaa-data/web-services" class="external-link">Web services documentation</a></li>
+<li><a href="https://water.usgs.gov/nwaa-data/" class="external-link">NWAA Data Companion</a></li>
+<li><a href="https://water.usgs.gov/nwaa-data/subset-download/" class="external-link">Subset and Download Tool</a></li>
+<li><a href="https://water.usgs.gov/nwaa-data/web-services/" class="external-link">Web services documentation</a></li>
+<li><a href="https://water.usgs.gov/themes/hydrologic-units/" class="external-link">USGS Hydrologic Units</a></li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<p>If you use this package in published work, please cite both the package and the underlying USGS data. Run <code>citation("nwaa")</code> in R for the package citation. See the <a href="https://water.usgs.gov/nwaa-data" class="external-link">NWAA Data Companion</a> for the data citation.</p>
+<p>Run <code>citation("nwaa")</code> from R, or cite via the Zenodo DOI:</p>
+<blockquote>
+<p>Sangha, L. (2026). nwaa: An R interface to the USGS National Water Availability Assessment Data Companion. <a href="https://doi.org/10.5281/zenodo.19984100" class="external-link uri">https://doi.org/10.5281/zenodo.19984100</a></p>
+</blockquote>
+</div>
+<div class="section level2">
+<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
+</h2>
+<p>MIT. See <a href="LICENSE.html">LICENSE.md</a>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -262,6 +426,7 @@
 <li><a href="https://github.com/laljeet/nwaa/actions/workflows/pkgdown.yaml" class="external-link"><img src="https://github.com/laljeet/nwaa/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a></li>
 <li><a href="https://app.codecov.io/gh/laljeet/nwaa?branch=main" class="external-link"><img src="https://codecov.io/gh/laljeet/nwaa/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://doi.org/10.5281/zenodo.19984100" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.19984100.svg" alt="DOI"></a></li>
 </ul>
 </div>
 
