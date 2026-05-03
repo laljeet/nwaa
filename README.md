@@ -6,21 +6,20 @@
 [![pkgdown](https://github.com/laljeet/nwaa/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/laljeet/nwaa/actions/workflows/pkgdown.yaml)
 [![Codecov test coverage](https://codecov.io/gh/laljeet/nwaa/branch/main/graph/badge.svg)](https://app.codecov.io/gh/laljeet/nwaa?branch=main)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19984100.svg)](https://doi.org/10.5281/zenodo.19984100)
 <!-- badges: end -->
 
-**nwaa** downloads outputs from the **USGS National Water Availability Assessment (NWAA) Data Companion** web services. It covers all three NWAA model families:
-
-- **Water Use** (`wu`): irrigation, public supply, thermoelectric, withdrawals and consumptive use
-- **Water Quantity** (`wqn`): atmospheric forcing (WRF CONUS404-BA precipitation), hydrologic ensemble (NHM-PRMS and WRF-Hydro) outputs
-- **Integrated Water Availability** (`iwa`): national water-budget assessment outputs and the surface water supply and use index (SUI)
-
-All model outputs are returned at HUC12 resolution.
+`nwaa` is an R interface to the U.S. Geological Survey National Water Availability Assessment (NWAA) Data Companion web service. The package covers all eight currently published NWAA models across three families: Water Use (irrigation, public supply, thermoelectric — withdrawals and consumptive use), Water Quantity (atmospheric forcing, hydrologic ensemble), and Integrated Water Availability. Outputs are returned at HUC12 spatial resolution as tibbles, with optional aggregation to state or county boundaries handled server side.
 
 ## Installation
 
 ```r
-# install.packages("remotes")
+# From GitHub
+install.packages("remotes")
 remotes::install_github("laljeet/nwaa")
+
+# From CRAN (once accepted)
+# install.packages("nwaa")
 ```
 
 ## Quick start
@@ -28,103 +27,178 @@ remotes::install_github("laljeet/nwaa")
 ```r
 library(nwaa)
 
-# Discover all 8 models across all 3 families
+# Inspect what's available
 nwaa_catalog()
 
-# Or scope to one family
-nwaa_wu_models()
+# Variables for a specific Water Use model
 nwaa_wu_variables("wu-irrigation-wd")
 ```
 
-## Examples
+## The eight models
 
-### Water use: irrigation withdrawals for a county
+| Family | Model ID | Description |
+|---|---|---|
+| Water Use | `wu-irrigation-wd` | Crop irrigation withdrawals |
+| Water Use | `wu-irrigation-cu` | Crop irrigation consumptive use |
+| Water Use | `wu-public-supply-wd` | Public supply withdrawals |
+| Water Use | `wu-public-supply-cu` | Public supply consumptive use |
+| Water Use | `wu-thermoelectric` | Thermoelectric power water use |
+| Water Quantity | `wqn-conus404-ba` | Atmospheric forcing (WRF CONUS404-BA) |
+| Water Quantity | `wqn-ensemble-conus-nwaa-v1` | Hydrologic ensemble (NHM-PRMS + WRF-Hydro) |
+| Integrated | `iwa-assessment-outputs-conus-2025` | Integrated water availability |
+
+## Examples by family
+
+### Water Use
 
 ```r
-df <- nwaa_water_use(
-  model_id = "wu-irrigation-wd",
-  variable_ids = c("irrwdgw", "irrwdsw", "irrwdtot"),
+library(nwaa)
+library(dplyr)
+
+# Irrigation withdrawals across Kern County, annual water-year totals
+irr <- nwaa_water_use(
+  model_id      = "wu-irrigation-wd",
+  variable_ids  = c("irrwdgw", "irrwdsw", "irrwdtot"),
   location_type = "countycd",
-  location_id = "06029",
-  time_res = "annualwy",
-  range = "custom",
-  start = "2001",
-  end = "2020",
-  intersection = "overlap",
-  format = "csv"
+  location_id   = "06029",
+  time_res      = "annualwy",
+  range         = "custom",
+  start         = "2001",
+  end           = "2020",
+  intersection  = "overlap",
+  format        = "csv"
 )
+
+glimpse(irr)
 ```
 
-### Atmospheric: monthly precipitation for a HUC12
+### Atmospheric forcing
 
 ```r
-df <- nwaa_atmos(
-  variable_ids = "precip",
-  location_type = "huc12",
-  location_id = "180300010602",
-  time_res = "monthly",
-  range = "custom",
-  start = "2020-01",
-  end = "2020-12"
+# Monthly precipitation for a HUC8 over a single year
+precip <- nwaa_atmos(
+  variable_ids  = "precip",
+  location_type = "huc8",
+  location_id   = "18030012",
+  time_res      = "monthly",
+  range         = "custom",
+  start         = "2020-01",
+  end           = "2020-12"
 )
+
+glimpse(precip)
 ```
 
-### Hydrologic: evapotranspiration and snow water equivalent
+### Hydrologic ensemble
 
 ```r
-df <- nwaa_hydro(
-  variable_ids = c("actet", "swe"),
-  location_type = "huc12",
-  location_id = "180300010602",
-  time_res = "monthly",
-  range = "historical"
+# Baseflow, quickflow, and actual ET, full historical period
+hydro <- nwaa_hydro(
+  variable_ids  = c("incbsflow", "incqkflow", "actet"),
+  location_type = "huc8",
+  location_id   = "18030012",
+  time_res      = "annualwy",
+  range         = "historical"
 )
+
+glimpse(hydro)
 ```
 
-### Integrated water availability: SUI and water budget
+### Integrated water availability
 
 ```r
-df <- nwaa_iwa(
-  variable_ids = c("sui", "availab", "strflow", "consum"),
-  location_type = "huc12",
-  location_id = "180300010602",
-  time_res = "monthly",
-  range = "custom",
-  start = "2018-01",
-  end = "2020-09"
+# Surface use index, water availability, streamflow, and consumption
+iwa <- nwaa_iwa(
+  variable_ids  = c("sui", "availab", "strflow", "consum"),
+  location_type = "huc8",
+  location_id   = "18030012",
+  time_res      = "monthly",
+  range         = "custom",
+  start         = "2020-01",
+  end           = "2020-12"
 )
+
+glimpse(iwa)
 ```
 
 ## Location inputs
 
-Use `location_type` plus a matching `location_id`:
+Every query takes a `location_type` and a matching `location_id`. Supported types come from `nwaa_location_types()`:
 
 | `location_type` | `location_id` example | Notes |
 |---|---|---|
-| `countycd` | `"06029"` | 5-digit county FIPS |
-| `statecd`  | `"ca"` | 2-letter state abbreviation, lowercase |
-| `huc2`–`huc12` | `"180300010602"` | Hydrologic unit codes, 2 to 12 digits |
+| `huc2` | `18` | Returns HUC12 results within this HUC |
+| `huc4` | `1803` | Returns HUC12 results within this HUC |
+| `huc6` | `180300` | Returns HUC12 results within this HUC |
+| `huc8` | `18030012` | Returns HUC12 results within this HUC |
+| `huc10` | `1803001206` | Returns HUC12 results within this HUC |
+| `huc12` | `180300010602` | Returns results for this HUC12 |
+| `statecd` | `ca` | Two-letter state abbreviation, lowercase |
+| `countycd` | `06029` | Five-digit county FIPS |
 
-For polygon selectors (state, county): `intersection = "overlap"` includes HUC12s that touch the polygon, `intersection = "envelop"` includes only HUC12s that are at least 98% inside.
-
-USGS HUC resources: <https://water.usgs.gov/themes/hydrologic-units>
+Note that `statecd` is the postal abbreviation in lowercase, not the FIPS code. The package validates this for you, but it's worth flagging since most R water-data packages use FIPS for both state and county.
 
 ## Time resolution and date ranges
 
-All families accept three temporal resolutions:
+Three temporal resolutions are supported through `time_res`:
 
-- `time_res = "monthly"` — `start`/`end` formatted `"YYYY-MM"`
-- `time_res = "annualwy"` — water year (Oct-Sep), `start`/`end` formatted `"YYYY"`
-- `time_res = "annualcy"` — calendar year (Jan-Dec), `start`/`end` formatted `"YYYY"`
+| `time_res` | Format for `start` and `end` |
+|---|---|
+| `monthly` | `2018-01` |
+| `annualwy` | `2018` (water year ending in October) |
+| `annualcy` | `2018` (calendar year) |
 
-`range` can be `"recent"` (most recent timepoint), `"historical"` (full available period), or `"custom"` (you supply `start` and `end`).
+The `range` argument accepts three modes:
+
+| `range` | Behavior |
+|---|---|
+| `recent` | Returns the model's most recent timepoint |
+| `historical` | Returns the full published period of record |
+| `custom` | Use `start` and `end` as supplied |
+
+Each model's period of record is in `nwaa_catalog()` and `nwaa_wu_models()`.
+
+## Intersection behavior
+
+For polygon selectors (counties and states), the `intersection` argument controls which HUC12s are included:
+
+| `intersection` | Includes |
+|---|---|
+| `overlap` (default) | HUC12s that overlap the polygon at all |
+| `envelop` | HUC12s at least 98% inside the polygon |
+
+`overlap` is more inclusive at the polygon edges; `envelop` is stricter and useful when you want to avoid double-counting at boundaries.
+
+## Validation
+
+Requests are validated against the catalog before any network call. Invalid model IDs, variables incompatible with a model, and unsupported temporal resolutions all fail fast with readable messages:
+
+```r
+# Errors locally — no network call made
+nwaa_water_use(
+  model_id      = "wu-irrigation-wd",
+  variable_ids  = "precip",       # not a Water Use variable
+  location_type = "huc8",
+  location_id   = "18030012",
+  range         = "historical"
+)
+```
 
 ## Data sources
 
-- [NWAA Data Companion](https://water.usgs.gov/nwaa-data)
-- [Subset and Download Tool](https://water.usgs.gov/nwaa-data/subset-download)
-- [Web services documentation](https://water.usgs.gov/nwaa-data/web-services)
+The package wraps the USGS NWAA Data Companion. Primary references:
+
+* [NWAA Data Companion](https://water.usgs.gov/nwaa-data/)
+* [Subset and Download Tool](https://water.usgs.gov/nwaa-data/subset-download/)
+* [Web services documentation](https://water.usgs.gov/nwaa-data/web-services/)
+* [USGS Hydrologic Units](https://water.usgs.gov/themes/hydrologic-units/)
 
 ## Citation
 
-If you use this package in published work, please cite both the package and the underlying USGS data. Run `citation("nwaa")` in R for the package citation. See the [NWAA Data Companion](https://water.usgs.gov/nwaa-data) for the data citation.
+Run `citation("nwaa")` from R, or cite via the Zenodo DOI:
+
+> Sangha, L. (2026). nwaa: An R interface to the USGS National Water Availability Assessment Data Companion. https://doi.org/10.5281/zenodo.19984100
+
+## License
+
+MIT. See [LICENSE.md](LICENSE.md).
