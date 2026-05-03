@@ -1,7 +1,8 @@
-# nwaa: USGS NWAA Data Download
+# nwaa: 'USGS' 'NWAA' Data Download
 
-Download and parse model outputs from the USGS National Water
-Availability Assessment (NWAA) Data Companion web services.
+Download and parse model outputs from the U.S. Geological Survey
+('USGS') National Water Availability Assessment ('NWAA') Data Companion
+web services <https://water.usgs.gov/nwaa-data>.
 
 ## See also
 
