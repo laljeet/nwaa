@@ -1,12 +1,14 @@
 Package: nwaa
 Type: Package
-Title: USGS NWAA Data download
+Title: 'USGS' 'NWAA' Data Download
 Version: 0.1.0
 Authors@R: person("Laljeet", "Sangha", email = "lsanghah2o@gmail.com", role = c("aut", "cre"))
-Description: Download and parse model outputs from the USGS National Water Availability Assessment (NWAA) Data Companion web services.
+Description: Download and parse model outputs from the U.S. Geological Survey ('USGS') National Water Availability Assessment ('NWAA') Data Companion web services <https://water.usgs.gov/nwaa-data>.
 License: MIT + file LICENSE
 Encoding: UTF-8
+Language: en-US
 LazyData: true
+Depends: R (>= 4.1.0)
 Imports: dplyr, httr2, jsonlite, readr, rlang, tibble
 Suggests: httptest2, knitr, pkgdown, rmarkdown, sf, testthat (>= 3.0.0)
 VignetteBuilder: knitr

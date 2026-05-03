@@ -4,7 +4,7 @@
 \name{nwaa-package}
 \alias{nwaa}
 \alias{nwaa-package}
-\title{nwaa: USGS NWAA Data download}
+\title{nwaa: USGS NWAA Data Download}
 \description{
 Download and parse model outputs from the USGS National Water Availability Assessment (NWAA) Data Companion web services.
 }
