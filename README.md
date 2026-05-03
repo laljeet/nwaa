@@ -107,7 +107,7 @@ Use `location_type` plus a matching `location_id`:
 
 For polygon selectors (state, county): `intersection = "overlap"` includes HUC12s that touch the polygon, `intersection = "envelop"` includes only HUC12s that are at least 98% inside.
 
-USGS HUC resources: <https://water.usgs.gov/themes/hydrologic-units/#national-water-availability-assessment-snapshot>
+USGS HUC resources: <https://water.usgs.gov/themes/hydrologic-units>
 
 ## Time resolution and date ranges
 
@@ -121,10 +121,10 @@ All families accept three temporal resolutions:
 
 ## Data sources
 
-- [NWAA Data Companion](https://water.usgs.gov/nwaa-data/)
-- [Subset and Download Tool](https://water.usgs.gov/nwaa-data/subset-download/)
-- [Web services documentation](https://water.usgs.gov/nwaa-data/web-services/)
+- [NWAA Data Companion](https://water.usgs.gov/nwaa-data)
+- [Subset and Download Tool](https://water.usgs.gov/nwaa-data/subset-download)
+- [Web services documentation](https://water.usgs.gov/nwaa-data/web-services)
 
 ## Citation
 
-If you use this package in published work, please cite both the package and the underlying USGS data. Run `citation("nwaa")` in R for the package citation. See the [NWAA Data Companion](https://water.usgs.gov/nwaa-data/) for the data citation.
+If you use this package in published work, please cite both the package and the underlying USGS data. Run `citation("nwaa")` in R for the package citation. See the [NWAA Data Companion](https://water.usgs.gov/nwaa-data) for the data citation.

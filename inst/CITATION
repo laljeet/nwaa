@@ -1,0 +1,20 @@
+citHeader("To cite the nwaa package in publications, use:")
+
+# Use meta from DESCRIPTION rather than utils::packageVersion(), which fails
+# during R CMD check before the package is installed.
+year <- sub("-.*", "", meta$Date)
+if (!length(year)) year <- format(Sys.Date(), "%Y")
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "nwaa: An R interface to the USGS National Water Availability Assessment Data Companion",
+  author   = person("Laljeet", "Sangha",
+                    email = "lsanghah2o@gmail.com",
+                    role  = c("aut", "cre"),
+                    comment = c(ORCID = "0000-0002-0986-1785")),
+  year     = year,
+  note     = note,
+  doi      = "10.5281/zenodo.19984100",
+  url      = "https://doi.org/10.5281/zenodo.19984100"
+)
