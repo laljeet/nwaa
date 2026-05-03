@@ -67,7 +67,7 @@ nwaa_dispatch_ <- function(model_id,
 #' }
 #'
 #' Official tool that generates valid URLs:
-#' \href{https://water.usgs.gov/nwaa-data/subset/}{NWAA Subset and Download Tool}
+#' \href{https://water.usgs.gov/nwaa-data/subset-download}{NWAA Subset and Download Tool}
 #'
 #' @param model_id Water Use model ID. See \code{\link{nwaa_wu_models}}.
 #' @param variable_ids One or more variable IDs from the selected model.
