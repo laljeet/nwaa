@@ -26,7 +26,7 @@ across all three families:
 \itemize{
   \item \code{wu} (Water Use): irrigation, public supply, thermoelectric.
   \item \code{wqn} (Water Quantity): atmospheric forcing, hydrologic ensemble.
-  \item \code{iwa} (Integrated Water Availability): water-budget assessment.
+  \item \code{iwa} (Integrated Water Availability): water budget assessment.
 }
 }
 \details{
@@ -36,11 +36,24 @@ as a suffix on column names in API responses, e.g. \code{irrwdtot_mgd}),
 the start and end of available data, and the temporal resolutions the
 model is published at.
 
-This catalog is the single source of truth used internally by
-\code{\link{nwaa_resolve_range}} and the family-specific helper functions
-(\code{\link{nwaa_wu_models}}, \code{\link{nwaa_wu_variables}}).
+This catalog is the single source of truth used internally by request
+validation and date-range resolution.
 }
-\section{Caveats}{
+\section{Temporal resolutions}{
+
+Temporal resolutions per model come from the upstream USGS README files.
+\itemize{
+  \item Water Use models: monthly, calendar-year annual (\code{annualcy}),
+    and water-year annual (\code{annualwy}). The README explicitly
+    describes annual mean derivation from monthly values.
+  \item Water Quantity and Integrated Water Availability models:
+    monthly only. The upstream READMEs describe these products as
+    monthly. Users who want annual rollups can aggregate the monthly
+    output client-side.
+}
+}
+
+\section{Units caveats}{
 
 Unit suffixes for the hydrologic ensemble model
 (\code{wqn-ensemble-conus-nwaa-v1}) are inferred from the upstream

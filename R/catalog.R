@@ -5,7 +5,7 @@
 #' \itemize{
 #'   \item \code{wu} (Water Use): irrigation, public supply, thermoelectric.
 #'   \item \code{wqn} (Water Quantity): atmospheric forcing, hydrologic ensemble.
-#'   \item \code{iwa} (Integrated Water Availability): water-budget assessment.
+#'   \item \code{iwa} (Integrated Water Availability): water budget assessment.
 #' }
 #'
 #' Each row describes one model: its identifier, label, family, the variable
@@ -14,11 +14,22 @@
 #' the start and end of available data, and the temporal resolutions the
 #' model is published at.
 #'
-#' This catalog is the single source of truth used internally by
-#' \code{\link{nwaa_resolve_range}} and the family-specific helper functions
-#' (\code{\link{nwaa_wu_models}}, \code{\link{nwaa_wu_variables}}).
+#' This catalog is the single source of truth used internally by request
+#' validation and date-range resolution.
 #'
-#' @section Caveats:
+#' @section Temporal resolutions:
+#' Temporal resolutions per model come from the upstream USGS README files.
+#' \itemize{
+#'   \item Water Use models: monthly, calendar-year annual (\code{annualcy}),
+#'     and water-year annual (\code{annualwy}). The README explicitly
+#'     describes annual mean derivation from monthly values.
+#'   \item Water Quantity and Integrated Water Availability models:
+#'     monthly only. The upstream READMEs describe these products as
+#'     monthly. Users who want annual rollups can aggregate the monthly
+#'     output client-side.
+#' }
+#'
+#' @section Units caveats:
 #' Unit suffixes for the hydrologic ensemble model
 #' (\code{wqn-ensemble-conus-nwaa-v1}) are inferred from the upstream
 #' README, which explicitly documents only \code{actet_mm/mo}. The
@@ -88,18 +99,23 @@ nwaa_catalog <- function() {
       "2020-09"
     ),
     temporal = list(
-      # Per the official NWAA Subset and Download Tool, all three families
-      # accept monthly, annual-water-year, and annual-calendar-year
-      # aggregations. Annual outputs are aggregated server-side from monthly
-      # source data.
+      # Water Use: README explicitly documents monthly outputs and an annual
+      # mean derivation procedure from monthly values. Annual is supported
+      # for both calendar year and water year.
       c("monthly", "annualcy", "annualwy"),
       c("monthly", "annualcy", "annualwy"),
       c("monthly", "annualcy", "annualwy"),
       c("monthly", "annualcy", "annualwy"),
       c("monthly", "annualcy", "annualwy"),
-      c("monthly", "annualcy", "annualwy"),
-      c("monthly", "annualcy", "annualwy"),
-      c("monthly", "annualcy", "annualwy")
+      # Water Quantity (atmos and hydro ensemble): READMEs document monthly
+      # outputs only. Annual rollups are not described in the README and
+      # have not been verified against the API. Users requiring annual
+      # totals should aggregate the monthly response client-side.
+      c("monthly"),
+      c("monthly"),
+      # Integrated Water Availability: README documents monthly water budget
+      # outputs only. Same client-side aggregation guidance applies.
+      c("monthly")
     ),
     variables = list(
       c("irrcutot"),
@@ -146,16 +162,8 @@ nwaa_catalog <- function() {
       c("mgd"),
       c("mgd", "mgd", "mgd"),
       c("mgd", "mgd", "mgd", "mgd", "mgd", "mgd", "mgd"),
-      # Atmospheric: precip in mm/month per README example
       c("mm/mo"),
-      # Hydrologic ensemble: water-flux variables in mm/mo, swe in mm,
-      # soilmstfr is unitless fraction. README documents only the actet_mm/mo
-      # convention; the exact column suffixes for other variables should be
-      # confirmed against an actual API response.
       c("mm/mo", "mm/mo", "mm/mo", "mm", "frac", "mm/mo"),
-      # IWA: README only documents sui_frac. The other three variables come
-      # back from the API as availab_mm/mo, strflow_mm/mo, consum_mm/mo
-      # (confirmed by querying the API directly).
       c("frac", "mm/mo", "mm/mo", "mm/mo")
     )
   )

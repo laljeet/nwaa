@@ -13,7 +13,7 @@ nwaa_resolve_range(
 )
 }
 \arguments{
-\item{model_id}{Water Use model id. See \code{\link{nwaa_wu_models}}.}
+\item{model_id}{Any model id from \code{\link{nwaa_catalog}}.}
 
 \item{range}{One of \code{"recent"}, \code{"historical"}, or \code{"custom"}.
 \itemize{
@@ -36,10 +36,31 @@ A named list with elements \code{startDate} and \code{endDate}.
 }
 \description{
 Returns the start and end date strings to send to the NWAA API for a given
-model and date-range mode. Used internally by \code{\link{nwaa_water_use}}
-and \code{\link{nwaa_data}}; can also be called directly to inspect what
-dates a request would use.
+model and date-range mode. Used internally by the family wrappers
+(\code{\link{nwaa_water_use}}, \code{\link{nwaa_atmos}},
+\code{\link{nwaa_hydro}}, \code{\link{nwaa_iwa}}). Can be called directly
+to inspect what dates a request would use.
 }
+\section{Water year convention}{
+
+USGS Water Years run from October 1 of one calendar year through
+September 30 of the following calendar year, and are labeled by their
+ending calendar year. Water Year 2020 covers October 1, 2019 through
+September 30, 2020.
+
+For a catalog start month of October through December, the catalog start
+is the first day of WY (start_year + 1). For January through September,
+the catalog start lies inside WY start_year and the next clean water
+year begins the following October, also labeled WY (start_year + 1).
+Either way, the first complete water year in the data is labeled
+\code{start_year + 1}.
+
+For the end of the catalog window, a clean water year ends on September
+30. If the catalog end month is September the last complete WY is
+end_year. Otherwise end_year is partial and the last complete WY is
+\code{end_year - 1}.
+}
+
 \examples{
 nwaa_resolve_range("wu-irrigation-wd", range = "historical",
                    temporal = "annualwy")
