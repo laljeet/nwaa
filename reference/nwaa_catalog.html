@@ -3,13 +3,13 @@
 across all three families:
 wu (Water Use): irrigation, public supply, thermoelectric.
 wqn (Water Quantity): atmospheric forcing, hydrologic ensemble.
-iwa (Integrated Water Availability): water-budget assessment.
+iwa (Integrated Water Availability): water budget assessment.
 
 "><meta property="og:description" content="Master catalog of all NWAA Data Companion models supported by this package,
 across all three families:
 wu (Water Use): irrigation, public supply, thermoelectric.
 wqn (Water Quantity): atmospheric forcing, hydrologic ensemble.
-iwa (Integrated Water Availability): water-budget assessment.
+iwa (Integrated Water Availability): water budget assessment.
 
 "></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -46,7 +46,7 @@ iwa (Integrated Water Availability): water-budget assessment.
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>NWAA model catalog</h1>
-      <small class="dont-index">Source: <a href="https://github.com/laljeet/nwaa/blob/v0.1.1/R/catalog.R" class="external-link"><code>R/catalog.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/laljeet/nwaa/blob/main/R/catalog.R" class="external-link"><code>R/catalog.R</code></a></small>
       <div class="d-none name"><code>nwaa_catalog.Rd</code></div>
     </div>
 
@@ -54,7 +54,7 @@ iwa (Integrated Water Availability): water-budget assessment.
     <p>Master catalog of all NWAA Data Companion models supported by this package,
 across all three families:</p><ul><li><p><code>wu</code> (Water Use): irrigation, public supply, thermoelectric.</p></li>
 <li><p><code>wqn</code> (Water Quantity): atmospheric forcing, hydrologic ensemble.</p></li>
-<li><p><code>iwa</code> (Integrated Water Availability): water-budget assessment.</p></li>
+<li><p><code>iwa</code> (Integrated Water Availability): water budget assessment.</p></li>
 </ul></div>
 
     <div class="section level2">
@@ -98,12 +98,23 @@ IDs it produces, the units those variables are reported in (units appear
 as a suffix on column names in API responses, e.g. <code>irrwdtot_mgd</code>),
 the start and end of available data, and the temporal resolutions the
 model is published at.</p>
-<p>This catalog is the single source of truth used internally by
-<code><a href="nwaa_resolve_range.html">nwaa_resolve_range</a></code> and the family-specific helper functions
-(<code><a href="nwaa_wu_models.html">nwaa_wu_models</a></code>, <code><a href="nwaa_wu_variables.html">nwaa_wu_variables</a></code>).</p>
+<p>This catalog is the single source of truth used internally by request
+validation and date-range resolution.</p>
     </div>
     <div class="section level2">
-    <h2 id="caveats">Caveats<a class="anchor" aria-label="anchor" href="#caveats"></a></h2>
+    <h2 id="temporal-resolutions">Temporal resolutions<a class="anchor" aria-label="anchor" href="#temporal-resolutions"></a></h2>
+
+
+<p>Temporal resolutions per model come from the upstream USGS README files.</p><ul><li><p>Water Use models: monthly, calendar-year annual (<code>annualcy</code>),
+    and water-year annual (<code>annualwy</code>). The README explicitly
+    describes annual mean derivation from monthly values.</p></li>
+<li><p>Water Quantity and Integrated Water Availability models:
+    monthly only. The upstream READMEs describe these products as
+    monthly. Users who want annual rollups can aggregate the monthly
+    output client-side.</p></li>
+</ul></div>
+    <div class="section level2">
+    <h2 id="units-caveats">Units caveats<a class="anchor" aria-label="anchor" href="#units-caveats"></a></h2>
 
 
 <p>Unit suffixes for the hydrologic ensemble model

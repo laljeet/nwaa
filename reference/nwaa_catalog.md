@@ -7,7 +7,7 @@ package, across all three families:
 
 - `wqn` (Water Quantity): atmospheric forcing, hydrologic ensemble.
 
-- `iwa` (Integrated Water Availability): water-budget assessment.
+- `iwa` (Integrated Water Availability): water budget assessment.
 
 ## Usage
 
@@ -60,13 +60,22 @@ variable IDs it produces, the units those variables are reported in
 `irrwdtot_mgd`), the start and end of available data, and the temporal
 resolutions the model is published at.
 
-This catalog is the single source of truth used internally by
-[`nwaa_resolve_range`](https://laljeet.github.io/nwaa/reference/nwaa_resolve_range.md)
-and the family-specific helper functions
-([`nwaa_wu_models`](https://laljeet.github.io/nwaa/reference/nwaa_wu_models.md),
-[`nwaa_wu_variables`](https://laljeet.github.io/nwaa/reference/nwaa_wu_variables.md)).
+This catalog is the single source of truth used internally by request
+validation and date-range resolution.
 
-## Caveats
+## Temporal resolutions
+
+Temporal resolutions per model come from the upstream USGS README files.
+
+- Water Use models: monthly, calendar-year annual (`annualcy`), and
+  water-year annual (`annualwy`). The README explicitly describes annual
+  mean derivation from monthly values.
+
+- Water Quantity and Integrated Water Availability models: monthly only.
+  The upstream READMEs describe these products as monthly. Users who
+  want annual rollups can aggregate the monthly output client-side.
+
+## Units caveats
 
 Unit suffixes for the hydrologic ensemble model
 (`wqn-ensemble-conus-nwaa-v1`) are inferred from the upstream README,

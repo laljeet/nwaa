@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/laljeet/nwaa/blob/v0.1.1/inst/CITATION)
+[`inst/CITATION`](https://github.com/laljeet/nwaa/blob/main/inst/CITATION)
 
 Sangha L (2026). *nwaa: An R interface to the USGS National Water
 Availability Assessment Data Companion*.

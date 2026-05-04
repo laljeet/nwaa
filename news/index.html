@@ -34,7 +34,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/laljeet/nwaa/blob/v0.1.1/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/laljeet/nwaa/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
@@ -44,18 +44,18 @@
 <h3 id="features-0-1-0">Features<a class="anchor" aria-label="anchor" href="#features-0-1-0"></a></h3>
 <ul><li>Programmatic R interface to the USGS National Water Availability Assessment (NWAA) Data Companion web service.</li>
 <li>Coverage of all eight currently published NWAA models across three families.
-<ul><li>Water Use: irrigation, public supply, thermoelectric, domestic self-supply, industrial self-supply.</li>
-<li>Water Quantity: atmospheric forcing (WRF CONUS404-BA), hydrologic ensemble (NHM-PRMS plus WRF-Hydro).</li>
-<li>Integrated Water Availability: water budget assessment and surface supply and use index.</li>
+<ul><li>Water Use: irrigation withdrawals (<code>wu-irrigation-wd</code>), irrigation consumptive use (<code>wu-irrigation-cu</code>), public supply withdrawals (<code>wu-public-supply-wd</code>), public supply consumptive use (<code>wu-public-supply-cu</code>), thermoelectric (<code>wu-thermoelectric</code>).</li>
+<li>Water Quantity: atmospheric forcing WRF CONUS404-BA (<code>wqn-conus404-ba</code>), hydrologic ensemble NHM-PRMS plus WRF-Hydro (<code>wqn-ensemble-conus-nwaa-v1</code>).</li>
+<li>Integrated Water Availability: water budget assessment with surface water supply and use index (<code>iwa-assessment-outputs-conus-2025</code>).</li>
 </ul></li>
 <li>Family-organized wrappers: <code><a href="../reference/nwaa_water_use.html">nwaa_water_use()</a></code>, <code><a href="../reference/nwaa_atmos.html">nwaa_atmos()</a></code>, <code><a href="../reference/nwaa_hydro.html">nwaa_hydro()</a></code>, <code><a href="../reference/nwaa_iwa.html">nwaa_iwa()</a></code>.</li>
-<li>Unified catalog (<code><a href="../reference/nwaa_catalog.html">nwaa_catalog()</a></code>) listing every model, variable, unit, and period of record.</li>
-<li>Request validation against the catalog before any network call.</li>
-<li>Location specification by Hydrologic Unit Code (any length), state code, or county FIPS, with server-side aggregation.</li>
-<li>Date ranges supplied as explicit start and end values or as convenience labels (<code>"default"</code>, <code>"first10"</code>, <code>"last10"</code>).</li>
-<li>Three temporal resolutions for every model: monthly, water-year-annual, calendar-year-annual.</li>
-<li>Output formats: CSV, JSON, and GeoJSON.</li>
-<li>Lower-level helpers (<code><a href="../reference/nwaa_build_query.html">nwaa_build_query()</a></code>, <code><a href="../reference/nwaa_get_data.html">nwaa_get_data()</a></code>) for composing custom workflows.</li>
+<li>Unified catalog <code><a href="../reference/nwaa_catalog.html">nwaa_catalog()</a></code> listing every model, variable, unit, period of record, and supported temporal resolutions.</li>
+<li>Request validation against the catalog before any network call. Invalid model IDs, variables incompatible with a model, and unsupported temporal resolutions all fail fast with readable messages.</li>
+<li>Location specification by Hydrologic Unit Code at HUC2, HUC4, HUC6, HUC8, HUC10, or HUC12 resolution, by lowercase two-letter state abbreviation (<code>statecd</code>), or by five-digit county FIPS code (<code>countycd</code>). Polygon selectors return HUC12 results aggregated server-side.</li>
+<li>Polygon intersection control through the <code>intersection</code> argument: <code>"overlap"</code> (default, includes any HUC12 touching the polygon) and <code>"envelop"</code> (HUC12s at least 98% inside).</li>
+<li>Three date-range modes through the <code>range</code> argument: <code>"recent"</code> (most recent timepoint), <code>"historical"</code> (full published period of record), and <code>"custom"</code> (user-supplied <code>start</code> and <code>end</code>).</li>
+<li>Temporal resolution support reflects what the upstream USGS READMEs document. Water Use models support <code>monthly</code>, <code>annualcy</code> (calendar year), and <code>annualwy</code> (water year). Water Quantity and Integrated Water Availability models are documented as monthly products and the catalog reflects that; users wanting annual rollups can aggregate the monthly response client-side.</li>
+<li>Output formats: CSV (default), JSON, and GeoJSON.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="documentation-0-1-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-1-0"></a></h3>
@@ -64,13 +64,9 @@
 </ul></div>
 <div class="section level3">
 <h3 id="testing-0-1-0">Testing<a class="anchor" aria-label="anchor" href="#testing-0-1-0"></a></h3>
-<ul><li>117 tests across catalog, validation, query construction, location resolution, date range resolution, and end-to-end fetch behavior.</li>
-<li>Offline test suite using httptest2 fixtures recorded against the live API.</li>
+<ul><li>Test suite covering catalog structure, request validation, query construction, location resolution, date-range resolution including the USGS Water Year convention, and end-to-end fetch behavior.</li>
+<li>Offline test suite using httptest2 fixtures recorded against the live API, so <code>R CMD check</code> does not require network access.</li>
 <li>Continuous integration via GitHub Actions covering Ubuntu, macOS, and Windows on R release, devel, and oldrel-1.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="archive-0-1-0">Archive<a class="anchor" aria-label="anchor" href="#archive-0-1-0"></a></h3>
-<ul><li>Released artifacts archived at <a href="https://doi.org/10.5281/zenodo.19984100" class="external-link uri">https://doi.org/10.5281/zenodo.19984100</a>.</li>
 </ul></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
