@@ -1,8 +1,8 @@
 #' Internal dispatcher used by all family wrappers.
 #'
 #' Wraps the common pipeline:
-#' validate -> build location -> resolve dates -> build query -> fetch.
-#' Returns the parsed response.
+#' validate -> check optional dependencies -> build location -> resolve dates ->
+#' build query -> fetch.
 #'
 #' @keywords internal
 #' @noRd
@@ -25,6 +25,21 @@ nwaa_dispatch_ <- function(model_id,
     time_res = time_res,
     expected_family = expected_family
   )
+
+  # Fail fast on optional dependencies before making any network call.
+  # The 'sf' package is only required for format = "geojson" parsing, and
+  # is declared in Suggests so users who do not need spatial output do not
+  # incur the install cost. Catching the missing dependency here, before
+  # the HTTP request, saves the user time and saves a round trip to USGS.
+  if (identical(format, "geojson") && !requireNamespace("sf", quietly = TRUE)) {
+    rlang::abort(
+      paste0(
+        "format = \"geojson\" requires the 'sf' package. ",
+        "Install it with install.packages(\"sf\") and try again, ",
+        "or use format = \"csv\" or format = \"json\"."
+      )
+    )
+  }
 
   loc <- nwaa_location(location_type, location_id, validate = TRUE)
 
@@ -57,7 +72,7 @@ nwaa_dispatch_ <- function(model_id,
 #' Convenience wrapper for the Water Use (\code{wu}) family of NWAA models.
 #' Validates that \code{model_id}, \code{variable_ids}, and \code{time_res}
 #' are valid for this family before sending the request. County and state
-#' extents act as selectors and return results at HUC12 resolution.
+#' extents act as polygon selectors and return results at HUC12 resolution.
 #'
 #' Learn options inside the package:
 #' \itemize{
@@ -87,9 +102,12 @@ nwaa_dispatch_ <- function(model_id,
 #'   See \code{\link{nwaa_intersection_types}}.
 #' @param skip Record offset for paging. Default \code{0}.
 #' @param format Output format: \code{"csv"}, \code{"json"}, or \code{"geojson"}.
+#'   GeoJSON output requires the \code{sf} package.
 #' @param quiet If \code{FALSE}, prints the request URL and response content type.
 #'
-#' @return Parsed data. For \code{format = "csv"}, this returns a tibble.
+#' @return Parsed data. For \code{format = "csv"}, a tibble. For
+#'   \code{format = "json"}, a list. For \code{format = "geojson"}, an
+#'   \code{sf} object.
 #'
 #' @examples
 #' # Discover models and variables (offline)

@@ -7,10 +7,14 @@
 nwaa_location_types()
 }
 \value{
-A tibble of location types and notes.
+A tibble with columns \code{type} and \code{notes}.
 }
 \description{
-List valid location types used by the NWAA API
+Returns the set of \code{location_type} values accepted by the API,
+along with brief usage notes. The API returns HUC12 results for any
+selector; HUC2 through HUC12 act as polygon containers, and
+\code{statecd} and \code{countycd} also act as polygon containers
+(use the \code{intersection} argument to control inclusion).
 }
 \examples{
 nwaa_location_types()

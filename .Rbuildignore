@@ -17,3 +17,5 @@
 ^pkgdown/
 ^\.zenodo\.json$
 ^cran-comments\.md$
+^doc$
+^Meta$

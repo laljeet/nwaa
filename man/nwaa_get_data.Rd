@@ -4,16 +4,47 @@
 \alias{nwaa_get_data}
 \title{Fetch NWAA data}
 \usage{
-nwaa_get_data(query, quiet = TRUE)
+nwaa_get_data(query, quiet = TRUE, timeout = 300, max_tries = 3)
 }
 \arguments{
-\item{query}{Query list from nwaa_build_query()}
+\item{query}{A named list of query parameters. Built by the family
+wrappers via the internal \code{nwaa_build_query()} helper.}
 
-\item{quiet}{If FALSE, prints URL and content-type}
+\item{quiet}{If \code{FALSE}, prints the request URL and response
+content type after the response arrives.}
+
+\item{timeout}{Request timeout in seconds. Default 300.}
+
+\item{max_tries}{Maximum number of attempts including the first.
+Default 3 (one initial try plus up to two retries).}
 }
 \value{
-tibble for csv, list for json, sf object for geojson if sf installed
+Parsed response. For \code{format = "csv"}, a tibble. For
+  \code{format = "json"}, a list. For \code{format = "geojson"}, an
+  \code{sf} object (requires the \code{sf} package).
 }
 \description{
-Fetch NWAA data
+Low-level HTTP wrapper. Sends a query to the NWAA Data Companion service
+and parses the response according to \code{query$format}. Most users
+should use the family wrappers (\code{\link{nwaa_water_use}},
+\code{\link{nwaa_atmos}}, \code{\link{nwaa_hydro}}, \code{\link{nwaa_iwa}}),
+which validate the request before calling this function.
 }
+\section{Network resilience}{
+
+Each request enforces a generous timeout (default 300 seconds, since
+large HUC12-resolution aggregations on the USGS server can take
+minutes), and retries up to two times with exponential backoff for
+transient errors (HTTP 429, 500, 502, 503, 504). Permanent errors
+(4xx other than 429) abort immediately with the server's response
+body included in the message.
+}
+
+\section{User agent}{
+
+Each request includes a \code{User-Agent} header identifying the
+package and version. This helps USGS attribute traffic to the package
+for capacity planning and would let them reach out if a future API
+change requires a coordinated package update.
+}
+

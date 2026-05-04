@@ -46,18 +46,21 @@ See \code{\link{nwaa_intersection_types}}.}
 
 \item{skip}{Record offset for paging. Default \code{0}.}
 
-\item{format}{Output format: \code{"csv"}, \code{"json"}, or \code{"geojson"}.}
+\item{format}{Output format: \code{"csv"}, \code{"json"}, or \code{"geojson"}.
+GeoJSON output requires the \code{sf} package.}
 
 \item{quiet}{If \code{FALSE}, prints the request URL and response content type.}
 }
 \value{
-Parsed data. For \code{format = "csv"}, this returns a tibble.
+Parsed data. For \code{format = "csv"}, a tibble. For
+  \code{format = "json"}, a list. For \code{format = "geojson"}, an
+  \code{sf} object.
 }
 \description{
 Convenience wrapper for the Water Use (\code{wu}) family of NWAA models.
 Validates that \code{model_id}, \code{variable_ids}, and \code{time_res}
 are valid for this family before sending the request. County and state
-extents act as selectors and return results at HUC12 resolution.
+extents act as polygon selectors and return results at HUC12 resolution.
 }
 \details{
 Learn options inside the package:

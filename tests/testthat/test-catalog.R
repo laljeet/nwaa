@@ -105,18 +105,6 @@ test_that("date strings are well-formed YYYY-MM", {
   }
 })
 
-test_that("nwaa_wu_catalog is a backwards-compatible filtered view", {
-  wu <- nwaa_wu_catalog()
-  expected_cols <- c(
-    "model_id", "model_label",
-    "start_ym", "end_ym",
-    "variables", "units", "variable_name"
-  )
-  expect_equal(names(wu), expected_cols)
-  expect_equal(nrow(wu), 5)
-  expect_true(all(grepl("^wu-", wu$model_id)))
-})
-
 test_that("IWA units include verified mm/mo suffixes for non-sui variables", {
   cat <- nwaa_catalog()
   iwa <- cat[cat$model_id == "iwa-assessment-outputs-conus-2025", ]

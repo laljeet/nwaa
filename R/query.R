@@ -1,12 +1,20 @@
-#' Build query parameters for NWAA data endpoint
+#' Build query parameters for the NWAA data endpoint
+#'
+#' Internal helper used by the family wrappers. Constructs a named list of
+#' query parameters that gets passed to \code{httr2::req_url_query()}.
+#' Multiple variables are comma-collapsed because the NWAA API accepts them
+#' as a single \code{variable=a,b,c} parameter.
 #'
 #' @param model Model ID.
 #' @param variables One or more variable IDs.
-#' @param location Location string like "countycd:06029".
-#' @param format Output format: "csv", "json", or "geojson".
+#' @param location Location string like \code{"countycd:06029"}.
+#' @param format Output format: \code{"csv"}, \code{"json"}, or \code{"geojson"}.
 #' @param ... Additional query parameters accepted by the API.
-#' @return Named list of query parameters.
-#' @export
+#'
+#' @return A named list of query parameters.
+#'
+#' @keywords internal
+#' @noRd
 nwaa_build_query <- function(model, variables, location,
                              format = c("csv", "json", "geojson"),
                              ...) {

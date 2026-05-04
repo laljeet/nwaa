@@ -7,13 +7,15 @@
 nwaa_wu_variables(model_id)
 }
 \arguments{
-\item{model_id}{A Water Use model ID from \code{\link{nwaa_wu_models}}.}
+\item{model_id}{A Water Use model ID. See \code{\link{nwaa_wu_models}}.}
 }
 \value{
-A tibble with variable IDs and units.
+A tibble with one row per variable. Columns:
+  \code{model_id}, \code{variable_id}, \code{unit}, \code{variable_name}.
 }
 \description{
-List variables for a Water Use model
+Looks up one Water Use model in \code{\link{nwaa_catalog}} and returns
+a long-form tibble of its variable IDs, units, and human-readable names.
 }
 \examples{
 nwaa_wu_variables("wu-irrigation-wd")

@@ -1,10 +1,7 @@
 #' Resolve date range for a model
 #'
 #' Returns the start and end date strings to send to the NWAA API for a given
-#' model and date-range mode. Used internally by the family wrappers
-#' (\code{\link{nwaa_water_use}}, \code{\link{nwaa_atmos}},
-#' \code{\link{nwaa_hydro}}, \code{\link{nwaa_iwa}}). Can be called directly
-#' to inspect what dates a request would use.
+#' model and date-range mode. Used internally by the family wrappers.
 #'
 #' @section Water year convention:
 #' USGS Water Years run from October 1 of one calendar year through
@@ -26,11 +23,6 @@
 #'
 #' @param model_id Any model id from \code{\link{nwaa_catalog}}.
 #' @param range One of \code{"recent"}, \code{"historical"}, or \code{"custom"}.
-#'   \itemize{
-#'     \item \code{"recent"}: returns the model's most recent timepoint.
-#'     \item \code{"historical"}: returns the full available period.
-#'     \item \code{"custom"}: returns \code{start} and \code{end} as supplied.
-#'   }
 #' @param temporal Temporal resolution: \code{"monthly"}, \code{"annualwy"},
 #'   or \code{"annualcy"}.
 #' @param start Optional custom start. Monthly \code{"YYYY-MM"},
@@ -40,15 +32,8 @@
 #'
 #' @return A named list with elements \code{startDate} and \code{endDate}.
 #'
-#' @examples
-#' nwaa_resolve_range("wu-irrigation-wd", range = "historical",
-#'                    temporal = "annualwy")
-#' nwaa_resolve_range("wu-irrigation-wd", range = "recent",
-#'                    temporal = "monthly")
-#' nwaa_resolve_range("wu-irrigation-wd", range = "custom",
-#'                    temporal = "annualwy",
-#'                    start = "2010", end = "2020")
-#' @export
+#' @keywords internal
+#' @noRd
 nwaa_resolve_range <- function(model_id,
                                range = c("recent", "historical", "custom"),
                                temporal = "monthly",

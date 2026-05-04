@@ -44,7 +44,8 @@ See \code{\link{nwaa_intersection_types}}.}
 
 \item{skip}{Record offset for paging. Default \code{0}.}
 
-\item{format}{Output format: \code{"csv"}, \code{"json"}, or \code{"geojson"}.}
+\item{format}{Output format: \code{"csv"}, \code{"json"}, or \code{"geojson"}.
+GeoJSON output requires the \code{sf} package.}
 
 \item{quiet}{If \code{FALSE}, prints the request URL and response content type.}
 

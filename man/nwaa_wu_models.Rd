@@ -7,10 +7,13 @@
 nwaa_wu_models()
 }
 \value{
-A tibble with \code{model_id}, \code{model_label}, \code{start_ym}, and \code{end_ym}.
+A tibble with \code{model_id}, \code{model_label},
+  \code{start_ym}, and \code{end_ym}.
 }
 \description{
-List Water Use models and their available date ranges
+Convenience view that returns the Water Use rows of
+\code{\link{nwaa_catalog}} restricted to the columns most relevant for
+picking a model.
 }
 \examples{
 nwaa_wu_models()

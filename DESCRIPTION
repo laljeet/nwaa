@@ -9,7 +9,7 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 Depends: R (>= 4.1.0)
-Imports: dplyr, httr2, jsonlite, readr, rlang, tibble
+Imports: httr2, jsonlite, readr, rlang, tibble
 Suggests: httptest2, knitr, pkgdown, rmarkdown, sf, testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Config/testthat/edition: 3
