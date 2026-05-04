@@ -218,7 +218,7 @@ Run `citation("nwaa")` from R, or cite via the Zenodo DOI:
 
 > Sangha, L. (2026). nwaa: An R interface to the USGS National Water
 > Availability Assessment Data Companion.
-> <https://doi.org/10.5281/zenodo.19984100>
+> <https://doi.org/10.5281/zenodo.19984099>
 
 ## License
 

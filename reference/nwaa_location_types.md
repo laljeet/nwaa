@@ -1,6 +1,10 @@
 # List valid location types used by the NWAA API
 
-List valid location types used by the NWAA API
+Returns the set of `location_type` values accepted by the API, along
+with brief usage notes. The API returns HUC12 results for any selector;
+HUC2 through HUC12 act as polygon containers, and `statecd` and
+`countycd` also act as polygon containers (use the `intersection`
+argument to control inclusion).
 
 ## Usage
 
@@ -10,7 +14,7 @@ nwaa_location_types()
 
 ## Value
 
-A tibble of location types and notes.
+A tibble with columns `type` and `notes`.
 
 ## Examples
 
@@ -26,5 +30,5 @@ nwaa_location_types()
 #> 5 huc10    Hydrologic unit code (10 digits). Returns HUC12 results within this …
 #> 6 huc12    Hydrologic unit code (12 digits). Returns results for this HUC12.    
 #> 7 statecd  State abbreviation (2-letter), lowercase in the API (example: 'ca', …
-#> 8 countycd County code (5-digit). Use intersection to control which HUC12s get …
+#> 8 countycd County code (5-digit FIPS). Use intersection to control which HUC12s…
 ```

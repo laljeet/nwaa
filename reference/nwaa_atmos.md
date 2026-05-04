@@ -65,7 +65,8 @@ nwaa_atmos(
 
 - format:
 
-  Output format: `"csv"`, `"json"`, or `"geojson"`.
+  Output format: `"csv"`, `"json"`, or `"geojson"`. GeoJSON output
+  requires the `sf` package.
 
 - quiet:
 

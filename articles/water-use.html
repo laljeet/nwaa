@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Water Use Models • nwaa</title>
+<title>Water Use models • nwaa</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Water Use Models">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Water Use models">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -34,7 +34,7 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/water-use.html">Water Use Models</a></li>
+<li><a class="dropdown-item" href="../articles/water-use.html">Water Use models</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -57,7 +57,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Water Use Models</h1>
+      <h1>Water Use models</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/laljeet/nwaa/blob/main/vignettes/water-use.Rmd" class="external-link"><code>vignettes/water-use.Rmd</code></a></small>
@@ -67,54 +67,51 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://laljeet.github.io/nwaa/">nwaa</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'dplyr' was built under R version 4.4.3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     filter, lag</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://laljeet.github.io/nwaa/">nwaa</a></span><span class="op">)</span></span></code></pre></div>
 <p>The Water Use family covers five sectoral models, all returned at
-HUC12 resolution in millions of gallons per day (<code>mgd</code>).</p>
+HUC12 resolution in millions of gallons per day (<code>mgd</code>). The
+five models cover three sectors (irrigation, public supply,
+thermoelectric) split between water withdrawals and consumptive use.</p>
 <div class="section level2">
 <h2 id="the-five-models">The five models<a class="anchor" aria-label="anchor" href="#the-five-models"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/nwaa_wu_models.html">nwaa_wu_models</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 5 × 4</span></span>
-<span><span class="co">#&gt;   model_id            model_label                                 start_ym end_ym </span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;               &lt;chr&gt;                                       &lt;chr&gt;    &lt;chr&gt;  </span></span>
-<span><span class="co">#&gt; 1 wu-irrigation-cu    Crop Irrigation Consumptive Water-Use Model 2000-01  2020-12</span></span>
-<span><span class="co">#&gt; 2 wu-irrigation-wd    Crop Irrigation Withdrawals Water-Use Model 2000-01  2020-12</span></span>
-<span><span class="co">#&gt; 3 wu-public-supply-cu Public Supply Consumptive Water-Use Model   2009-01  2020-12</span></span>
-<span><span class="co">#&gt; 4 wu-public-supply-wd Public Supply Withdrawals Water-Use Model   2000-01  2020-12</span></span>
-<span><span class="co">#&gt; 5 wu-thermoelectric   Thermoelectric Power Water-Use Model        2008-01  2020-12</span></span></code></pre></div>
-<p>Each model carries its own variable set. The variables tibble lists
-them with units and the period of record:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/nwaa_wu_variables.html">nwaa_wu_variables</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Error in nwaa_wu_variables(): argument "model_id" is missing, with no default</span></span></code></pre></div>
-<p>A filtered catalog view limited to Water Use is available as
-<code><a href="../reference/nwaa_wu_catalog.html">nwaa_wu_catalog()</a></code>:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/nwaa_wu_models.html">nwaa_wu_models</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; # A tibble: 5 x 4</span></span>
+<span><span class="co">#&gt;   model_id            model_label                                  start_ym end_ym </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;               &lt;chr&gt;                                        &lt;chr&gt;    &lt;chr&gt;  </span></span>
+<span><span class="co">#&gt; 1 wu-irrigation-cu    Crop Irrigation Consumptive Water-Use Model  2000-01  2020-12</span></span>
+<span><span class="co">#&gt; 2 wu-irrigation-wd    Crop Irrigation Withdrawals Water-Use Model  2000-01  2020-12</span></span>
+<span><span class="co">#&gt; 3 wu-public-supply-cu Public Supply Consumptive Water-Use Model    2009-01  2020-12</span></span>
+<span><span class="co">#&gt; 4 wu-public-supply-wd Public Supply Withdrawals Water-Use Model    2000-01  2020-12</span></span>
+<span><span class="co">#&gt; 5 wu-thermoelectric   Thermoelectric Power Water-Use Model         2008-01  2020-12</span></span></code></pre>
+<p>For each model, <code><a href="../reference/nwaa_wu_variables.html">nwaa_wu_variables()</a></code> returns its variable
+IDs, units, and human-readable names:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/nwaa_wu_catalog.html">nwaa_wu_catalog</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 5 × 7</span></span>
-<span><span class="co">#&gt;   model_id            model_label                                 start_ym end_ym  variables units  variable_name</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;               &lt;chr&gt;                                       &lt;chr&gt;    &lt;chr&gt;   &lt;list&gt;    &lt;list&gt; &lt;list&gt;       </span></span>
-<span><span class="co">#&gt; 1 wu-irrigation-cu    Crop Irrigation Consumptive Water-Use Model 2000-01  2020-12 &lt;chr [1]&gt; &lt;chr&gt;  &lt;chr [1]&gt;    </span></span>
-<span><span class="co">#&gt; 2 wu-irrigation-wd    Crop Irrigation Withdrawals Water-Use Model 2000-01  2020-12 &lt;chr [3]&gt; &lt;chr&gt;  &lt;chr [3]&gt;    </span></span>
-<span><span class="co">#&gt; 3 wu-public-supply-cu Public Supply Consumptive Water-Use Model   2009-01  2020-12 &lt;chr [1]&gt; &lt;chr&gt;  &lt;chr [1]&gt;    </span></span>
-<span><span class="co">#&gt; 4 wu-public-supply-wd Public Supply Withdrawals Water-Use Model   2000-01  2020-12 &lt;chr [3]&gt; &lt;chr&gt;  &lt;chr [3]&gt;    </span></span>
-<span><span class="co">#&gt; 5 wu-thermoelectric   Thermoelectric Power Water-Use Model        2008-01  2020-12 &lt;chr [7]&gt; &lt;chr&gt;  &lt;chr [7]&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/nwaa_wu_variables.html">nwaa_wu_variables</a></span><span class="op">(</span><span class="st">"wu-irrigation-wd"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; # A tibble: 3 x 4</span></span>
+<span><span class="co">#&gt;   model_id         variable_id unit  variable_name                            </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;                                    </span></span>
+<span><span class="co">#&gt; 1 wu-irrigation-wd irrwdtot    mgd   Crop irrigation total withdrawals        </span></span>
+<span><span class="co">#&gt; 2 wu-irrigation-wd irrwdgw     mgd   Crop irrigation groundwater withdrawals  </span></span>
+<span><span class="co">#&gt; 3 wu-irrigation-wd irrwdsw     mgd   Crop irrigation surface-water withdrawals</span></span></code></pre>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/nwaa_wu_variables.html">nwaa_wu_variables</a></span><span class="op">(</span><span class="st">"wu-thermoelectric"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; # A tibble: 7 x 4</span></span>
+<span><span class="co">#&gt;   model_id          variable_id unit  variable_name                                       </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;             &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;                                               </span></span>
+<span><span class="co">#&gt; 1 wu-thermoelectric tecufgw     mgd   Thermoelectric fresh groundwater consumptive use    </span></span>
+<span><span class="co">#&gt; 2 wu-thermoelectric tecufsw     mgd   Thermoelectric fresh surface-water consumptive use  </span></span>
+<span><span class="co">#&gt; 3 wu-thermoelectric tecuftot    mgd   Thermoelectric fresh water total consumptive use    </span></span>
+<span><span class="co">#&gt; 4 wu-thermoelectric tewdfgw     mgd   Thermoelectric fresh groundwater withdrawals        </span></span>
+<span><span class="co">#&gt; 5 wu-thermoelectric tewdfsw     mgd   Thermoelectric fresh surface-water withdrawals      </span></span>
+<span><span class="co">#&gt; 6 wu-thermoelectric tewdftot    mgd   Thermoelectric fresh water total withdrawals        </span></span>
+<span><span class="co">#&gt; 7 wu-thermoelectric tewdssw     mgd   Thermoelectric saline surface-water withdrawals     </span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="common-arguments">Common arguments<a class="anchor" aria-label="anchor" href="#common-arguments"></a>
 </h2>
-<p>All five Water Use queries share the same structure:</p>
+<p>All five Water Use queries share the same argument structure:</p>
 <table class="table">
 <colgroup>
 <col width="50%">
@@ -134,131 +131,141 @@ them with units and the period of record:</p>
 <td>character vector of variables for that model</td>
 </tr>
 <tr class="odd">
-<td><code>location_id</code></td>
-<td>HUC, state code, or county FIPS</td>
-</tr>
-<tr class="even">
 <td><code>location_type</code></td>
-<td>optional explicit type (<code>"huc"</code>, <code>"state"</code>,
-<code>"county"</code>)</td>
-</tr>
-<tr class="odd">
-<td><code>range</code></td>
 <td>
-<code>"default"</code>, <code>"first10"</code>,
-<code>"last10"</code>, or <code>"custom"</code>
+<code>"huc2"</code>, <code>"huc4"</code>, <code>"huc6"</code>,
+<code>"huc8"</code>, <code>"huc10"</code>, <code>"huc12"</code>,
+<code>"statecd"</code>, or <code>"countycd"</code>
 </td>
 </tr>
 <tr class="even">
-<td>
-<code>start</code>, <code>end</code>
-</td>
-<td>YYYY-MM strings, only used with <code>range = "custom"</code>
+<td><code>location_id</code></td>
+<td>identifier for the chosen <code>location_type</code>
 </td>
 </tr>
 <tr class="odd">
 <td><code>time_res</code></td>
 <td>
-<code>"monthly"</code>, <code>"annualwy"</code>, or
-<code>"annualcy"</code>
+<code>"monthly"</code>, <code>"annualwy"</code> (water year), or
+<code>"annualcy"</code> (calendar year)</td>
+</tr>
+<tr class="even">
+<td><code>range</code></td>
+<td>
+<code>"recent"</code>, <code>"historical"</code>, or
+<code>"custom"</code>
+</td>
+</tr>
+<tr class="odd">
+<td>
+<code>start</code>, <code>end</code>
+</td>
+<td>only used with <code>range = "custom"</code>
 </td>
 </tr>
 <tr class="even">
+<td><code>intersection</code></td>
+<td>
+<code>"overlap"</code> (default) or <code>"envelop"</code>, only
+meaningful for state and county selectors</td>
+</tr>
+<tr class="odd">
 <td><code>format</code></td>
 <td>
-<code>"csv"</code>, <code>"json"</code>, or
+<code>"csv"</code> (default), <code>"json"</code>, or
 <code>"geojson"</code>
 </td>
 </tr>
 </tbody>
 </table>
-<p>Convenience ranges resolve against the model’s catalog entry, so
-<code>range = "last10"</code> for irrigation and
-<code>range = "last10"</code> for thermoelectric pull different windows
-automatically.</p>
 </div>
 <div class="section level2">
-<h2 id="irrigation">1. Irrigation<a class="anchor" aria-label="anchor" href="#irrigation"></a>
+<h2 id="irrigation-withdrawals">1. Irrigation withdrawals<a class="anchor" aria-label="anchor" href="#irrigation-withdrawals"></a>
 </h2>
-<p>The irrigation model reports total irrigation withdrawals plus a
-crop-specific breakdown.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">irrig</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nwaa_water_use.html">nwaa_water_use</a></span><span class="op">(</span></span>
-<span>  model_id     <span class="op">=</span> <span class="st">"wu-irrigation-conus-nwaa-v1"</span>,</span>
-<span>  variable_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tot_irr"</span>, <span class="st">"irr_alfalfa"</span>, <span class="st">"irr_corn"</span><span class="op">)</span>,</span>
-<span>  location_id  <span class="op">=</span> <span class="st">"18030012"</span>,</span>
-<span>  range        <span class="op">=</span> <span class="st">"custom"</span>,</span>
-<span>  start        <span class="op">=</span> <span class="st">"2018-01"</span>,</span>
-<span>  end          <span class="op">=</span> <span class="st">"2020-12"</span>,</span>
-<span>  time_res     <span class="op">=</span> <span class="st">"monthly"</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">irrwd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nwaa_water_use.html">nwaa_water_use</a></span><span class="op">(</span></span>
+<span>  model_id      <span class="op">=</span> <span class="st">"wu-irrigation-wd"</span>,</span>
+<span>  variable_ids  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"irrwdtot"</span>, <span class="st">"irrwdgw"</span>, <span class="st">"irrwdsw"</span><span class="op">)</span>,</span>
+<span>  location_type <span class="op">=</span> <span class="st">"huc8"</span>,</span>
+<span>  location_id   <span class="op">=</span> <span class="st">"18030001"</span>,</span>
+<span>  time_res      <span class="op">=</span> <span class="st">"annualwy"</span>,</span>
+<span>  range         <span class="op">=</span> <span class="st">"custom"</span>,</span>
+<span>  start         <span class="op">=</span> <span class="st">"2018"</span>,</span>
+<span>  end           <span class="op">=</span> <span class="st">"2020"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">irrig</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">irrwd</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="public-supply">2. Public Supply<a class="anchor" aria-label="anchor" href="#public-supply"></a>
+<h2 id="irrigation-consumptive-use">2. Irrigation consumptive use<a class="anchor" aria-label="anchor" href="#irrigation-consumptive-use"></a>
 </h2>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nwaa_water_use.html">nwaa_water_use</a></span><span class="op">(</span></span>
-<span>  model_id     <span class="op">=</span> <span class="st">"wu-public-supply-conus-nwaa-v1"</span>,</span>
-<span>  variable_ids <span class="op">=</span> <span class="st">"tot_ps"</span>,</span>
-<span>  location_id  <span class="op">=</span> <span class="st">"18030012"</span>,</span>
-<span>  range        <span class="op">=</span> <span class="st">"last10"</span>,</span>
-<span>  time_res     <span class="op">=</span> <span class="st">"annualcy"</span></span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">irrcu</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nwaa_water_use.html">nwaa_water_use</a></span><span class="op">(</span></span>
+<span>  model_id      <span class="op">=</span> <span class="st">"wu-irrigation-cu"</span>,</span>
+<span>  variable_ids  <span class="op">=</span> <span class="st">"irrcutot"</span>,</span>
+<span>  location_type <span class="op">=</span> <span class="st">"huc8"</span>,</span>
+<span>  location_id   <span class="op">=</span> <span class="st">"18030001"</span>,</span>
+<span>  time_res      <span class="op">=</span> <span class="st">"annualwy"</span>,</span>
+<span>  range         <span class="op">=</span> <span class="st">"historical"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ps</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">irrcu</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="thermoelectric">3. Thermoelectric<a class="anchor" aria-label="anchor" href="#thermoelectric"></a>
+<h2 id="public-supply-withdrawals">3. Public supply withdrawals<a class="anchor" aria-label="anchor" href="#public-supply-withdrawals"></a>
 </h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pswd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nwaa_water_use.html">nwaa_water_use</a></span><span class="op">(</span></span>
+<span>  model_id      <span class="op">=</span> <span class="st">"wu-public-supply-wd"</span>,</span>
+<span>  variable_ids  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pswdtot"</span>, <span class="st">"pswdgw"</span>, <span class="st">"pswdsw"</span><span class="op">)</span>,</span>
+<span>  location_type <span class="op">=</span> <span class="st">"countycd"</span>,</span>
+<span>  location_id   <span class="op">=</span> <span class="st">"06029"</span>,</span>
+<span>  time_res      <span class="op">=</span> <span class="st">"annualcy"</span>,</span>
+<span>  range         <span class="op">=</span> <span class="st">"recent"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pswd</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="public-supply-consumptive-use">4. Public supply consumptive use<a class="anchor" aria-label="anchor" href="#public-supply-consumptive-use"></a>
+</h2>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pscu</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nwaa_water_use.html">nwaa_water_use</a></span><span class="op">(</span></span>
+<span>  model_id      <span class="op">=</span> <span class="st">"wu-public-supply-cu"</span>,</span>
+<span>  variable_ids  <span class="op">=</span> <span class="st">"pscutot"</span>,</span>
+<span>  location_type <span class="op">=</span> <span class="st">"countycd"</span>,</span>
+<span>  location_id   <span class="op">=</span> <span class="st">"06029"</span>,</span>
+<span>  time_res      <span class="op">=</span> <span class="st">"annualcy"</span>,</span>
+<span>  range         <span class="op">=</span> <span class="st">"historical"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pscu</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="thermoelectric">5. Thermoelectric<a class="anchor" aria-label="anchor" href="#thermoelectric"></a>
+</h2>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">thermo</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nwaa_water_use.html">nwaa_water_use</a></span><span class="op">(</span></span>
-<span>  model_id     <span class="op">=</span> <span class="st">"wu-thermoelectric-conus-nwaa-v1"</span>,</span>
-<span>  variable_ids <span class="op">=</span> <span class="st">"tot_te"</span>,</span>
-<span>  location_id  <span class="op">=</span> <span class="st">"18030012"</span>,</span>
-<span>  range        <span class="op">=</span> <span class="st">"default"</span>,</span>
-<span>  time_res     <span class="op">=</span> <span class="st">"annualcy"</span></span>
+<span>  model_id      <span class="op">=</span> <span class="st">"wu-thermoelectric"</span>,</span>
+<span>  variable_ids  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tewdftot"</span>, <span class="st">"tecuftot"</span><span class="op">)</span>,</span>
+<span>  location_type <span class="op">=</span> <span class="st">"statecd"</span>,</span>
+<span>  location_id   <span class="op">=</span> <span class="st">"ca"</span>,</span>
+<span>  time_res      <span class="op">=</span> <span class="st">"annualcy"</span>,</span>
+<span>  range         <span class="op">=</span> <span class="st">"historical"</span>,</span>
+<span>  intersection  <span class="op">=</span> <span class="st">"overlap"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">thermo</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="domestic-self-supply">4. Domestic Self-Supply<a class="anchor" aria-label="anchor" href="#domestic-self-supply"></a>
-</h2>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dom</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nwaa_water_use.html">nwaa_water_use</a></span><span class="op">(</span></span>
-<span>  model_id     <span class="op">=</span> <span class="st">"wu-domestic-self-supply-conus-nwaa-v1"</span>,</span>
-<span>  variable_ids <span class="op">=</span> <span class="st">"tot_dom"</span>,</span>
-<span>  location_id  <span class="op">=</span> <span class="st">"18030012"</span>,</span>
-<span>  range        <span class="op">=</span> <span class="st">"default"</span>,</span>
-<span>  time_res     <span class="op">=</span> <span class="st">"annualcy"</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dom</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="industrial-self-supply">5. Industrial Self-Supply<a class="anchor" aria-label="anchor" href="#industrial-self-supply"></a>
-</h2>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ind</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nwaa_water_use.html">nwaa_water_use</a></span><span class="op">(</span></span>
-<span>  model_id     <span class="op">=</span> <span class="st">"wu-industrial-self-supply-conus-nwaa-v1"</span>,</span>
-<span>  variable_ids <span class="op">=</span> <span class="st">"tot_ind"</span>,</span>
-<span>  location_id  <span class="op">=</span> <span class="st">"18030012"</span>,</span>
-<span>  range        <span class="op">=</span> <span class="st">"default"</span>,</span>
-<span>  time_res     <span class="op">=</span> <span class="st">"annualcy"</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ind</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
 <h2 id="switching-geographic-scope">Switching geographic scope<a class="anchor" aria-label="anchor" href="#switching-geographic-scope"></a>
 </h2>
-<p>The same call works at state or county scope. NWAA aggregates HUC12
-outputs to whichever administrative boundary is requested:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<p>The same call works at HUC, state, or county scope. The API
+aggregates HUC12 outputs to whichever boundary is requested:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">state_irrig</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nwaa_water_use.html">nwaa_water_use</a></span><span class="op">(</span></span>
-<span>  model_id      <span class="op">=</span> <span class="st">"wu-irrigation-conus-nwaa-v1"</span>,</span>
-<span>  variable_ids  <span class="op">=</span> <span class="st">"tot_irr"</span>,</span>
-<span>  location_id   <span class="op">=</span> <span class="st">"06"</span>,</span>
-<span>  location_type <span class="op">=</span> <span class="st">"state"</span>,</span>
-<span>  range         <span class="op">=</span> <span class="st">"last10"</span>,</span>
-<span>  time_res      <span class="op">=</span> <span class="st">"annualcy"</span></span>
+<span>  model_id      <span class="op">=</span> <span class="st">"wu-irrigation-wd"</span>,</span>
+<span>  variable_ids  <span class="op">=</span> <span class="st">"irrwdtot"</span>,</span>
+<span>  location_type <span class="op">=</span> <span class="st">"statecd"</span>,</span>
+<span>  location_id   <span class="op">=</span> <span class="st">"ca"</span>,</span>
+<span>  time_res      <span class="op">=</span> <span class="st">"annualcy"</span>,</span>
+<span>  range         <span class="op">=</span> <span class="st">"historical"</span>,</span>
+<span>  intersection  <span class="op">=</span> <span class="st">"envelop"</span>  <span class="co"># stricter: only HUC12s ≥98% inside California</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">state_irrig</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -266,44 +273,58 @@ outputs to whichever administrative boundary is requested:</p>
 <h2 id="looping-across-counties">Looping across counties<a class="anchor" aria-label="anchor" href="#looping-across-counties"></a>
 </h2>
 <p>A common workflow is pulling the same query across several counties
-and combining results. The pattern is straightforward with
-<code><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">purrr::map_dfr()</a></code> or base <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply()</a></code> plus
-<code><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">dplyr::bind_rows()</a></code>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">county_fips</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"06029"</span>, <span class="st">"06031"</span>, <span class="st">"06107"</span>, <span class="st">"06019"</span><span class="op">)</span>  <span class="co"># Kern, Kings, Tulare, Fresno</span></span>
+and combining the results. Native vector input on
+<code>location_id</code> is on the roadmap. Until then, this idiom
+works:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">irrig_sjv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">county_fips</span>, <span class="kw">function</span><span class="op">(</span><span class="va">fips</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="va">county_fips</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"06029"</span>, <span class="st">"06031"</span>, <span class="st">"06107"</span>, <span class="st">"06019"</span><span class="op">)</span>  <span class="co"># Kern, Kings, Tulare, Fresno</span></span>
+<span></span>
+<span><span class="va">irrig_sjv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span><span class="va">county_fips</span>, <span class="kw">function</span><span class="op">(</span><span class="va">fips</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="../reference/nwaa_water_use.html">nwaa_water_use</a></span><span class="op">(</span></span>
-<span>    model_id      <span class="op">=</span> <span class="st">"wu-irrigation-conus-nwaa-v1"</span>,</span>
-<span>    variable_ids  <span class="op">=</span> <span class="st">"tot_irr"</span>,</span>
+<span>    model_id      <span class="op">=</span> <span class="st">"wu-irrigation-wd"</span>,</span>
+<span>    variable_ids  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"irrwdtot"</span>, <span class="st">"irrwdgw"</span>, <span class="st">"irrwdsw"</span><span class="op">)</span>,</span>
+<span>    location_type <span class="op">=</span> <span class="st">"countycd"</span>,</span>
 <span>    location_id   <span class="op">=</span> <span class="va">fips</span>,</span>
-<span>    location_type <span class="op">=</span> <span class="st">"county"</span>,</span>
-<span>    range         <span class="op">=</span> <span class="st">"last10"</span>,</span>
-<span>    time_res      <span class="op">=</span> <span class="st">"annualcy"</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>    time_res      <span class="op">=</span> <span class="st">"annualwy"</span>,</span>
+<span>    range         <span class="op">=</span> <span class="st">"historical"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>county_fips <span class="op">=</span> <span class="va">fips</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">irrig_sjv</span><span class="op">)</span></span></code></pre></div>
-<p>A first-class multi-location interface is on the roadmap. Until then
-this idiom works.</p>
 </div>
 <div class="section level2">
-<h2 id="inspecting-a-query-before-sending">Inspecting a query before sending<a class="anchor" aria-label="anchor" href="#inspecting-a-query-before-sending"></a>
+<h2 id="date-range-modes">Date-range modes<a class="anchor" aria-label="anchor" href="#date-range-modes"></a>
 </h2>
-<p>For debugging, <code><a href="../reference/nwaa_build_query.html">nwaa_build_query()</a></code> returns the URL and
-parameter list without making the request:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/nwaa_build_query.html">nwaa_build_query</a></span><span class="op">(</span></span>
-<span>  model_id     <span class="op">=</span> <span class="st">"wu-irrigation-conus-nwaa-v1"</span>,</span>
-<span>  variable_ids <span class="op">=</span> <span class="st">"tot_irr"</span>,</span>
-<span>  location_id  <span class="op">=</span> <span class="st">"18030012"</span>,</span>
-<span>  range        <span class="op">=</span> <span class="st">"custom"</span>,</span>
-<span>  start        <span class="op">=</span> <span class="st">"2020-01"</span>,</span>
-<span>  end          <span class="op">=</span> <span class="st">"2020-12"</span>,</span>
-<span>  time_res     <span class="op">=</span> <span class="st">"monthly"</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; Error in nwaa_build_query(model_id = "wu-irrigation-conus-nwaa-v1", variable_ids = "tot_irr", : argument "model" is missing, with no default</span></span></code></pre></div>
-<p>This is also useful when scripting batch downloads outside R.</p>
+<p>Three values are supported for the <code>range</code> argument:</p>
+<ul>
+<li>
+<code>range = "recent"</code> returns one timepoint, the most recent
+in the model’s catalog. For Water Use models this is
+<code>2020-12</code> (monthly), <code>2020</code> (calendar year), or
+water year <code>2020</code>.</li>
+<li>
+<code>range = "historical"</code> returns the full available period.
+The first complete water year is the year after the catalog start (Water
+Year labeling: WY 2020 covers Oct 1 2019 to Sep 30 2020).</li>
+<li>
+<code>range = "custom"</code> requires <code>start</code> and
+<code>end</code>. Monthly takes <code>"YYYY-MM"</code>; annual takes
+<code>"YYYY"</code>.</li>
+</ul>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Just the most recent calendar year</span></span>
+<span><span class="va">recent_pswd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nwaa_water_use.html">nwaa_water_use</a></span><span class="op">(</span></span>
+<span>  model_id      <span class="op">=</span> <span class="st">"wu-public-supply-wd"</span>,</span>
+<span>  variable_ids  <span class="op">=</span> <span class="st">"pswdtot"</span>,</span>
+<span>  location_type <span class="op">=</span> <span class="st">"countycd"</span>,</span>
+<span>  location_id   <span class="op">=</span> <span class="st">"06029"</span>,</span>
+<span>  time_res      <span class="op">=</span> <span class="st">"annualcy"</span>,</span>
+<span>  range         <span class="op">=</span> <span class="st">"recent"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -68,7 +68,8 @@ nwaa_hydro(
 
 - format:
 
-  Output format: `"csv"`, `"json"`, or `"geojson"`.
+  Output format: `"csv"`, `"json"`, or `"geojson"`. GeoJSON output
+  requires the `sf` package.
 
 - quiet:
 

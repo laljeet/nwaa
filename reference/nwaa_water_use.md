@@ -3,7 +3,7 @@
 Convenience wrapper for the Water Use (`wu`) family of NWAA models.
 Validates that `model_id`, `variable_ids`, and `time_res` are valid for
 this family before sending the request. County and state extents act as
-selectors and return results at HUC12 resolution.
+polygon selectors and return results at HUC12 resolution.
 
 ## Usage
 
@@ -72,7 +72,8 @@ nwaa_water_use(
 
 - format:
 
-  Output format: `"csv"`, `"json"`, or `"geojson"`.
+  Output format: `"csv"`, `"json"`, or `"geojson"`. GeoJSON output
+  requires the `sf` package.
 
 - quiet:
 
@@ -80,7 +81,8 @@ nwaa_water_use(
 
 ## Value
 
-Parsed data. For `format = "csv"`, this returns a tibble.
+Parsed data. For `format = "csv"`, a tibble. For `format = "json"`, a
+list. For `format = "geojson"`, an `sf` object.
 
 ## Details
 

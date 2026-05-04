@@ -1,6 +1,8 @@
 # List Water Use models and their available date ranges
 
-List Water Use models and their available date ranges
+Convenience view that returns the Water Use rows of
+[`nwaa_catalog`](https://laljeet.github.io/nwaa/reference/nwaa_catalog.md)
+restricted to the columns most relevant for picking a model.
 
 ## Usage
 

@@ -75,15 +75,15 @@ Temporal resolutions per model come from the upstream USGS README files.
   The upstream READMEs describe these products as monthly. Users who
   want annual rollups can aggregate the monthly output client-side.
 
-## Units caveats
+## Units verification
 
-Unit suffixes for the hydrologic ensemble model
-(`wqn-ensemble-conus-nwaa-v1`) are inferred from the upstream README,
-which explicitly documents only `actet_mm/mo`. The remaining variable
-units recorded here (`mm/mo` for water-flux variables, `mm` for snow
-water equivalent, `frac` for soil-moisture fraction) should be verified
-against an actual API response if precision matters. The actual unit
-suffix is always returned as part of the column name in API responses.
+Unit suffixes for all variables in this catalog have been verified
+against actual API responses. The hydrologic ensemble model
+(`wqn-ensemble-conus-nwaa-v1`) was originally inferred from one README
+example (`actet_mm/mo`); a live probe in May 2026 confirmed all six
+variables match the catalog suffixes. The actual unit suffix is always
+returned as part of the column name in API responses, so users never
+need to rely on the catalog for unit information at runtime.
 
 ## Examples
 

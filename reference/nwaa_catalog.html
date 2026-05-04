@@ -31,7 +31,7 @@ iwa (Integrated Water Availability): water budget assessment.
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/water-use.html">Water Use Models</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/water-use.html">Water Use models</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -114,17 +114,16 @@ validation and date-range resolution.</p>
     output client-side.</p></li>
 </ul></div>
     <div class="section level2">
-    <h2 id="units-caveats">Units caveats<a class="anchor" aria-label="anchor" href="#units-caveats"></a></h2>
+    <h2 id="units-verification">Units verification<a class="anchor" aria-label="anchor" href="#units-verification"></a></h2>
 
 
-<p>Unit suffixes for the hydrologic ensemble model
-(<code>wqn-ensemble-conus-nwaa-v1</code>) are inferred from the upstream
-README, which explicitly documents only <code>actet_mm/mo</code>. The
-remaining variable units recorded here (<code>mm/mo</code> for water-flux
-variables, <code>mm</code> for snow water equivalent, <code>frac</code> for
-soil-moisture fraction) should be verified against an actual API
-response if precision matters. The actual unit suffix is always
-returned as part of the column name in API responses.</p>
+<p>Unit suffixes for all variables in this catalog have been verified against
+actual API responses. The hydrologic ensemble model
+(<code>wqn-ensemble-conus-nwaa-v1</code>) was originally inferred from one
+README example (<code>actet_mm/mo</code>); a live probe in May 2026 confirmed
+all six variables match the catalog suffixes. The actual unit suffix is
+always returned as part of the column name in API responses, so users
+never need to rely on the catalog for unit information at runtime.</p>
     </div>
 
     <div class="section level2">
