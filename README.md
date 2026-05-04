@@ -6,7 +6,7 @@
 [![pkgdown](https://github.com/laljeet/nwaa/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/laljeet/nwaa/actions/workflows/pkgdown.yaml)
 [![Codecov test coverage](https://codecov.io/gh/laljeet/nwaa/branch/main/graph/badge.svg)](https://app.codecov.io/gh/laljeet/nwaa?branch=main)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19984100.svg)](https://doi.org/10.5281/zenodo.19984100)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19984099.svg)](https://doi.org/10.5281/zenodo.19984099)
 <!-- badges: end -->
 
 `nwaa` is an R interface to the U.S. Geological Survey National Water Availability Assessment (NWAA) Data Companion web service. The package covers all eight currently published NWAA models across three families: Water Use (irrigation, public supply, thermoelectric — withdrawals and consumptive use), Water Quantity (atmospheric forcing, hydrologic ensemble), and Integrated Water Availability. Outputs are returned at HUC12 spatial resolution as tibbles, with optional aggregation to state or county boundaries handled server side.
@@ -197,7 +197,7 @@ The package wraps the USGS NWAA Data Companion. Primary references:
 
 Run `citation("nwaa")` from R, or cite via the Zenodo DOI:
 
-> Sangha, L. (2026). nwaa: An R interface to the USGS National Water Availability Assessment Data Companion. https://doi.org/10.5281/zenodo.19984100
+> Sangha, L. (2026). nwaa: An R interface to the USGS National Water Availability Assessment Data Companion. https://doi.org/10.5281/zenodo.19984099
 
 ## License
 

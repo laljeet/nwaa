@@ -53,16 +53,15 @@ Temporal resolutions per model come from the upstream USGS README files.
 }
 }
 
-\section{Units caveats}{
+\section{Units verification}{
 
-Unit suffixes for the hydrologic ensemble model
-(\code{wqn-ensemble-conus-nwaa-v1}) are inferred from the upstream
-README, which explicitly documents only \code{actet_mm/mo}. The
-remaining variable units recorded here (\code{mm/mo} for water-flux
-variables, \code{mm} for snow water equivalent, \code{frac} for
-soil-moisture fraction) should be verified against an actual API
-response if precision matters. The actual unit suffix is always
-returned as part of the column name in API responses.
+Unit suffixes for all variables in this catalog have been verified against
+actual API responses. The hydrologic ensemble model
+(\code{wqn-ensemble-conus-nwaa-v1}) was originally inferred from one
+README example (\code{actet_mm/mo}); a live probe in May 2026 confirmed
+all six variables match the catalog suffixes. The actual unit suffix is
+always returned as part of the column name in API responses, so users
+never need to rely on the catalog for unit information at runtime.
 }
 
 \examples{
