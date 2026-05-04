@@ -95,13 +95,15 @@ glimpse(precip)
 
 ``` r
 
-# Baseflow, quickflow, and actual ET, full historical period
+# Baseflow, quickflow, and actual ET, monthly over a single year
 hydro <- nwaa_hydro(
   variable_ids  = c("incbsflow", "incqkflow", "actet"),
   location_type = "huc8",
   location_id   = "18030012",
-  time_res      = "annualwy",
-  range         = "historical"
+  time_res      = "monthly",
+  range         = "custom",
+  start         = "2020-01",
+  end           = "2020-12"
 )
 
 glimpse(hydro)

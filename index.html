@@ -189,13 +189,15 @@
 <h3 id="hydrologic-ensemble">Hydrologic ensemble<a class="anchor" aria-label="anchor" href="#hydrologic-ensemble"></a>
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Baseflow, quickflow, and actual ET, full historical period</span></span>
+<code class="sourceCode R"><span><span class="co"># Baseflow, quickflow, and actual ET, monthly over a single year</span></span>
 <span><span class="va">hydro</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nwaa_hydro.html">nwaa_hydro</a></span><span class="op">(</span></span>
 <span>  variable_ids  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"incbsflow"</span>, <span class="st">"incqkflow"</span>, <span class="st">"actet"</span><span class="op">)</span>,</span>
 <span>  location_type <span class="op">=</span> <span class="st">"huc8"</span>,</span>
 <span>  location_id   <span class="op">=</span> <span class="st">"18030012"</span>,</span>
-<span>  time_res      <span class="op">=</span> <span class="st">"annualwy"</span>,</span>
-<span>  range         <span class="op">=</span> <span class="st">"historical"</span></span>
+<span>  time_res      <span class="op">=</span> <span class="st">"monthly"</span>,</span>
+<span>  range         <span class="op">=</span> <span class="st">"custom"</span>,</span>
+<span>  start         <span class="op">=</span> <span class="st">"2020-01"</span>,</span>
+<span>  end           <span class="op">=</span> <span class="st">"2020-12"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">hydro</span><span class="op">)</span></span></code></pre></div>
