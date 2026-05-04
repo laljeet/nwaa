@@ -2,9 +2,7 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/laljeet/nwaa/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/laljeet/nwaa/actions/workflows/R-CMD-check.yaml)
-[![test-coverage](https://github.com/laljeet/nwaa/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/laljeet/nwaa/actions/workflows/test-coverage.yaml)
 [![pkgdown](https://github.com/laljeet/nwaa/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/laljeet/nwaa/actions/workflows/pkgdown.yaml)
-[![Codecov test coverage](https://codecov.io/gh/laljeet/nwaa/branch/main/graph/badge.svg)](https://app.codecov.io/gh/laljeet/nwaa?branch=main)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19984099.svg)](https://doi.org/10.5281/zenodo.19984099)
 <!-- badges: end -->

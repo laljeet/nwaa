@@ -15,21 +15,18 @@ navbar:
     right: [search, github]
 
 reference:
-  - title: Catalog and helpers
+  - title: Catalog and discovery
     desc: Inspect available models, variables, and supported codes.
     contents:
       - nwaa_catalog
-      - nwaa_wu_catalog
       - nwaa_wu_models
       - nwaa_wu_variables
-      - nwaa_state_codes
       - nwaa_statecd
-      - nwaa_code_help
       - nwaa_intersection_types
       - nwaa_location_types
 
   - title: Water Use
-    desc: Sectoral water use models (irrigation, public supply, thermoelectric, domestic, industrial).
+    desc: Sectoral water use models (irrigation, public supply, thermoelectric) for both withdrawals and consumptive use.
     contents:
       - nwaa_water_use
 
@@ -40,18 +37,14 @@ reference:
       - nwaa_hydro
 
   - title: Integrated Water Availability
-    desc: Water budget and surface supply and use index.
+    desc: Water budget and surface water supply and use index.
     contents:
       - nwaa_iwa
 
   - title: Lower-level interface
-    desc: Inspect or build queries directly without going through a family wrapper.
+    desc: Send a pre-built query directly. Most users should use the family wrappers above.
     contents:
-      - nwaa_data
-      - nwaa_build_query
       - nwaa_get_data
-      - nwaa_location
-      - nwaa_resolve_range
 
 articles:
   - title: Vignettes
