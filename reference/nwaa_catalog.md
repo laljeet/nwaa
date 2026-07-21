@@ -5,7 +5,8 @@ package, across all three families:
 
 - `wu` (Water Use): irrigation, public supply, thermoelectric.
 
-- `wqn` (Water Quantity): atmospheric forcing, hydrologic ensemble.
+- `wqn` (Water Quantity): atmospheric forcing, the hydrologic ensemble,
+  and its NHM-PRMS and WRF-Hydro component models.
 
 - `iwa` (Integrated Water Availability): water budget assessment.
 
@@ -89,17 +90,19 @@ need to rely on the catalog for unit information at runtime.
 
 ``` r
 nwaa_catalog()
-#> # A tibble: 8 × 9
-#>   model_id   model_label family start_ym end_ym temporal variables variable_name
-#>   <chr>      <chr>       <chr>  <chr>    <chr>  <list>   <list>    <list>       
-#> 1 wu-irriga… Crop Irrig… wu     2000-01  2020-… <chr>    <chr [1]> <chr [1]>    
-#> 2 wu-irriga… Crop Irrig… wu     2000-01  2020-… <chr>    <chr [3]> <chr [3]>    
-#> 3 wu-public… Public Sup… wu     2009-01  2020-… <chr>    <chr [1]> <chr [1]>    
-#> 4 wu-public… Public Sup… wu     2000-01  2020-… <chr>    <chr [3]> <chr [3]>    
-#> 5 wu-thermo… Thermoelec… wu     2008-01  2020-… <chr>    <chr [7]> <chr [7]>    
-#> 6 wqn-conus… Atmospheri… wqn    1979-10  2021-… <chr>    <chr [1]> <chr [1]>    
-#> 7 wqn-ensem… Hydrologic… wqn    2009-10  2020-… <chr>    <chr [6]> <chr [6]>    
-#> 8 iwa-asses… National W… iwa    2009-10  2020-… <chr>    <chr [4]> <chr [4]>    
+#> # A tibble: 10 × 9
+#>    model_id  model_label family start_ym end_ym temporal variables variable_name
+#>    <chr>     <chr>       <chr>  <chr>    <chr>  <list>   <list>    <list>       
+#>  1 wu-irrig… Crop Irrig… wu     2000-01  2020-… <chr>    <chr [1]> <chr [1]>    
+#>  2 wu-irrig… Crop Irrig… wu     2000-01  2020-… <chr>    <chr [3]> <chr [3]>    
+#>  3 wu-publi… Public Sup… wu     2009-01  2020-… <chr>    <chr [1]> <chr [1]>    
+#>  4 wu-publi… Public Sup… wu     2000-01  2020-… <chr>    <chr [3]> <chr [3]>    
+#>  5 wu-therm… Thermoelec… wu     2008-01  2020-… <chr>    <chr [7]> <chr [7]>    
+#>  6 wqn-conu… Atmospheri… wqn    1979-10  2021-… <chr>    <chr [1]> <chr [1]>    
+#>  7 wqn-ense… Hydrologic… wqn    2009-10  2020-… <chr>    <chr [6]> <chr [6]>    
+#>  8 wqn-nhmp… Hydrologic… wqn    1983-01  2021-… <chr>    <chr [8]> <chr [8]>    
+#>  9 wqn-wrfh… Hydrologic… wqn    2009-10  2021-… <chr>    <chr [8]> <chr [8]>    
+#> 10 iwa-asse… National W… iwa    2009-10  2020-… <chr>    <chr [4]> <chr [4]>    
 #> # ℹ 1 more variable: units <list>
 
 # All Water Use models

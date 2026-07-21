@@ -2,12 +2,13 @@
 
 `nwaa` is an R interface to the U.S. Geological Survey National Water
 Availability Assessment (NWAA) Data Companion web service. The package
-covers all eight currently published NWAA models across three families:
+covers all ten currently published NWAA models across three families:
 Water Use (irrigation, public supply, thermoelectric — withdrawals and
-consumptive use), Water Quantity (atmospheric forcing, hydrologic
-ensemble), and Integrated Water Availability. Outputs are returned at
-HUC12 spatial resolution as tibbles, with optional aggregation to state
-or county boundaries handled server side.
+consumptive use), Water Quantity (atmospheric forcing, the hydrologic
+ensemble, and its NHM-PRMS and WRF-Hydro component models), and
+Integrated Water Availability. Outputs are returned at HUC12 spatial
+resolution as tibbles, with optional aggregation to state or county
+boundaries handled server side.
 
 ## Installation
 
@@ -34,7 +35,7 @@ nwaa_catalog()
 nwaa_wu_variables("wu-irrigation-wd")
 ```
 
-## The eight models
+## The ten models
 
 | Family | Model ID | Description |
 |----|----|----|
@@ -45,6 +46,8 @@ nwaa_wu_variables("wu-irrigation-wd")
 | Water Use | `wu-thermoelectric` | Thermoelectric power water use |
 | Water Quantity | `wqn-conus404-ba` | Atmospheric forcing (WRF CONUS404-BA) |
 | Water Quantity | `wqn-ensemble-conus-nwaa-v1` | Hydrologic ensemble (NHM-PRMS + WRF-Hydro) |
+| Water Quantity | `wqn-nhmprms-conus-nwaa-v1` | Hydrologic model (NHM-PRMS component) |
+| Water Quantity | `wqn-wrfhydro-conus-nwaa-v1` | Hydrologic model (WRF-Hydro component) |
 | Integrated | `iwa-assessment-outputs-conus-2025` | Integrated water availability |
 
 ## Examples by family
@@ -107,6 +110,25 @@ hydro <- nwaa_hydro(
 )
 
 glimpse(hydro)
+```
+
+The two component models behind the ensemble are also available through
+[`nwaa_hydro()`](https://laljeet.github.io/nwaa/reference/nwaa_hydro.md)
+via `model_id`, and expose two extra variables — soil moisture
+(`soilmst`) and recharge (`recharge`) — that the ensemble does not:
+
+``` r
+
+recharge <- nwaa_hydro(
+  model_id      = "wqn-nhmprms-conus-nwaa-v1",   # or "wqn-wrfhydro-conus-nwaa-v1"
+  variable_ids  = c("recharge", "soilmst"),
+  location_type = "huc12",
+  location_id   = "180300010602",
+  time_res      = "monthly",
+  range         = "custom",
+  start         = "2020-01",
+  end           = "2020-12"
+)
 ```
 
 ### Integrated water availability

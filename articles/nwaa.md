@@ -246,8 +246,8 @@ Vector inputs are not yet supported on the `location_id` argument. To
 pull the same query across several counties, use
 [`purrr::map_dfr()`](https://purrr.tidyverse.org/reference/map_dfr.html)
 or a [`lapply()`](https://rdrr.io/r/base/lapply.html) plus
-[`dplyr::bind_rows()`](https://dplyr.tidyverse.org/reference/bind_rows.html)
-pattern. Native multi-location support is planned for a later release.
+`dplyr::bind_rows()` pattern. Native multi-location support is planned
+for a later release.
 
 ``` r
 

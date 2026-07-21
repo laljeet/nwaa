@@ -1,10 +1,12 @@
 # Download Hydrologic Model Ensemble output (NHM-PRMS and WRF-Hydro)
 
-Convenience wrapper for the hydrologic model ensemble
-`wqn-ensemble-conus-nwaa-v1`. Returns hydrologic flux and state
-variables (evapotranspiration, baseflow, quickflow, snow water
-equivalent, soil moisture fraction, runoff) aggregated to HUC12
-polygons.
+Convenience wrapper for the hydrologic models in the `wqn` family.
+Defaults to the ensemble `wqn-ensemble-conus-nwaa-v1`, and also serves
+the two component models via `model_id`: `wqn-nhmprms-conus-nwaa-v1`
+(NHM-PRMS) and `wqn-wrfhydro-conus-nwaa-v1` (WRF-Hydro). Returns
+hydrologic flux and state variables (evapotranspiration, baseflow,
+quickflow, snow water equivalent, soil moisture, runoff, recharge)
+aggregated to HUC12 polygons.
 
 ## Usage
 
@@ -77,8 +79,11 @@ nwaa_hydro(
 
 - model_id:
 
-  Model ID. Defaults to `"wqn-ensemble-conus-nwaa-v1"`; exposed for
-  forward compatibility.
+  Model ID. Defaults to `"wqn-ensemble-conus-nwaa-v1"`. Also accepts the
+  component models `"wqn-nhmprms-conus-nwaa-v1"` and
+  `"wqn-wrfhydro-conus-nwaa-v1"`. See
+  [`nwaa_catalog`](https://laljeet.github.io/nwaa/reference/nwaa_catalog.md)
+  for each model's variables and date range.
 
 ## Value
 
@@ -92,6 +97,8 @@ by the model.
 
 ## Available variables
 
+Ensemble (`wqn-ensemble-conus-nwaa-v1`):
+
 - `actet` - actual evapotranspiration (mm/mo)
 
 - `incbsflow` - incremental baseflow (mm/mo)
@@ -104,8 +111,12 @@ by the model.
 
 - `soilmstfr` - soil moisture fraction (unitless)
 
-Unit suffixes for variables other than `actet` are inferred; verify
-against actual API responses if precision matters.
+The component models (`wqn-nhmprms-conus-nwaa-v1`,
+`wqn-wrfhydro-conus-nwaa-v1`) additionally provide:
+
+- `soilmst` - soil moisture (mm)
+
+- `recharge` - recharge (mm/mo)
 
 ## See also
 
@@ -136,6 +147,19 @@ df_county <- nwaa_hydro(
   start = "2018-01",
   end = "2020-12",
   intersection = "overlap"
+)
+
+# Recharge and soil moisture from the NHM-PRMS component model
+# (not available from the ensemble)
+df_recharge <- nwaa_hydro(
+  model_id = "wqn-nhmprms-conus-nwaa-v1",
+  variable_ids = c("recharge", "soilmst"),
+  location_type = "huc12",
+  location_id = "180300010602",
+  time_res = "monthly",
+  range = "custom",
+  start = "2020-01",
+  end = "2020-12"
 )
 } # }
 ```
