@@ -49,17 +49,22 @@ GeoJSON output requires the \code{sf} package.}
 
 \item{quiet}{If \code{FALSE}, prints the request URL and response content type.}
 
-\item{model_id}{Model ID. Defaults to \code{"wqn-ensemble-conus-nwaa-v1"};
-exposed for forward compatibility.}
+\item{model_id}{Model ID. Defaults to \code{"wqn-ensemble-conus-nwaa-v1"}.
+Also accepts the component models \code{"wqn-nhmprms-conus-nwaa-v1"} and
+\code{"wqn-wrfhydro-conus-nwaa-v1"}. See \code{\link{nwaa_catalog}} for
+each model's variables and date range.}
 }
 \value{
 Parsed data. For \code{format = "csv"}, a tibble.
 }
 \description{
-Convenience wrapper for the hydrologic model ensemble
-\code{wqn-ensemble-conus-nwaa-v1}. Returns hydrologic flux and state
-variables (evapotranspiration, baseflow, quickflow, snow water
-equivalent, soil moisture fraction, runoff) aggregated to HUC12
+Convenience wrapper for the hydrologic models in the \code{wqn} family.
+Defaults to the ensemble \code{wqn-ensemble-conus-nwaa-v1}, and also
+serves the two component models via \code{model_id}:
+\code{wqn-nhmprms-conus-nwaa-v1} (NHM-PRMS) and
+\code{wqn-wrfhydro-conus-nwaa-v1} (WRF-Hydro). Returns hydrologic flux
+and state variables (evapotranspiration, baseflow, quickflow, snow
+water equivalent, soil moisture, runoff, recharge) aggregated to HUC12
 polygons.
 }
 \details{
@@ -69,6 +74,7 @@ is supported by the model.
 }
 \section{Available variables}{
 
+Ensemble (\code{wqn-ensemble-conus-nwaa-v1}):
 \itemize{
   \item \code{actet} - actual evapotranspiration (mm/mo)
   \item \code{incbsflow} - incremental baseflow (mm/mo)
@@ -77,8 +83,12 @@ is supported by the model.
   \item \code{swe} - snow water equivalent (mm)
   \item \code{soilmstfr} - soil moisture fraction (unitless)
 }
-Unit suffixes for variables other than \code{actet} are inferred;
-verify against actual API responses if precision matters.
+The component models (\code{wqn-nhmprms-conus-nwaa-v1},
+\code{wqn-wrfhydro-conus-nwaa-v1}) additionally provide:
+\itemize{
+  \item \code{soilmst} - soil moisture (mm)
+  \item \code{recharge} - recharge (mm/mo)
+}
 }
 
 \examples{
@@ -101,6 +111,19 @@ df_county <- nwaa_hydro(
   start = "2018-01",
   end = "2020-12",
   intersection = "overlap"
+)
+
+# Recharge and soil moisture from the NHM-PRMS component model
+# (not available from the ensemble)
+df_recharge <- nwaa_hydro(
+  model_id = "wqn-nhmprms-conus-nwaa-v1",
+  variable_ids = c("recharge", "soilmst"),
+  location_type = "huc12",
+  location_id = "180300010602",
+  time_res = "monthly",
+  range = "custom",
+  start = "2020-01",
+  end = "2020-12"
 )
 }
 

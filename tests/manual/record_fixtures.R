@@ -76,6 +76,21 @@ record_one("atmos_precip", function() {
   )
 })
 
+record_one("hydro_nhmprms", function() {
+  nwaa_hydro(
+    model_id = "wqn-nhmprms-conus-nwaa-v1",
+    variable_ids = c("actet", "soilmst", "recharge"),
+    location_type = "huc12",
+    location_id = "180300010602",
+    time_res = "monthly",
+    range = "custom",
+    start = "2020-01",
+    end = "2020-03",
+    format = "csv",
+    quiet = TRUE
+  )
+})
+
 record_one("iwa_multi", function() {
   nwaa_iwa(
     variable_ids = c("sui", "availab"),
@@ -93,6 +108,6 @@ record_one("iwa_multi", function() {
 message(
   "\nDone. Verify fixtures landed in the right place:\n",
   "  list.files('tests/testthat/fixtures')\n",
-  "  # expect: 'atmos_precip' 'iwa_multi' 'wu_irrigation'\n",
+  "  # expect: 'atmos_precip' 'hydro_nhmprms' 'iwa_multi' 'wu_irrigation'\n",
   "Then run: testthat::test_local()"
 )

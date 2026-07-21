@@ -4,7 +4,8 @@
 #' across all three families:
 #' \itemize{
 #'   \item \code{wu} (Water Use): irrigation, public supply, thermoelectric.
-#'   \item \code{wqn} (Water Quantity): atmospheric forcing, hydrologic ensemble.
+#'   \item \code{wqn} (Water Quantity): atmospheric forcing, the hydrologic
+#'     ensemble, and its NHM-PRMS and WRF-Hydro component models.
 #'   \item \code{iwa} (Integrated Water Availability): water budget assessment.
 #' }
 #'
@@ -69,6 +70,8 @@ nwaa_catalog <- function() {
       # Water Quantity family
       "wqn-conus404-ba",
       "wqn-ensemble-conus-nwaa-v1",
+      "wqn-nhmprms-conus-nwaa-v1",
+      "wqn-wrfhydro-conus-nwaa-v1",
       # Integrated Water Availability family
       "iwa-assessment-outputs-conus-2025"
     ),
@@ -80,21 +83,23 @@ nwaa_catalog <- function() {
       "Thermoelectric Power Water-Use Model",
       "Atmospheric Forcing Model (WRF CONUS404-BA)",
       "Hydrologic Model Ensemble (NHM-PRMS and WRF-Hydro, CONUS NWAA v1)",
+      "Hydrologic Model (NHM-PRMS, CONUS NWAA v1)",
+      "Hydrologic Model (WRF-Hydro, CONUS NWAA v1)",
       "National Water Availability Assessment Outputs (CONUS 2025)"
     ),
     family = c(
       "wu", "wu", "wu", "wu", "wu",
-      "wqn", "wqn",
+      "wqn", "wqn", "wqn", "wqn",
       "iwa"
     ),
     start_ym = c(
       "2000-01", "2000-01", "2009-01", "2000-01", "2008-01",
-      "1979-10", "2009-10",
+      "1979-10", "2009-10", "1983-01", "2009-10",
       "2009-10"
     ),
     end_ym = c(
       "2020-12", "2020-12", "2020-12", "2020-12", "2020-12",
-      "2021-09", "2020-09",
+      "2021-09", "2020-09", "2021-09", "2021-09",
       "2020-09"
     ),
     temporal = list(
@@ -106,10 +111,13 @@ nwaa_catalog <- function() {
       c("monthly", "annualcy", "annualwy"),
       c("monthly", "annualcy", "annualwy"),
       c("monthly", "annualcy", "annualwy"),
-      # Water Quantity (atmos and hydro ensemble): READMEs document monthly
-      # outputs only. Annual rollups are not described in the README and
-      # have not been verified against the API. Users requiring annual
-      # totals should aggregate the monthly response client-side.
+      # Water Quantity (atmos, hydro ensemble, and the NHM-PRMS and WRF-Hydro
+      # component models): READMEs document monthly outputs only. Annual
+      # rollups are not described in the READMEs, so the catalog lists these
+      # as monthly only for consistency; users requiring annual totals should
+      # aggregate the monthly response client-side.
+      c("monthly"),
+      c("monthly"),
       c("monthly"),
       c("monthly"),
       # Integrated Water Availability: README documents monthly water budget
@@ -125,6 +133,10 @@ nwaa_catalog <- function() {
         "tewdfgw", "tewdfsw", "tewdftot", "tewdssw"),
       c("precip"),
       c("actet", "incbsflow", "incqkflow", "swe", "soilmstfr", "incrunoff"),
+      c("actet", "incbsflow", "incqkflow", "swe", "soilmst",
+        "soilmstfr", "recharge", "incrunoff"),
+      c("actet", "incbsflow", "incqkflow", "swe", "soilmst",
+        "soilmstfr", "recharge", "incrunoff"),
       c("sui", "availab", "strflow", "consum")
     ),
     variable_name = list(
@@ -150,6 +162,22 @@ nwaa_catalog <- function() {
         "Snow water equivalent",
         "Soil moisture fraction",
         "Incremental runoff"),
+      c("Actual evapotranspiration",
+        "Incremental baseflow",
+        "Incremental quickflow",
+        "Snow water equivalent",
+        "Soil moisture",
+        "Soil moisture fraction",
+        "Recharge",
+        "Incremental runoff"),
+      c("Actual evapotranspiration",
+        "Incremental baseflow",
+        "Incremental quickflow",
+        "Snow water equivalent",
+        "Soil moisture",
+        "Soil moisture fraction",
+        "Recharge",
+        "Incremental runoff"),
       c("Surface water supply and use index",
         "Total water availability",
         "Streamflow",
@@ -163,6 +191,11 @@ nwaa_catalog <- function() {
       c("mgd", "mgd", "mgd", "mgd", "mgd", "mgd", "mgd"),
       c("mm/mo"),
       c("mm/mo", "mm/mo", "mm/mo", "mm", "frac", "mm/mo"),
+      # Component hydrologic models add soilmst (mm) and recharge (mm/mo).
+      # Confirmed against model config JSON and live column names
+      # (soilmst_mm, recharge_mm/mo).
+      c("mm/mo", "mm/mo", "mm/mo", "mm", "mm", "frac", "mm/mo", "mm/mo"),
+      c("mm/mo", "mm/mo", "mm/mo", "mm", "mm", "frac", "mm/mo", "mm/mo"),
       c("frac", "mm/mo", "mm/mo", "mm/mo")
     )
   )

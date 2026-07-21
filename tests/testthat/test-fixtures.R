@@ -72,6 +72,32 @@ test_that("nwaa_atmos parses precipitation response (fixture)", {
   expect_true(any(grepl("^precip", names(df))))
 })
 
+test_that("nwaa_hydro parses component-model response with soilmst/recharge (fixture)", {
+  skip_if_not(
+    dir.exists(test_path("fixtures", "hydro_nhmprms")),
+    "Fixture not recorded yet. See tests/manual/record_fixtures.R."
+  )
+
+  httptest2::with_mock_dir(test_path("fixtures", "hydro_nhmprms"), {
+    df <- nwaa_hydro(
+      model_id = "wqn-nhmprms-conus-nwaa-v1",
+      variable_ids = c("actet", "soilmst", "recharge"),
+      location_type = "huc12",
+      location_id = "180300010602",
+      time_res = "monthly",
+      range = "custom",
+      start = "2020-01",
+      end = "2020-03",
+      format = "csv",
+      quiet = TRUE
+    )
+  })
+
+  expect_s3_class(df, "tbl_df")
+  expect_true("soilmst_mm" %in% names(df))
+  expect_true("recharge_mm/mo" %in% names(df))
+})
+
 test_that("nwaa_iwa parses multi-variable response (fixture)", {
   skip_if_not(
     dir.exists(test_path("fixtures", "iwa_multi")),

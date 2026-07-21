@@ -1,3 +1,15 @@
+# nwaa 0.1.2
+
+* Added the two standalone hydrologic component models that make up the
+  ensemble, bringing catalog coverage to all ten published NWAA models:
+  `wqn-nhmprms-conus-nwaa-v1` (NHM-PRMS) and `wqn-wrfhydro-conus-nwaa-v1`
+  (WRF-Hydro). Both are reached through `nwaa_hydro(model_id = ...)` and
+  expose two variables beyond the ensemble: soil moisture (`soilmst`, mm)
+  and recharge (`recharge`, mm/mo). Variables, units, and periods of record
+  were confirmed against each model's config JSON and live API responses.
+* Removed a stray httptest2 mock (`data-581705.R`) that had been recorded
+  outside the `fixtures/` tree.
+
 # nwaa 0.1.0
 
 Initial release.

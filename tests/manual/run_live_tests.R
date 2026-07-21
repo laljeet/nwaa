@@ -131,6 +131,27 @@ run_check(
   }
 )
 
+run_check(
+  "hydro component (nhmprms) / monthly / huc12 -- recharge & soilmst",
+  nwaa_hydro(
+    model_id = "wqn-nhmprms-conus-nwaa-v1",
+    variable_ids = c("actet", "soilmst", "recharge"),
+    location_type = "huc12",
+    location_id = "180300010602",
+    time_res = "monthly",
+    range = "custom",
+    start = "2020-01",
+    end = "2020-03",
+    format = "csv",
+    quiet = TRUE
+  ),
+  function(df) {
+    is.data.frame(df) &&
+      "soilmst_mm" %in% names(df) &&
+      "recharge_mm/mo" %in% names(df)
+  }
+)
+
 # ---- Integrated Water Availability family ----
 
 run_check(

@@ -4,14 +4,14 @@
 # data-raw/readme data files/, NOT from re-running the implementation.
 # See test-resolve-range.R for the same philosophy applied to date logic.
 
-test_that("nwaa_catalog returns 8 models across 3 families", {
+test_that("nwaa_catalog returns 10 models across 3 families", {
   cat <- nwaa_catalog()
 
   expect_s3_class(cat, "tbl_df")
-  expect_equal(nrow(cat), 8)
+  expect_equal(nrow(cat), 10)
   expect_setequal(unique(cat$family), c("wu", "wqn", "iwa"))
   expect_equal(sum(cat$family == "wu"), 5)
-  expect_equal(sum(cat$family == "wqn"), 2)
+  expect_equal(sum(cat$family == "wqn"), 4)
   expect_equal(sum(cat$family == "iwa"), 1)
 })
 
@@ -59,7 +59,28 @@ test_that("non-WU model identifiers are present", {
   cat <- nwaa_catalog()
   expect_true("wqn-conus404-ba" %in% cat$model_id)
   expect_true("wqn-ensemble-conus-nwaa-v1" %in% cat$model_id)
+  expect_true("wqn-nhmprms-conus-nwaa-v1" %in% cat$model_id)
+  expect_true("wqn-wrfhydro-conus-nwaa-v1" %in% cat$model_id)
   expect_true("iwa-assessment-outputs-conus-2025" %in% cat$model_id)
+})
+
+test_that("hydrologic component models carry soilmst and recharge", {
+  # NHM-PRMS and WRF-Hydro expose two variables beyond the ensemble's six.
+  # Suffixes confirmed against model config JSON and live API columns.
+  cat <- nwaa_catalog()
+  for (id in c("wqn-nhmprms-conus-nwaa-v1", "wqn-wrfhydro-conus-nwaa-v1")) {
+    row <- cat[cat$model_id == id, ]
+    vars <- row$variables[[1]]
+    units <- row$units[[1]]
+    expect_setequal(
+      vars,
+      c("actet", "incbsflow", "incqkflow", "swe",
+        "soilmst", "soilmstfr", "recharge", "incrunoff")
+    )
+    expect_equal(units[vars == "soilmst"], "mm", info = id)
+    expect_equal(units[vars == "recharge"], "mm/mo", info = id)
+    expect_equal(units[vars == "soilmstfr"], "frac", info = id)
+  }
 })
 
 test_that("Water Use models support monthly, annualcy, and annualwy", {
@@ -84,6 +105,8 @@ test_that("Water Quantity and IWA models are documented as monthly only", {
   monthly_only_models <- c(
     "wqn-conus404-ba",
     "wqn-ensemble-conus-nwaa-v1",
+    "wqn-nhmprms-conus-nwaa-v1",
+    "wqn-wrfhydro-conus-nwaa-v1",
     "iwa-assessment-outputs-conus-2025"
   )
   for (m in monthly_only_models) {

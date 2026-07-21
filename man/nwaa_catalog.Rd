@@ -25,7 +25,8 @@ Master catalog of all NWAA Data Companion models supported by this package,
 across all three families:
 \itemize{
   \item \code{wu} (Water Use): irrigation, public supply, thermoelectric.
-  \item \code{wqn} (Water Quantity): atmospheric forcing, hydrologic ensemble.
+  \item \code{wqn} (Water Quantity): atmospheric forcing, the hydrologic
+    ensemble, and its NHM-PRMS and WRF-Hydro component models.
   \item \code{iwa} (Integrated Water Availability): water budget assessment.
 }
 }
