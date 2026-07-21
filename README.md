@@ -220,4 +220,4 @@ Run `citation("nwaa")` from R, or cite via the Zenodo DOI:
 
 ## License
 
-MIT. See [LICENSE.md](LICENSE.md).
+MIT licensed. See the [LICENSE](https://github.com/laljeet/nwaa/blob/main/LICENSE.md) file.
