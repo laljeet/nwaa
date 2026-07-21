@@ -39,7 +39,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.2" id="nwaa-012">nwaa 0.1.2<a class="anchor" aria-label="anchor" href="#nwaa-012"></a></h2>
-<ul><li>Added the two standalone hydrologic component models that make up the ensemble, bringing catalog coverage to all ten published NWAA models: <code>wqn-nhmprms-conus-nwaa-v1</code> (NHM-PRMS) and <code>wqn-wrfhydro-conus-nwaa-v1</code> (WRF-Hydro). Both are reached through <code>nwaa_hydro(model_id = ...)</code> and expose two variables beyond the ensemble: soil moisture (<code>soilmst</code>, mm) and recharge (<code>recharge</code>, mm/mo). Variables, units, and periods of record were confirmed against each model’s config JSON and live API responses.</li>
+<ul><li>Enabled annual resolutions (<code>annualcy</code> and <code>annualwy</code>) for the Water Quantity and Integrated Water Availability models, which were previously restricted to <code>monthly</code>. Live probes confirmed the NWAA data endpoint aggregates every model to annual server-side, so all ten models now accept all three temporal resolutions.</li>
+<li>Added the two standalone hydrologic component models that make up the ensemble, bringing catalog coverage to all ten published NWAA models: <code>wqn-nhmprms-conus-nwaa-v1</code> (NHM-PRMS) and <code>wqn-wrfhydro-conus-nwaa-v1</code> (WRF-Hydro). Both are reached through <code>nwaa_hydro(model_id = ...)</code> and expose two variables beyond the ensemble: soil moisture (<code>soilmst</code>, mm) and recharge (<code>recharge</code>, mm/mo). Variables, units, and periods of record were confirmed against each model’s config JSON and live API responses.</li>
 <li>Removed a stray httptest2 mock (<code>data-581705.R</code>) that had been recorded outside the <code>fixtures/</code> tree.</li>
 </ul></div>
     <div class="section level2">

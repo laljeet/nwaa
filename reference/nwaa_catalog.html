@@ -108,14 +108,16 @@ validation and date-range resolution.</p>
     <h2 id="temporal-resolutions">Temporal resolutions<a class="anchor" aria-label="anchor" href="#temporal-resolutions"></a></h2>
 
 
-<p>Temporal resolutions per model come from the upstream USGS README files.</p><ul><li><p>Water Use models: monthly, calendar-year annual (<code>annualcy</code>),
-    and water-year annual (<code>annualwy</code>). The README explicitly
-    describes annual mean derivation from monthly values.</p></li>
-<li><p>Water Quantity and Integrated Water Availability models:
-    monthly only. The upstream READMEs describe these products as
-    monthly. Users who want annual rollups can aggregate the monthly
-    output client-side.</p></li>
-</ul></div>
+<p>All models are published monthly and, in addition, expose calendar-year
+annual (<code>annualcy</code>) and water-year annual (<code>annualwy</code>)
+aggregations. For Water Use models the upstream READMEs explicitly
+describe annual mean derivation from monthly values. For the Water
+Quantity and Integrated Water Availability models the annual
+aggregations are computed server-side by the NWAA data endpoint; live
+probes confirmed every one of these models returns annual (<code>year</code>)
+output for both <code>annualcy</code> and <code>annualwy</code>. The catalog
+therefore lists all three resolutions for every model.</p>
+    </div>
     <div class="section level2">
     <h2 id="units-verification">Units verification<a class="anchor" aria-label="anchor" href="#units-verification"></a></h2>
 

@@ -66,15 +66,15 @@ validation and date-range resolution.
 
 ## Temporal resolutions
 
-Temporal resolutions per model come from the upstream USGS README files.
-
-- Water Use models: monthly, calendar-year annual (`annualcy`), and
-  water-year annual (`annualwy`). The README explicitly describes annual
-  mean derivation from monthly values.
-
-- Water Quantity and Integrated Water Availability models: monthly only.
-  The upstream READMEs describe these products as monthly. Users who
-  want annual rollups can aggregate the monthly output client-side.
+All models are published monthly and, in addition, expose calendar-year
+annual (`annualcy`) and water-year annual (`annualwy`) aggregations. For
+Water Use models the upstream READMEs explicitly describe annual mean
+derivation from monthly values. For the Water Quantity and Integrated
+Water Availability models the annual aggregations are computed
+server-side by the NWAA data endpoint; live probes confirmed every one
+of these models returns annual (`year`) output for both `annualcy` and
+`annualwy`. The catalog therefore lists all three resolutions for every
+model.
 
 ## Units verification
 
