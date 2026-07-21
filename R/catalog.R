@@ -19,16 +19,15 @@
 #' validation and date-range resolution.
 #'
 #' @section Temporal resolutions:
-#' Temporal resolutions per model come from the upstream USGS README files.
-#' \itemize{
-#'   \item Water Use models: monthly, calendar-year annual (\code{annualcy}),
-#'     and water-year annual (\code{annualwy}). The README explicitly
-#'     describes annual mean derivation from monthly values.
-#'   \item Water Quantity and Integrated Water Availability models:
-#'     monthly only. The upstream READMEs describe these products as
-#'     monthly. Users who want annual rollups can aggregate the monthly
-#'     output client-side.
-#' }
+#' All models are published monthly and, in addition, expose calendar-year
+#' annual (\code{annualcy}) and water-year annual (\code{annualwy})
+#' aggregations. For Water Use models the upstream READMEs explicitly
+#' describe annual mean derivation from monthly values. For the Water
+#' Quantity and Integrated Water Availability models the annual
+#' aggregations are computed server-side by the NWAA data endpoint; live
+#' probes confirmed every one of these models returns annual (\code{year})
+#' output for both \code{annualcy} and \code{annualwy}. The catalog
+#' therefore lists all three resolutions for every model.
 #'
 #' @section Units verification:
 #' Unit suffixes for all variables in this catalog have been verified against
@@ -112,17 +111,15 @@ nwaa_catalog <- function() {
       c("monthly", "annualcy", "annualwy"),
       c("monthly", "annualcy", "annualwy"),
       # Water Quantity (atmos, hydro ensemble, and the NHM-PRMS and WRF-Hydro
-      # component models): READMEs document monthly outputs only. Annual
-      # rollups are not described in the READMEs, so the catalog lists these
-      # as monthly only for consistency; users requiring annual totals should
-      # aggregate the monthly response client-side.
-      c("monthly"),
-      c("monthly"),
-      c("monthly"),
-      c("monthly"),
-      # Integrated Water Availability: README documents monthly water budget
-      # outputs only. Same client-side aggregation guidance applies.
-      c("monthly")
+      # component models) and Integrated Water Availability: the NWAA data
+      # endpoint aggregates these server-side to annual on request. Live
+      # probes confirmed every model returns annual output for both annualcy
+      # and annualwy, so all three resolutions are listed.
+      c("monthly", "annualcy", "annualwy"),
+      c("monthly", "annualcy", "annualwy"),
+      c("monthly", "annualcy", "annualwy"),
+      c("monthly", "annualcy", "annualwy"),
+      c("monthly", "annualcy", "annualwy")
     ),
     variables = list(
       c("irrcutot"),

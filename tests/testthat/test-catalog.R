@@ -96,24 +96,18 @@ test_that("Water Use models support monthly, annualcy, and annualwy", {
   }
 })
 
-test_that("Water Quantity and IWA models are documented as monthly only", {
-  # The upstream READMEs for wqn-conus404-ba, wqn-ensemble-conus-nwaa-v1,
-  # and iwa-assessment-outputs-conus-2025 only describe monthly outputs.
-  # Annual aggregations are not documented for these models. Users who
-  # want annual rollups should aggregate the monthly response client-side.
+test_that("all models support monthly, annualcy, and annualwy", {
+  # The NWAA data endpoint serves annual (annualcy / annualwy) aggregations
+  # for every model, in addition to monthly. For Water Use the upstream
+  # READMEs document annual derivation; for Water Quantity and Integrated
+  # Water Availability the annual rollups are computed server-side and were
+  # confirmed by live probes (every model returns a 'year' column for both
+  # annualcy and annualwy).
   cat <- nwaa_catalog()
-  monthly_only_models <- c(
-    "wqn-conus404-ba",
-    "wqn-ensemble-conus-nwaa-v1",
-    "wqn-nhmprms-conus-nwaa-v1",
-    "wqn-wrfhydro-conus-nwaa-v1",
-    "iwa-assessment-outputs-conus-2025"
-  )
-  for (m in monthly_only_models) {
-    row <- cat[cat$model_id == m, ]
-    expect_equal(
-      row$temporal[[1]], "monthly",
-      info = paste0(m, " temporal column should be 'monthly' only")
+  for (i in seq_len(nrow(cat))) {
+    expect_setequal(
+      cat$temporal[[i]],
+      c("monthly", "annualcy", "annualwy")
     )
   }
 })

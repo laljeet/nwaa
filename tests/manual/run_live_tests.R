@@ -176,6 +176,42 @@ run_check(
   }
 )
 
+# ---- Annual aggregation for Water Quantity / IWA (server-side) ----
+# These families were previously catalog-restricted to monthly; confirm the
+# endpoint really serves annual output for them.
+
+run_check(
+  "iwa / annualwy / huc12 (returns year column)",
+  nwaa_iwa(
+    variable_ids = "sui",
+    location_type = "huc12",
+    location_id = "180300010602",
+    time_res = "annualwy",
+    range = "custom",
+    start = "2015",
+    end = "2016",
+    format = "csv",
+    quiet = TRUE
+  ),
+  function(df) is.data.frame(df) && "year" %in% names(df) && nrow(df) > 0
+)
+
+run_check(
+  "hydro ensemble / annualcy / huc12 (returns year column)",
+  nwaa_hydro(
+    variable_ids = "actet",
+    location_type = "huc12",
+    location_id = "180300010602",
+    time_res = "annualcy",
+    range = "custom",
+    start = "2015",
+    end = "2016",
+    format = "csv",
+    quiet = TRUE
+  ),
+  function(df) is.data.frame(df) && "year" %in% names(df) && nrow(df) > 0
+)
+
 # ---- Validation paths (these should error before hitting the network) ----
 
 run_check(

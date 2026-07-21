@@ -42,16 +42,15 @@ validation and date-range resolution.
 }
 \section{Temporal resolutions}{
 
-Temporal resolutions per model come from the upstream USGS README files.
-\itemize{
-  \item Water Use models: monthly, calendar-year annual (\code{annualcy}),
-    and water-year annual (\code{annualwy}). The README explicitly
-    describes annual mean derivation from monthly values.
-  \item Water Quantity and Integrated Water Availability models:
-    monthly only. The upstream READMEs describe these products as
-    monthly. Users who want annual rollups can aggregate the monthly
-    output client-side.
-}
+All models are published monthly and, in addition, expose calendar-year
+annual (\code{annualcy}) and water-year annual (\code{annualwy})
+aggregations. For Water Use models the upstream READMEs explicitly
+describe annual mean derivation from monthly values. For the Water
+Quantity and Integrated Water Availability models the annual
+aggregations are computed server-side by the NWAA data endpoint; live
+probes confirmed every one of these models returns annual (\code{year})
+output for both \code{annualcy} and \code{annualwy}. The catalog
+therefore lists all three resolutions for every model.
 }
 
 \section{Units verification}{

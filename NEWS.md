@@ -1,5 +1,10 @@
 # nwaa 0.1.2
 
+* Enabled annual resolutions (`annualcy` and `annualwy`) for the Water
+  Quantity and Integrated Water Availability models, which were previously
+  restricted to `monthly`. Live probes confirmed the NWAA data endpoint
+  aggregates every model to annual server-side, so all ten models now
+  accept all three temporal resolutions.
 * Added the two standalone hydrologic component models that make up the
   ensemble, bringing catalog coverage to all ten published NWAA models:
   `wqn-nhmprms-conus-nwaa-v1` (NHM-PRMS) and `wqn-wrfhydro-conus-nwaa-v1`
