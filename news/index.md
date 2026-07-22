@@ -1,5 +1,23 @@
 # Changelog
 
+## nwaa 0.1.3
+
+- Removed the USGS documentation links from the DESCRIPTION, help pages,
+  and the introductory vignette. The USGS web server blocks automated
+  requests from outside the United States, so these otherwise-valid
+  links were reported as unreachable (HTTP 404) by CRAN’s URL checker.
+  The service is now referred to by name; the runtime API endpoint used
+  by the package is unaffected. The full set of USGS reference links
+  remains in the GitHub README.
+- Geographic identifier columns in CSV responses (e.g. `huc12_id`) are
+  now always returned as character. Previously they were left to
+  `readr`’s type guessing, which read them as numeric – rendering a
+  HUC12 id such as `180300010602` as `1.803e+11` and stripping leading
+  zeros from FIPS codes (`06029` became `6029`). Identifiers are labels,
+  not quantities, so they are now pinned to character while genuinely
+  numeric variables are unaffected.
+- Fixed a broken link to the `LICENSE` file in the README.
+
 ## nwaa 0.1.2
 
 - Enabled annual resolutions (`annualcy` and `annualwy`) for the Water

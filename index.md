@@ -247,4 +247,4 @@ Run `citation("nwaa")` from R, or cite via the Zenodo DOI:
 ## License
 
 MIT licensed. See the
-[LICENSE](https://github.com/laljeet/nwaa/blob/main/LICENSE.md) file.
+[LICENSE](https://github.com/laljeet/nwaa/blob/main/LICENSE) file.

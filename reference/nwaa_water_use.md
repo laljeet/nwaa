@@ -97,8 +97,9 @@ Learn options inside the package:
 - Location types:
   [`nwaa_location_types`](https://laljeet.github.io/nwaa/reference/nwaa_location_types.md)
 
-Official tool that generates valid URLs: [NWAA Subset and Download
-Tool](https://water.usgs.gov/nwaa-data/subset-download)
+The USGS NWAA Data Companion "Subset and Download" tool generates valid
+request URLs interactively and is a useful reference when composing
+queries.
 
 ## See also
 

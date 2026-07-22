@@ -38,9 +38,11 @@ nwaa_get_data(query, quiet = TRUE, timeout = 300, max_tries = 3)
 
 ## Value
 
-Parsed response. For `format = "csv"`, a tibble. For `format = "json"`,
-a list. For `format = "geojson"`, an `sf` object (requires the `sf`
-package).
+Parsed response. For `format = "csv"`, a tibble; geographic identifier
+columns (e.g. `huc12_id`) are returned as character so that HUC and FIPS
+codes keep any leading zeros and are never rendered in scientific
+notation. For `format = "json"`, a list. For `format = "geojson"`, an
+`sf` object (requires the `sf` package).
 
 ## Network resilience
 

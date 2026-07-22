@@ -2,7 +2,9 @@
 
 Download and parse model outputs from the U.S. Geological Survey
 ('USGS') National Water Availability Assessment ('NWAA') Data Companion
-web services <https://water.usgs.gov/nwaa-data>.
+web services. Provides typed, validated wrappers for the published NWAA
+models across the Water Use, Water Quantity, and Integrated Water
+Availability families, returning results at HUC12 spatial resolution.
 
 ## See also
 
