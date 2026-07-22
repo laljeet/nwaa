@@ -28,9 +28,12 @@
 #' @param max_tries Maximum number of attempts including the first.
 #'   Default 3 (one initial try plus up to two retries).
 #'
-#' @return Parsed response. For \code{format = "csv"}, a tibble. For
-#'   \code{format = "json"}, a list. For \code{format = "geojson"}, an
-#'   \code{sf} object (requires the \code{sf} package).
+#' @return Parsed response. For \code{format = "csv"}, a tibble; geographic
+#'   identifier columns (e.g. \code{huc12_id}) are returned as character so
+#'   that HUC and FIPS codes keep any leading zeros and are never rendered in
+#'   scientific notation. For \code{format = "json"}, a list. For
+#'   \code{format = "geojson"}, an \code{sf} object (requires the \code{sf}
+#'   package).
 #'
 #' @export
 nwaa_get_data <- function(query, quiet = TRUE, timeout = 300, max_tries = 3) {
@@ -85,7 +88,7 @@ nwaa_get_data <- function(query, quiet = TRUE, timeout = 300, max_tries = 3) {
     tmp <- tempfile(fileext = ".csv")
     on.exit(unlink(tmp), add = TRUE)
     writeBin(raw, tmp)
-    return(tibble::as_tibble(readr::read_csv(tmp, show_col_types = FALSE)))
+    return(nwaa_read_csv(tmp))
   }
 
   if (fmt == "json") {
@@ -117,3 +120,32 @@ nwaa_get_data <- function(query, quiet = TRUE, timeout = 300, max_tries = 3) {
 }
 
 `%||%` <- function(x, y) if (is.null(x)) y else x
+
+# Read an NWAA CSV response, forcing geographic identifier columns to
+# character. Left to readr's type guessing, HUC and FIPS codes are read as
+# numeric: a HUC12 id renders in scientific notation (180300010602 ->
+# 1.803e+11), and a county FIPS code loses its leading zero (06029 -> 6029,
+# which cannot be recovered afterwards). Identifiers are labels, not
+# quantities, so we pin them to character at read time and let readr guess
+# the remaining (genuinely numeric) columns.
+nwaa_read_csv <- function(path) {
+  hdr <- names(readr::read_csv(path, n_max = 0, show_col_types = FALSE))
+
+  is_id <- grepl("_id$", hdr) |
+    grepl("^huc[0-9]*$", hdr) |
+    hdr %in% c("huc", "statecd", "countycd", "fips", "state_fips", "county_fips")
+
+  col_types <- if (any(is_id)) {
+    overrides <- stats::setNames(
+      rep(list(readr::col_character()), sum(is_id)),
+      hdr[is_id]
+    )
+    do.call(readr::cols, c(overrides, list(.default = readr::col_guess())))
+  } else {
+    readr::cols(.default = readr::col_guess())
+  }
+
+  tibble::as_tibble(
+    readr::read_csv(path, col_types = col_types, show_col_types = FALSE)
+  )
+}

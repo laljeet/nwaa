@@ -44,6 +44,10 @@ test_that("nwaa_water_use parses CSV response into tibble (fixture)", {
   expect_s3_class(df, "tbl_df")
   expect_true("huc12_id" %in% names(df))
   expect_true("year" %in% names(df))
+  # HUC identifiers must stay character: not numeric (which would render
+  # 180300010602 as 1.803e+11 and drop leading zeros from FIPS codes).
+  expect_type(df$huc12_id, "character")
+  expect_true(all(df$huc12_id == "180300010602"))
   # Column names carry unit suffixes
   expect_true(any(grepl("irrwdtot_", names(df))))
 })

@@ -1,3 +1,20 @@
+## Resubmission
+
+This is a resubmission. In the previous submission, the URL checker flagged
+several `water.usgs.gov` links and one GitHub link as returning HTTP 404.
+
+* The `water.usgs.gov` links resolve in a browser from the United States but
+  are blocked (404) for automated requests from CRAN's servers, as the USGS
+  web server restricts non-interactive and non-US traffic. Rather than keep
+  links the checker cannot reach, I have removed them from the DESCRIPTION,
+  the help pages, and the vignette. The service is now referred to by name.
+  The full set of USGS reference links is retained in the GitHub README, which
+  is excluded from the build.
+* The GitHub link was a genuine error (it pointed to `LICENSE.md`; the file is
+  named `LICENSE`). It has been corrected.
+
+All remaining URLs in the built package resolve from CRAN's checkers.
+
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
@@ -11,26 +28,14 @@
     * macOS-latest (release)
     * windows-latest (release)
     * ubuntu-latest (release, devel, oldrel-1)
-* win-builder (R-devel) — 1 NOTE (new submission, plus URL false positives addressed below)
+* win-builder (R-devel)
 
-## Notes for the reviewer
+## Network access in tests and examples
 
-### URL check false positives
-
-The win-builder NOTE flags the following URLs as 404:
-
-* https://water.usgs.gov/nwaa-data
-* https://water.usgs.gov/nwaa-data/subset-download
-* https://water.usgs.gov/nwaa-data/web-services
-* https://water.usgs.gov/themes/hydrologic-units
-
-These URLs all resolve correctly in a browser. The 404 responses appear to come from how the USGS web server handles HEAD requests with libcurl's default user agent, rather than from broken links. The same URLs return content with a GET request from a browser or with a non-default user agent. `urlchecker::url_check()` returns no issues on the maintainer's machine.
-
-The URLs point to the canonical USGS National Water Availability Assessment Data Companion landing page, the Subset and Download Tool, the web services documentation, and the hydrologic units page on the USGS website. They are central to the package's purpose and removing them would degrade the documentation. The URLs were verified manually in a browser prior to submission.
-
-### Network access in tests and examples
-
-The package interacts with a remote web service. All examples that issue network requests are wrapped in `\dontrun{}`. The test suite uses `httptest2` fixtures to record and replay API responses, so `R CMD check` does not require live network access on CRAN servers.
+The package interacts with a remote web service. All examples that issue
+network requests are wrapped in `\dontrun{}`. The test suite uses `httptest2`
+fixtures to record and replay API responses, so `R CMD check` does not require
+live network access on CRAN servers.
 
 ## Downstream dependencies
 

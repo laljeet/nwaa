@@ -6,7 +6,7 @@
 \alias{nwaa-package}
 \title{nwaa: 'USGS' 'NWAA' Data Download}
 \description{
-Download and parse model outputs from the U.S. Geological Survey ('USGS') National Water Availability Assessment ('NWAA') Data Companion web services \url{https://water.usgs.gov/nwaa-data}.
+Download and parse model outputs from the U.S. Geological Survey ('USGS') National Water Availability Assessment ('NWAA') Data Companion web services. Provides typed, validated wrappers for the published NWAA models across the Water Use, Water Quantity, and Integrated Water Availability families, returning results at HUC12 spatial resolution.
 }
 \seealso{
 Useful links:

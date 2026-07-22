@@ -70,8 +70,8 @@ Learn options inside the package:
   \item Location types: \code{\link{nwaa_location_types}}
 }
 
-Official tool that generates valid URLs:
-\href{https://water.usgs.gov/nwaa-data/subset-download}{NWAA Subset and Download Tool}
+The USGS NWAA Data Companion "Subset and Download" tool generates valid
+request URLs interactively and is a useful reference when composing queries.
 }
 \examples{
 # Discover models and variables (offline)

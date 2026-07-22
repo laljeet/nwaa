@@ -19,9 +19,12 @@ content type after the response arrives.}
 Default 3 (one initial try plus up to two retries).}
 }
 \value{
-Parsed response. For \code{format = "csv"}, a tibble. For
-  \code{format = "json"}, a list. For \code{format = "geojson"}, an
-  \code{sf} object (requires the \code{sf} package).
+Parsed response. For \code{format = "csv"}, a tibble; geographic
+  identifier columns (e.g. \code{huc12_id}) are returned as character so
+  that HUC and FIPS codes keep any leading zeros and are never rendered in
+  scientific notation. For \code{format = "json"}, a list. For
+  \code{format = "geojson"}, an \code{sf} object (requires the \code{sf}
+  package).
 }
 \description{
 Low-level HTTP wrapper. Sends a query to the NWAA Data Companion service

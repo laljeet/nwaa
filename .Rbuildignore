@@ -3,6 +3,7 @@
 ^LICENSE\.md$
 ^\.DS_Store$
 ^README\.Rmd$
+^README\.md$
 ^data-raw$
 ^data-raw/
 ^tests/manual$
@@ -19,3 +20,4 @@
 ^cran-comments\.md$
 ^doc$
 ^Meta$
+^CRAN-SUBMISSION$
