@@ -78,7 +78,7 @@ is supported by the model.
 }
 
 \examples{
-\dontrun{
+\donttest{
 # All four IWA variables for one HUC12, full historical record
 df <- nwaa_iwa(
   variable_ids = c("sui", "availab", "strflow", "consum"),

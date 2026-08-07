@@ -78,7 +78,7 @@ request URLs interactively and is a useful reference when composing queries.
 nwaa_wu_models()
 nwaa_wu_variables("wu-irrigation-wd")
 
-\dontrun{
+\donttest{
 # County selector, annual water-year, custom range
 df <- nwaa_water_use(
   model_id = "wu-irrigation-wd",

@@ -114,7 +114,7 @@ nwaa_dispatch_ <- function(model_id,
 #' nwaa_wu_models()
 #' nwaa_wu_variables("wu-irrigation-wd")
 #'
-#' \dontrun{
+#' \donttest{
 #' # County selector, annual water-year, custom range
 #' df <- nwaa_water_use(
 #'   model_id = "wu-irrigation-wd",

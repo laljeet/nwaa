@@ -39,7 +39,7 @@
 #' }
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Monthly evapotranspiration for one HUC12 across the full record
 #' df_et <- nwaa_hydro(
 #'   variable_ids = "actet",

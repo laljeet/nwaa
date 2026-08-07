@@ -16,7 +16,7 @@
 #' @return Parsed data. For \code{format = "csv"}, a tibble.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Monthly precipitation for one HUC12, calendar year 2020
 #' df <- nwaa_atmos(
 #'   variable_ids = "precip",
@@ -29,11 +29,11 @@
 #'   format = "csv"
 #' )
 #'
-#' # Full historical record for a HUC8
+#' # Full historical record for a single HUC12
 #' df_hist <- nwaa_atmos(
 #'   variable_ids = "precip",
-#'   location_type = "huc8",
-#'   location_id = "18030001",
+#'   location_type = "huc12",
+#'   location_id = "180300010602",
 #'   range = "historical"
 #' )
 #' }
