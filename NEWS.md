@@ -1,10 +1,10 @@
 # nwaa 0.1.4
 
 * CRAN resubmission (documentation only). Removed the single quotes around the
-  USGS and NWAA acronyms in the Title and Description, and changed the runnable
-  examples from `\dontrun{}` to `\donttest{}`. One atmospheric-forcing example
-  was narrowed to a single HUC12 so every executed example finishes in well
-  under five seconds.
+  USGS and NWAA acronyms in the Title and Description, and wrapped the runnable
+  data-download examples in `\donttest{}` so they execute during checks. One
+  atmospheric-forcing example was narrowed to a single HUC12 so every executed
+  example finishes in well under five seconds.
 
 # nwaa 0.1.3
 
