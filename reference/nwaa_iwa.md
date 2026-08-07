@@ -108,7 +108,7 @@ by the model.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 # All four IWA variables for one HUC12, full historical record
 df <- nwaa_iwa(
   variable_ids = c("sui", "availab", "strflow", "consum"),
@@ -128,5 +128,5 @@ df_sui <- nwaa_iwa(
   end = "2020-09",
   intersection = "overlap"
 )
-} # }
+# }
 ```

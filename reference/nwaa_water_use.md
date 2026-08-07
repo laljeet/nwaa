@@ -130,7 +130,7 @@ nwaa_wu_variables("wu-irrigation-wd")
 #> 2 wu-irrigation-wd irrwdgw     mgd   Crop irrigation groundwater withdrawals  
 #> 3 wu-irrigation-wd irrwdsw     mgd   Crop irrigation surface-water withdrawals
 
-if (FALSE) { # \dontrun{
+# \donttest{
 # County selector, annual water-year, custom range
 df <- nwaa_water_use(
   model_id = "wu-irrigation-wd",
@@ -145,6 +145,8 @@ df <- nwaa_water_use(
   format = "csv",
   quiet = FALSE
 )
+#> URL: https://api.water.usgs.gov/nwaa-data/data?model=wu-irrigation-wd&location=countycd%3A06029&format=csv&variable=irrwdgw%2Cirrwdsw%2Cirrwdtot&timeRes=annualwy&startDate=2001&endDate=2020&intersection=overlap&skip=0
+#> Content-Type: text/csv
 
 # HUC12 selector, most recent timepoint
 df_recent <- nwaa_water_use(
@@ -170,5 +172,5 @@ df_envelop <- nwaa_water_use(
   intersection = "envelop",
   format = "csv"
 )
-} # }
+# }
 ```

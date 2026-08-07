@@ -128,7 +128,7 @@ The component models (`wqn-nhmprms-conus-nwaa-v1`,
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 # Monthly evapotranspiration for one HUC12 across the full record
 df_et <- nwaa_hydro(
   variable_ids = "actet",
@@ -161,5 +161,5 @@ df_recharge <- nwaa_hydro(
   start = "2020-01",
   end = "2020-12"
 )
-} # }
+# }
 ```
