@@ -1,6 +1,7 @@
 # nwaa
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/nwaa)](https://CRAN.R-project.org/package=nwaa)
 [![R-CMD-check](https://github.com/laljeet/nwaa/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/laljeet/nwaa/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/laljeet/nwaa/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/laljeet/nwaa/actions/workflows/pkgdown.yaml)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
@@ -12,12 +13,12 @@
 ## Installation
 
 ```r
-# From GitHub
-install.packages("remotes")
-remotes::install_github("laljeet/nwaa")
+# From CRAN
+install.packages("nwaa")
 
-# From CRAN (once accepted)
-# install.packages("nwaa")
+# Development version from GitHub
+# install.packages("remotes")
+remotes::install_github("laljeet/nwaa")
 ```
 
 ## Quick start
