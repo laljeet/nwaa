@@ -2,6 +2,8 @@
 
 ## nwaa 0.1.4
 
+CRAN release: 2026-08-20
+
 - CRAN resubmission (documentation only). Removed the single quotes
   around the USGS and NWAA acronyms in the Title and Description, and
   wrapped the runnable data-download examples in `\donttest{}` so they
