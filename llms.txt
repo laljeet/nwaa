@@ -14,12 +14,12 @@ boundaries handled server side.
 
 ``` r
 
-# From GitHub
-install.packages("remotes")
-remotes::install_github("laljeet/nwaa")
+# From CRAN
+install.packages("nwaa")
 
-# From CRAN (once accepted)
-# install.packages("nwaa")
+# Development version from GitHub
+# install.packages("remotes")
+remotes::install_github("laljeet/nwaa")
 ```
 
 ## Quick start
